@@ -1,0 +1,1 @@
+current_scale = lerp(current_scale, target_scale, 0.2);

@@ -1,0 +1,1 @@
+cad_formula = min(4, potency/5)

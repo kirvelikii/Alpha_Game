@@ -1,0 +1,1 @@
+menu_ruleset.check_state("mode_choose")

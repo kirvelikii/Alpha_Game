@@ -1,0 +1,1 @@
+draw_hoi4_connections();

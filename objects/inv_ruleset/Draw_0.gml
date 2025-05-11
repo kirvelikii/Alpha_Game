@@ -1,0 +1,5 @@
+draw_set_color(c_white)
+draw_line(100, 0, 100, 768)
+draw_line(356, 0, 356, 768)
+draw_line(356 + 256, 0, 356 + 256, 768)
+draw_line(356 + 256 * 2, 0, 356 + 256 * 2, 768)
