@@ -1,6 +1,6 @@
 name = "Template Skill"
 skill_power = 10
-range = 1
+range = 2
 sub_target_count = 1
 damage_to_targets = [1, 0.5]
 crit_chance = 10
@@ -22,7 +22,7 @@ function use_skill(_target, main_target=true, modifers = undefined){
     if crit <= crit_chance{
         attack_power *= crit_damage
     }
-    show_debug_message(host.name + " (" + string(host.team) + ")" + " использует " + name + " урон - "+ string(attack_power) + ", врага "+ _target.name + " ("+ string(_target.team) + "), оставшееся хп - " + string(_target.hp - attack_power))
+    show_debug_message(host.name + " (" + string(host.team) + ")" + " использует " + name + " урон - "+ string(attack_power) + ", врага "+ _target.name + " ("+ string(_target.team) + "), оставшееся хп - " + string(_target.hp - attack_power) + " " + string(_target.pos - host.pos) + " дальность")
     _target.get_damage(attack_power, "skill", host)
     for (var i = 0; i < array_length(effects_on_use); i++){
         if effects_on_use[i][1] == "target_and_sub_enemy" or (main_target and effects_on_use[i][1] == "main_target_enemy") or (!main_target and effects_on_use[i][1] == "sub_target_enemy"){ 
@@ -75,7 +75,7 @@ function find_target(n_sub_targets, _priority="hp"){
     var sub = n_sub_targets
     // Собираем всех возможных целей
     with (hero) {
-        if (team != tem && hp > 0) {
+        if (team != tem && hp > 0) and other.distance_to_target(self, other.host) < other.range{
             array_push(potential_targets, id);
         }
     }
@@ -117,8 +117,29 @@ var stat = array_find_index(_target.statuses_visual, _finder.check);
 }
 function show_effect(_target, _effect){
     if !instance_exists(_target){return }
-    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: eff, constant: false, image_xscale: _target.image_xscale})
+    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: eff, constant: false, image_xscale: _target.image_xscale, host: _target})
 }
+function distance_to_target(_target, _host){
+    var a = _host
+    var b = _target.id
+    var an = -1
+    var bn = -1
+    //show_message([a, b, ruleset.battlefield])
+    for (var i = 0; i < array_length(ruleset.battlefield); i++){
+        if array_contains(ruleset.battlefield[i], a){
+            an = i
+        }
+        if array_contains(ruleset.battlefield[i], b){
+            bn = i
+        }
+    }
+    if an>-1 and bn>-1{
+        return (an - bn)
+    }
+    else{
+        return 9999999
+    }}
+
 icon_size = 64;
 margin = 10;
 start_x = margin;

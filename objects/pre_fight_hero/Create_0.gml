@@ -66,13 +66,14 @@ function get_instance_data(inst) {
 
 function get_object_template_data(obj_index) {
     // Создаем временный экземпляр для получения данных по умолчанию
-    var temp_inst = instance_create_depth(0, 0, -10000, obj_index);
+    var temp_inst = instance_create_depth(0, 0, -10000, obj_index, {temp:true});
     var data = get_instance_data(temp_inst);
     instance_destroy(temp_inst);
     
     return data;
 }
 reff = object_get_safe_data(type)
+reff.variables.basic_attack += irandom(2)
 if reff.variables.max_hp == 100{
     reff.variables.max_hp = irandom_range(90, 110)
     reff.variables.hp = reff.variables.max_hp

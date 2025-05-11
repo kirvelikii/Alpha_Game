@@ -110,6 +110,8 @@
     {"id":{"name":"focus_mask","path":"sprites/focus_mask/focus_mask.yy",},},
     {"id":{"name":"focus_table","path":"sprites/focus_table/focus_table.yy",},},
     {"id":{"name":"hp_icon","path":"sprites/hp_icon/hp_icon.yy",},},
+    {"id":{"name":"moving_vector_filled","path":"sprites/moving_vector_filled/moving_vector_filled.yy",},},
+    {"id":{"name":"moving_vector","path":"sprites/moving_vector/moving_vector.yy",},},
     {"id":{"name":"next_inv","path":"sprites/next_inv/next_inv.yy",},},
     {"id":{"name":"rang_icon","path":"sprites/rang_icon/rang_icon.yy",},},
     {"id":{"name":"Sans","path":"sprites/Sans/Sans.yy",},},

@@ -83,6 +83,8 @@
     {"name":"focus_mask","order":6,"path":"sprites/focus_mask/focus_mask.yy",},
     {"name":"focus_table","order":7,"path":"sprites/focus_table/focus_table.yy",},
     {"name":"hp_icon","order":5,"path":"sprites/hp_icon/hp_icon.yy",},
+    {"name":"moving_vector_filled","order":5,"path":"sprites/moving_vector_filled/moving_vector_filled.yy",},
+    {"name":"moving_vector","order":6,"path":"sprites/moving_vector/moving_vector.yy",},
     {"name":"next_inv","order":4,"path":"sprites/next_inv/next_inv.yy",},
     {"name":"rang_icon","order":7,"path":"sprites/rang_icon/rang_icon.yy",},
     {"name":"sp_fragility","order":2,"path":"sprites/sp_fragility/sp_fragility.yy",},
