@@ -1,23 +1,27 @@
-if room == pre_fight{
+if room != fight{
     team = inv_ruleset.team
+    temp = true
 }
-hp = 100
-basic_attack = 5
-attack_interval = 60 * 1.5
-attack_delay = 10
-basic_range = 1
-basic_accuracy = 85
-dodge_chance = 5
-mov_speed = 1 / 5
-basic_target_count = 1
-basic_crit_chance = 10
-basic_crit_damage = 2
+if temp{
+    max_hp = 100
+    basic_attack = 5
+    attack_interval = 60 * 1.5
+    attack_delay = 10
+    basic_range = 1
+    basic_accuracy = 85
+    dodge_chance = 5
+    mov_speed = 1 / 5
+    basic_target_count = 1
+    basic_crit_chance = 10
+    basic_crit_damage = 2
+    name = "Template"
+    skills = [template_skill]
+    common_pos = "frontline"
+    crit_eff = basic_crit_attack_effect
+    eff = basic_attack_effect
+    hp = max_hp 
+}
 attack_cooldown = attack_interval
-common_pos = "frontline"
-name = "Template"
-crit_eff = basic_crit_attack_effect
-eff = basic_attack_effect
-skills = [template_skill]
 statuses_visual = []
 if team == 1{
     image_xscale = 1
@@ -41,7 +45,6 @@ function find_basic_target() {
             array_push(potential_targets, id);
         }
     }
-    
     // Если есть цели - выбираем случайную
     if (array_length(potential_targets) > 0) {
         target = potential_targets[irandom(array_length(potential_targets)-1)];

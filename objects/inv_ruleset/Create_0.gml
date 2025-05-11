@@ -1,6 +1,9 @@
 team = 1
-global.layout = [[[hero], [hero], []], [[hero], [hero], [hero]]]
-global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]
+randomize()
+if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
+    global.layout = [[[hero], [hero], []], [[hero], [hero], [hero]]]
+    global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]
+}
 global.layout_t1  = [[], [], []]
 global.not_sorted_t1 = []
 for (var i = 0; i < array_length(global.layout[0]); i++){

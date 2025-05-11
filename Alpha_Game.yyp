@@ -68,6 +68,7 @@
     {"id":{"name":"menu_ruleset","path":"objects/menu_ruleset/menu_ruleset.yy",},},
     {"id":{"name":"next_level","path":"objects/next_level/next_level.yy",},},
     {"id":{"name":"obj_focus_block","path":"objects/obj_focus_block/obj_focus_block.yy",},},
+    {"id":{"name":"obj_template_container","path":"objects/obj_template_container/obj_template_container.yy",},},
     {"id":{"name":"pre_fight_hero","path":"objects/pre_fight_hero/pre_fight_hero.yy",},},
     {"id":{"name":"reroll","path":"objects/reroll/reroll.yy",},},
     {"id":{"name":"ruleset","path":"objects/ruleset/ruleset.yy",},},

@@ -44,6 +44,7 @@
     {"name":"loot_ruleset","order":5,"path":"objects/loot_ruleset/loot_ruleset.yy",},
     {"name":"next_level","order":3,"path":"objects/next_level/next_level.yy",},
     {"name":"obj_focus_block","order":5,"path":"objects/obj_focus_block/obj_focus_block.yy",},
+    {"name":"obj_template_container","order":14,"path":"objects/obj_template_container/obj_template_container.yy",},
     {"name":"pre_fight_hero","order":7,"path":"objects/pre_fight_hero/pre_fight_hero.yy",},
     {"name":"reroll","order":11,"path":"objects/reroll/reroll.yy",},
     {"name":"start","order":3,"path":"objects/start/start.yy",},

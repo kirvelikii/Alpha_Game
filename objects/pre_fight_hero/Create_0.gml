@@ -1,5 +1,3 @@
-sprite_index = object_get_sprite(type)
-mask_index = object_get_mask(type)
 is_dragging = false;
 drag_offset_x = 0;
 drag_offset_y = 0;
@@ -8,6 +6,13 @@ if inv_ruleset.team == 2{
     image_xscale = -1
 }
 function object_get_safe_data(obj) {
+    if typeof(obj) == "struct"{
+        sprite_index = object_get_sprite(obj.reff.object_index)
+        mask_index = object_get_mask(obj.reff.object_index)
+        return obj.reff
+    }
+    sprite_index = object_get_sprite(type)
+    mask_index = object_get_mask(type)
     // Проверяем тип входных данных
     if (instance_exists(obj)) {
         // Работаем с экземпляром
@@ -43,7 +48,19 @@ function get_instance_data(inst) {
             }
         }
     }
-    
+    var meths = (inst);
+    for (var i = 0; i < array_length(meths); i++) {
+        var var_name = meths[i];
+        
+        // Пропускаем системные и служебные переменные
+        if (!string_starts_with(var_name, "__") && var_name != "object_index") {
+            try {
+                data.variables[$ var_name] = inst[$ var_name];
+            } catch(e) {
+                show_debug_message("Failed to copy variable", var_name, ":", e);
+            }
+        }
+    }
     return data;
 }
 
@@ -56,3 +73,11 @@ function get_object_template_data(obj_index) {
     return data;
 }
 reff = object_get_safe_data(type)
+if reff.variables.max_hp == 100{
+    reff.variables.max_hp = irandom_range(90, 110)
+    reff.variables.hp = reff.variables.max_hp
+}
+else{
+    reff.variables.max_hp += irandom_range(1, 10)
+    reff.variables.hp = reff.variables.max_hp
+}

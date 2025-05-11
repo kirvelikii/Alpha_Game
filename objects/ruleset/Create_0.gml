@@ -2,7 +2,7 @@ battlefield = [[], [], [], [], [], [], []]
 randomize()
 for (var i = 0; i < array_length(global.layout[0]); i++){
     for(var j = 0; j < array_length(global.layout[0][i]); j++){
-    create_from_template(global.layout[0][i][j], room_width / 2 - 128 - 256 * (2-i), 100 + j * 138, "Instances", 1)}
+        create_from_template(global.layout[0][i][j], room_width / 2 - 128 - 256 * (2-i), 100 + j * 138, "Instances", 1)}
 }
 for (var i = 0; i < array_length(global.layout[1]); i++){
     for(var j = 0; j < array_length(global.layout[1][i]); j++){
@@ -24,30 +24,49 @@ function check_win(){
         room = loot
 } return 
 }
-function is_valid_template(template) {
-    return (is_struct(template)
-        && template.__type == "object_template"
-        && template.__version == 1
-        && object_exists(template.object_index)
-        && is_struct(template.variables));
-}
 function create_from_template(template, x, y, layer, team) {
-
-    //show_message(template)
-    // Создаем экземпляр
-    var inst = instance_create_layer(x, y, layer, template.reff.object_index, {team: team});
-
+// Создаем экземпляр с начальными параметрами
+    var inst = instance_create_layer(x, y, layer, template.reff.object_index, { team: team, temp: true});
+    //instance_deactivate_object(inst)
     if (!instance_exists(inst)) return noone;
-
-    // Устанавливаем переменные
-    var vars = template.reff.variables;
-    var var_names = variable_struct_get_names(vars);
-    
-    for (var i = 0; i < array_length(var_names); i++) {
-        var name = var_names[i];
-        if (variable_instance_exists(inst, name)) {
-            inst[$ name] = vars[$ name];
+    //instance_deactivate_object(inst)
+    // Копируем обычные переменные
+    if (variable_struct_exists(template.reff, "variables")) {
+        var vars = template.reff.variables;
+        var var_names = variable_struct_get_names(vars);
+        for (var i = 0; i < array_length(var_names); i++) {
+            var name = var_names[i];
+            variable_instance_set(inst, name, struct_get(vars, name))
+            //inst[$ name] = struct_get(vars, name)
+                //show_message(vars[$ name])
         }
     }
-
-    return inst;}
+    with inst{
+        temp = false
+        instance_copy(true)
+        instance_destroy()
+    }
+    //show_message(inst.hp)
+    //inst.attack(self)
+    //instance_activate_object(inst)
+    // Копируем методы с привязкой контекста
+    /*if (variable_struct_exists(template.reff, "methods")) {
+        var methods = template.reff.methods;
+        var method_names = variable_struct_get_names(methods);
+        
+        for (var i = 0; i < array_length(method_names); i++) {
+            var m_name = method_names[i];
+            inst[$ m_name] = method(inst, methods[$ m_name]);
+        }
+    }*/
+    return inst;
+}
+function create_from_template_1(template, x, y, layer, team) {
+    // 1. Создаем временный объект-контейнер
+    var container = instance_create_layer(x, y, layer, obj_template_container, {
+        template_data: template,
+        target_layer: layer,
+        target_team: team
+    });
+// Вернет созданный объект
+}

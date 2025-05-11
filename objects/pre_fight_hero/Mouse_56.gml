@@ -33,7 +33,7 @@ else{
     if collision_rectangle(100, 0, 356, 768, self, false, false) and is_dragging{
         var t = array_length(global.layout_t1[2])
         y = 128 * (t % 6)
-        x = 228 - 128 * floor(t / 6) + 128
+        x = 228 + 128 * floor(t / 6)
         array_push(global.layout_t1[2], self)
         equipped = 1
 }
