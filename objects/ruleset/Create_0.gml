@@ -91,14 +91,14 @@ function check_spaces(){
         var count = array_length(tt[0])
         var spacing = 128
         for (var i = 0; i < array_length(tt[0]); i++) { 
-            var offset = spacing * min((count - 1 - floor(i/6) * 6), 6) * 0.5;
-            tt[0][i].y = yy - offset + (i % 6) * spacing;
+            var offset = spacing * (count - 1) * 0.5;
+            tt[0][i].y = yy - offset + (i) * spacing;
     }
         var countt = array_length(tt[1])
         var spacingg = 128
         for (var j = 0; j < array_length(tt[1]); j++) { 
-            var offset = spacingg * min((countt - 1 - floor(j/6) * 6), 6) * 0.5;
-            tt[1][j].y = yy - offset + (j % 6) * spacingg;
+            var offset = spacingg * (countt - 1) * 0.5;
+            tt[1][j].y = yy - offset + (j) * spacingg;
 }}}
 function column_get_teams(arr){
     t1 = []
