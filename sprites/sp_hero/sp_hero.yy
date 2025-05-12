@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"classic fight",
-    "path":"folders/Objects/classic fight.yy",
+    "name":"chars",
+    "path":"folders/Objects/chars.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

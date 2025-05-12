@@ -14,11 +14,17 @@ if temp{
     basic_crit_chance = 50
     basic_crit_damage = 2
     name = "Template"
-    skills = []
+    skills = [template_skill]
     common_pos = "frontline"
     crit_eff = basic_crit_attack_effect
     eff = basic_attack_effect
     hp = max_hp 
+    max_sanity = 100
+    sanity = 100
+    low_sanity_effect = {s50: "retreat", s25: "panic", s0: "crazy"}
+    damage_to_sanity = {damage: {hp75: 0.45, hp50:0.65, hp25:1.5, hp10: 3}, ally_death:{row: 15, glob: 8}}
+    heal_sanity = {kill: 20, enemy_death:{row: 5, glob: 0}, succesful_retreat: 0.4}
+    state = "normal"
 }
 else{
     if team == 1{
@@ -43,7 +49,14 @@ need_pos = 0
 moving_progress = 0
 is_moving = 0
 directionn = 0
-
+healing_sanity = false
+if team == 1{
+    retr_target_row = 0
+}
+else{
+    retr_target_row = 6
+}
+retr_speed = mov_speed * 2
 function find_basic_target() {
     var potential_targets = [];
     
@@ -76,7 +89,7 @@ function find_basic_target() {
                 array_push(potential_targets, id);
             }
             min_range = distance_to_target(other)
-            show_debug_message(min_range)
+            //show_debug_message(min_range)
         }}
         if array_length(potential_targets) > 0{ 
             target_to_move = potential_targets[irandom(array_length(potential_targets)-1)];   
@@ -115,6 +128,7 @@ function get_damage(n, type, dealer){
             atk_modifer += statuses_visual[i].potency / 100
         } 
     }
+    change_sanity(-1, "damage", total * atk_modifer)
     hp -= total * atk_modifer
 }
 function distance_to_target(_target){
@@ -167,4 +181,60 @@ function array_find_instance(_array, instance_to_find) {
     }
     
     return -1; // Не найден
+}
+function change_sanity(alter, type, val=0){
+    if alter = -1{
+        healing_sanity = 0
+        if type == "damage"{
+            var hp_proc = hp / max_hp * 100
+            var keys = struct_get_names(damage_to_sanity.damage)
+            for (var i = array_length(keys)-1; i>=0; i--){
+                if hp_proc < int64(string_replace(keys[i], "hp", "")){
+                    sanity -= val * damage_to_sanity.damage[$ keys[i]]
+                    //show_message([hp, hp_proc, keys[i], sanity])
+                    break
+                }
+            }
+        }
+        else if type == "ally_death_row"{
+            sanity -= damage_to_sanity.ally_death.row
+        }
+        else if type == "ally_death_global"{ 
+            sanity -= damage_to_sanity.ally_death.glob
+        }
+    }
+    else{
+        
+    }
+    check_sanity()
+    show_debug_message([team, id, hp, sanity, state])
+}
+function check_sanity(){
+    var keys = struct_get_names(low_sanity_effect)
+    state = "normal"
+            for (var i = array_length(keys)-1; i>=0; i--){
+                if sanity < int64(string_replace(keys[i], "s", "")){
+                    state = low_sanity_effect[$ keys[i]]
+                    switch_to_state(state)
+                    //show_message([hp, hp_proc, keys[i], sanity])
+                    break
+                }
+            }
+}
+function switch_to_state(st){
+    if st == "retreat"{
+        if team == 1{
+            retr_target_row = 0 
+            retr_speed = mov_speed * 2
+            is_moving = 1
+            directionn = -1
+        }
+        else{
+            retr_target_row = 6
+            retr_speed = mov_speed * 2
+            is_moving = 1
+            directionn = 1
+        }
+ 
+    }
 }

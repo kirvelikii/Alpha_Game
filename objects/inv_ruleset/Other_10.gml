@@ -9,6 +9,9 @@ if team == 1{
         array_push(global.not_sorted[0], global.not_sorted_t1[i])
         instance_destroy(global.not_sorted_t1[i])
 }
+    with pre_fight_hero{
+        instance_destroy()
+    }
     team = 2 
     global.layout_t1  = [[], [], []]
     global.not_sorted_t1 = []

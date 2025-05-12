@@ -12,8 +12,8 @@
   "name":"template_skill",
   "overriddenProperties":[],
   "parent":{
-    "name":"classic fight",
-    "path":"folders/Objects/classic fight.yy",
+    "name":"chars",
+    "path":"folders/Objects/chars.yy",
   },
   "parentObjectId":null,
   "persistent":false,

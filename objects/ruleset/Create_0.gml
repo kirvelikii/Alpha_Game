@@ -1,4 +1,5 @@
 battlefield = [[], [], [], [], [], [], []]
+global.blink_time = 0
 randomize()
 for (var i = 0; i < array_length(global.layout[0]); i++){
     for(var j = 0; j < array_length(global.layout[0][i]); j++){
@@ -18,11 +19,11 @@ function check_win(){
         }
     }
     if array_length(teams) == 1{
-        show_message(string(teams[0]) + " win")
+        show_debug_message(string(teams[0]) + " win")
         room = loot
     }
     else if array_length(teams) == 0{
-        show_message(string("Draw"))
+        show_debug_message(string("Draw"))
         room = loot
 } return 
 }

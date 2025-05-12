@@ -1,0 +1,1 @@
+global.blink_time += 1

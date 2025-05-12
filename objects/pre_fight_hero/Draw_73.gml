@@ -25,6 +25,8 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         draw_text_color(x - 100, y + 208, reff.variables.basic_crit_damage, c_white, c_white, c_white, c_white, 1)
         draw_sprite(speed_icon, 1, x - 250, y + 256)
         draw_text_color(x - 200, y + 256, reff.variables.mov_speed, c_white, c_white, c_white, c_white, 1)
+        draw_sprite(sanity_icon, 1, x - 150, y + 256)
+        draw_text_color(x - 100, y + 256, reff.variables.max_sanity, c_white, c_white, c_white, c_white, 1)
         var xx = x - 166
         var yy = y + 300
         var count = array_length(reff.variables.skills)
@@ -61,6 +63,8 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         draw_text_color(x+128 + 200, y + 208, reff.variables.basic_crit_damage, c_white, c_white, c_white, c_white, 1)
         draw_sprite(speed_icon, 1, x+128 + 50, y + 256)
         draw_text_color(x+128 + 100, y + 256, reff.variables.mov_speed, c_white, c_white, c_white, c_white, 1)
+        draw_sprite(sanity_icon, 1, x+128 + 150, y + 256)
+        draw_text_color(x+128 + 200, y + 256, reff.variables.max_sanity, c_white, c_white, c_white, c_white, 1)
         var xx = x+128 + 134
         var yy = y + 300
         var count = array_length(reff.variables.skills)
@@ -100,6 +104,8 @@ else{
         draw_text_color(x-128 - 100, y + 208, reff.variables.basic_crit_damage, c_white, c_white, c_white, c_white, 1)
         draw_sprite(speed_icon, 1, x-128 - 250, y + 256)
         draw_text_color(x-128 - 200, y + 256, reff.variables.mov_speed, c_white, c_white, c_white, c_white, 1)
+        draw_sprite(sanity_icon, 1, x-128 - 150, y + 256)
+        draw_text_color(x-128 - 100, y + 256, reff.variables.max_sanity, c_white, c_white, c_white, c_white, 1)
         var xx = x-128 - 166
         var yy = y + 300
         var count = array_length(reff.variables.skills)
@@ -136,6 +142,8 @@ else{
         draw_text_color(x + 200, y + 208, reff.variables.basic_crit_damage, c_white, c_white, c_white, c_white, 1)
         draw_sprite(speed_icon, 1, x + 50, y + 256)
         draw_text_color(x + 100, y + 256, reff.variables.mov_speed, c_white, c_white, c_white, c_white, 1)
+        draw_sprite(sanity_icon, 1, x + 150, y + 256)
+        draw_text_color(x + 200, y + 256, reff.variables.max_sanity, c_white, c_white, c_white, c_white, 1)
         var xx = x + 134
         var yy = y + 300
         var count = array_length(reff.variables.skills)

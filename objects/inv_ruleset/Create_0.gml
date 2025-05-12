@@ -1,7 +1,7 @@
 team = 1
 randomize()
 if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
-    global.layout = [[[hero], [hero], []], [[hero], [hero], [hero]]]
+    global.layout = [[[hero], [hero], [hero]], [[hero], [hero], [hero]]]
     global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]
 }
 global.layout_t1  = [[], [], []]

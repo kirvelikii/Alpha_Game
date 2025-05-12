@@ -1,7 +1,7 @@
 name = "Template Skill"
 skill_power = 10
 range = 2
-sub_target_count = 1
+sub_target_count = 0
 damage_to_targets = [1, 0.5]
 crit_chance = 10
 crit_damage = 2
