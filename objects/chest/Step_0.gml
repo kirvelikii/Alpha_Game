@@ -43,10 +43,11 @@ if rolling and ((array_length(rolling_items) <= 8 and time >= new_r / 7) or time
         if roll <= 0{
             //array_push(rolling_items, global.chests_db[$ chestt].items[i])
             var ss = instance_create_layer(room_width, y - 400, "Instances", gamba)
-            ss.sprite_index = asset_get_index(global.chests_db[$ chestt].items[i])
-            ss.mask_index = asset_get_index(global.chests_db[$ chestt].items[i])
+            ss.sprite_index = asset_get_index(global.items_db[$ global.chests_db[$ chestt].items[i]].texture)
+            ss.mask_index = asset_get_index(global.items_db[$ global.chests_db[$ chestt].items[i]].texture)
             ss.speed = sspeed 
             ss.direction = 180
+            ss.type = global.items_db[$ global.chests_db[$ chestt].items[i]]
             ss.rarity = global.items_db[$ global.chests_db[$ chestt].items[i]].rarity
             array_insert(rolling_items, 0, ss)
             //array_insert(roll_times, 0, [0, 20])

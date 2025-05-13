@@ -1,30 +1,25 @@
-depth = 100
+if is_dragging{
+    if instance_place(x + 32, y + 32, pre_fight_hero){
+    var targ = instance_place(x + 32, y + 32, pre_fight_hero)
+    if data.type = "stat_up"{
+        for (var i = 0; i < array_length(data.effect); i++){
+            //show_message(targ.reff)
+            if string_ends_with(data.effect[i][0], "_perc"){
+                targ.reff.variables[$ string_replace(data.effect[i][0], "_perc", "")] *= (1 + data.effect[i][1])
+                targ.reff.variables.modifer[$ string_replace(data.effect[i][0], "_perc", "")] += data.effect[i][1]
+            }
+            else{
+                //show_message(targ.reff.variables.modifer[$ data.effect[i][0]])
+                targ.reff.variables[$ (data.effect[i][0])] += data.effect[i][1] * (1 + targ.reff.variables.modifer[$ data.effect[i][0]])}
+            }
 
-if collision_rectangle(0, 0, 768, 256, self, false, false) and is_dragging{
-    var t = array_length(global.equips[inv_ruleset.team-1][0])
-    x = 128 + 64 * (t % 10)
-    y =  0 + 64 * floor(t / 10)
-    array_push(global.equips[inv_ruleset.team-1][0], self)
-    equipped = 1
+    }
+    instance_destroy()
 }
-else if collision_rectangle(0, 256, 768, 512, self, false, false) and is_dragging{
-    var t = array_length(global.equips[inv_ruleset.team-1][1])
-    x = 128 + 64 * (t % 10)
-    y =  256 + 64 * floor(t / 10)
-    array_push(global.equips[inv_ruleset.team-1][1], self)
-    equipped = 2
-}
-else if collision_rectangle(0, 512, 768, 768, self, false, false) and is_dragging{
-    var t = array_length(global.equips[inv_ruleset.team-1][2])
-    x = 128 + 64 * (t % 10)
-    y =  512 + 64 * floor(t / 10)
-    array_push(global.equips[inv_ruleset.team-1][2], self)
-    equipped = 3
-}
-else if is_dragging{
-    array_push(global.lootobj[inv_ruleset.team - 1], self)
-    equipped = 0
+else{
+    array_push(global.items, self)
+    inv_ruleset.check_spaces_inv()
 }
 is_dragging = false;
 inv_ruleset.drag_obj = noone
-inv_ruleset.check_spaces()
+}

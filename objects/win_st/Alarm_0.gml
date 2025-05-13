@@ -1,4 +1,4 @@
-chest.drop = instance_place(x, y - 20, gamba).sprite_index
+chest.drop = instance_place(x, y - 20, gamba).type
 with(chest){
     event_user(0)
 }

@@ -22,6 +22,7 @@ else if collision_rectangle(356+256, 0, 356+512, 768, self, false, false) and is
     equipped = 3
 }
 else if is_dragging{
+    with chars_panel{event_user(0)}
     var t = array_length(global.not_sorted_t1)
     y = 64 + 128 * floor(t / 3)
     x = 925 + 128 * (t % 3)
@@ -52,6 +53,7 @@ else if collision_rectangle(356+256, 0, 356+512, 768, self, false, false) and is
     equipped = 3
 }
 else if is_dragging{
+    with chars_panel{event_user(0)}
     var t = array_length(global.not_sorted_t1)
     y = 64 + 128 * floor(t / 3)
     x = 128 + 925 + 128 * (t % 3)

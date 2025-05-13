@@ -1,11 +1,34 @@
 team = 1
 randomize()
+page = "chars"
+//global.loot = [[global.items_db.damage_up], [global.items_db.hero]]
 if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
     global.layout = [[[hero], [hero], [hero]], [[hero], [hero], [hero]]]
     global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]
 }
+if !variable_global_exists("items_non_equipped"){
+    global.items_non_equipped = [[], []]
+}
+for (var i = 0; i < array_length(global.loot[0]); i++){
+    if global.loot[0][i].type == "hero"{
+        array_push(global.not_sorted[0], global.loot[0][i].obj)
+    }
+    else{
+        array_push(global.items_non_equipped[0], global.loot[0][i])
+    }
+}
+for (var i = 0; i < array_length(global.loot[1]); i++){
+    if global.loot[1][i].type == "hero"{
+        array_push(global.not_sorted[1], global.loot[1][i].obj)
+    }
+    else{
+        array_push(global.items_non_equipped[1], global.loot[1][i])
+    }
+}
+global.loot = [[], []]
 global.layout_t1  = [[], [], []]
 global.not_sorted_t1 = []
+global.items= []
 for (var i = 0; i < array_length(global.layout[0]); i++){
     for (var j = 0; j < array_length(global.layout[0][i]); j++){
         var a = instance_create_layer(228 + 256 * i - 128 * floor(j / 6), 0 + 128 * (j % 6), "Instances", pre_fight_hero, {type: global.layout[0][i][j], equipped: i + 1})
@@ -44,3 +67,11 @@ function check_spaces(){
             global.not_sorted_t1[i].y = 64 + 128 * floor(i / 3)
     }
 }}
+function check_spaces_inv(){
+    //show_message(array_length(global.items))
+    for (var i=0; i<array_length(global.items); i++){
+        //show_message(global.equips[inv_ruleset.team-1][equipped-1][i])
+            global.items[i].x = 925 + 64 * (i % 6)
+            global.items[i].y = 64 + 64 * floor(i / 6)
+    }
+}

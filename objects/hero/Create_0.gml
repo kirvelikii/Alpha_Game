@@ -15,6 +15,7 @@ if temp{
     basic_crit_damage = 2
     name = "Template"
     skills = [template_skill]
+    equips = []
     common_pos = "frontline"
     crit_eff = basic_crit_attack_effect
     eff = basic_attack_effect
@@ -25,6 +26,18 @@ if temp{
     damage_to_sanity = {damage: {hp75: 0.45, hp50:0.65, hp25:1.5, hp10: 3}, ally_death:{row: 15, glob: 8}}
     heal_sanity = {kill: 20, enemy_death:{row: 5, glob: 0}, succesful_retreat: 0.4, sanity_on_panic: 0.4}
     state = "normal"
+    modifer = { 
+    max_hp: 0,
+    basic_attack: 0,
+    basic_range: 0,
+    attack_interval: 0,
+    basic_accuracy: 0,
+    basic_crit_chance: 0,
+    basic_crit_damage: 0,
+    dodge_chance: 0,
+    mov_speed: 0,
+    max_sanity: 0,
+    }
 }
 else{
     if team == 1{

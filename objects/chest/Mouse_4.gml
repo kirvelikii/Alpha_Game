@@ -1,3 +1,4 @@
+randomize()
 if !rolling and drop == noone{
     rolling = 1
     global.rolls[loot_ruleset.team-1] -= 1

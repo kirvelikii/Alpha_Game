@@ -1,4 +1,5 @@
 if team == 1{
+    with chars_panel{event_user(0)}    
     global.layout[0] = [[], [], []]
     global.not_sorted[0] = []
     for (var i = 0; i < array_length(global.layout_t1); i++){

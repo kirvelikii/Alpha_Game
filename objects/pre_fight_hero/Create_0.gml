@@ -5,7 +5,7 @@ con = 0
 if inv_ruleset.team == 2{
     image_xscale = -1
 }
-function object_get_safe_data(obj) {
+function object_get_safe_stats_shown(obj) {
     if typeof(obj) == "struct"{
         sprite_index = object_get_sprite(obj.reff.object_index)
         mask_index = object_get_mask(obj.reff.object_index)
@@ -16,11 +16,11 @@ function object_get_safe_data(obj) {
     // Проверяем тип входных данных
     if (instance_exists(obj)) {
         // Работаем с экземпляром
-        return get_instance_data(obj);
+        return get_instance_stats_shown(obj);
     }
     else if (object_exists(obj)) {
         // Работаем с шаблоном объекта
-        return get_object_template_data(obj);
+        return get_object_template_stats_shown(obj);
     }
     else {
         show_debug_message("Invalid object reference:", obj);
@@ -28,8 +28,8 @@ function object_get_safe_data(obj) {
     }
 }
 
-function get_instance_data(inst) {
-    var data = {
+function get_instance_stats_shown(inst) {
+    var stats_shown = {
         object_index: inst.object_index,
         variables: {}
     };
@@ -42,7 +42,7 @@ function get_instance_data(inst) {
         // Пропускаем системные и служебные переменные
         if (!string_starts_with(var_name, "__") && var_name != "object_index") {
             try {
-                data.variables[$ var_name] = inst[$ var_name];
+                stats_shown.variables[$ var_name] = inst[$ var_name];
             } catch(e) {
                 show_debug_message("Failed to copy variable", var_name, ":", e);
             }
@@ -55,24 +55,24 @@ function get_instance_data(inst) {
         // Пропускаем системные и служебные переменные
         if (!string_starts_with(var_name, "__") && var_name != "object_index") {
             try {
-                data.variables[$ var_name] = inst[$ var_name];
+                stats_shown.variables[$ var_name] = inst[$ var_name];
             } catch(e) {
                 show_debug_message("Failed to copy variable", var_name, ":", e);
             }
         }
     }
-    return data;
+    return stats_shown;
 }
 
-function get_object_template_data(obj_index) {
+function get_object_template_stats_shown(obj_index) {
     // Создаем временный экземпляр для получения данных по умолчанию
     var temp_inst = instance_create_depth(0, 0, -10000, obj_index, {temp:true});
-    var data = get_instance_data(temp_inst);
+    var stats_shown = get_instance_stats_shown(temp_inst);
     instance_destroy(temp_inst);
     
-    return data;
+    return stats_shown;
 }
-reff = object_get_safe_data(type)
+reff = object_get_safe_stats_shown(type)
 reff.variables.basic_attack += irandom(2)
 if reff.variables.max_hp == 100{
     reff.variables.max_hp = irandom_range(90, 110)
@@ -82,3 +82,4 @@ else{
     reff.variables.max_hp += irandom_range(1, 10)
     reff.variables.hp = reff.variables.max_hp
 }
+type = pre_fight_hero
