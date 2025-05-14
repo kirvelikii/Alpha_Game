@@ -1,13 +1,15 @@
-array_push(host.statuses_visual, self)
 name = "fragility"
+description = "Увеличивает получаемый целью урон, на процент, равный силе эффекта"
 type = fragility
 is_stackable = true
 effec = sp_fragility
 effec_alpha = 0.5
+if room == fight{
 params = struct_merge(stackable_params, unstackable_params, true)
 duration = params.duration
 potency = params.potency
 image_xscale = host.image_xscale
+array_push(host.statuses_visual, self)
 number = array_get_index(host.statuses_visual, self)
 x = host.x + (image_xscale * 32 * number) % 128
 y = host.y + 96 - floor(32 * number / 128) * 32
@@ -57,4 +59,4 @@ function struct_merge(struct1, struct2, overwrite) {
     
     return temp;
 }
-cad_formula = min(4, potency/5)
+cad_formula = min(4, potency/5)}

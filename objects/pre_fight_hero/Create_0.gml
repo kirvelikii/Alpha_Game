@@ -73,7 +73,7 @@ function get_object_template_stats_shown(obj_index) {
     return stats_shown;
 }
 reff = object_get_safe_stats_shown(type)
-reff.variables.basic_attack += irandom(2)
+/*reff.variables.basic_attack += irandom(2)
 if reff.variables.max_hp == 100{
     reff.variables.max_hp = irandom_range(90, 110)
     reff.variables.hp = reff.variables.max_hp
@@ -81,5 +81,5 @@ if reff.variables.max_hp == 100{
 else{
     reff.variables.max_hp += irandom_range(1, 10)
     reff.variables.hp = reff.variables.max_hp
-}
+}*/
 type = pre_fight_hero

@@ -1,8 +1,10 @@
 name = "Template Skill"
+description = "Данный текст показывает, что вы либо наткнулись на баг, либо тестировщик, либо господин разработчик, иначе.. вы ГРЯЗНЫЙ ХАКЕР"
 skill_power = 10
 range = 2
+target_type = "Враг"
 sub_target_count = 0
-damage_to_targets = [1, 0.5]
+damage_to_targets = [1]
 crit_chance = 10
 crit_damage = 2
 cooldown = 60 * 2
@@ -14,7 +16,7 @@ restrictions = []
 target = noone
 sub_targets = []
 eff = basic_skill_effect
-effects_on_use = [[fragility, "main_target_enemy", {potency:5}, {duration:120}], [fragility, "sub_target_enemy", {potency:3}, {duration:60}]]
+effects_on_use = [[fragility, "main_target_enemy", {potency:5}, {duration:120}]]
 function use_skill(_target, main_target=true, modifers = undefined){
     if !instance_exists(_target){return }
     var crit = irandom(100)

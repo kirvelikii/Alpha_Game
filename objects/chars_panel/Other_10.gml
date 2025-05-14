@@ -10,3 +10,9 @@ image_blend = c_white
 depth = -50
 equips_panel.image_blend = c_gray
 equips_panel.depth = 0
+for (var i=0; i<array_length(global.items); i++){
+    array_push(global.items_non_equipped[inv_ruleset.team-1], global.items[i].data)
+    instance_destroy(global.items[i])
+}
+global.items = []
+inv_ruleset.check_spaces()

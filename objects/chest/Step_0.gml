@@ -1,10 +1,12 @@
-if rolling{
+if rolling and drop == noone{
     time += 1
     sspeed += a
     new_r = (room_width + 128) / sspeed
 }
-if sspeed <= 0 and rolling == 1{
+if sspeed <= 0 and rolling == 1 and drop == noone{
+    //show_message(0)
     rolling = 0
+    win_st.alarm[0] = 30
     var backk = 9999999999
     var dir = 0
     for (var i = 0; i < array_length(rolling_items); i++){
@@ -23,9 +25,8 @@ if sspeed <= 0 and rolling == 1{
         rolling_items[i].x += dir * (backk)
     }
     //show_message(dir)
-    win_st.alarm[0] = 60
 }
-if rolling and ((array_length(rolling_items) <= 8 and time >= new_r / 7) or time >= new_r){
+if rolling and ((array_length(rolling_items) <= 8 and time >= new_r / 7) or time >= new_r) and drop == noone{
     //show_message(time)
     if array_length(rolling_items) == 8{
         instance_destroy(rolling_items[7])
@@ -57,8 +58,9 @@ if rolling and ((array_length(rolling_items) <= 8 and time >= new_r / 7) or time
         }
         time = 0
 }
-if rolling{
+if rolling  and drop == noone{
     for (var i=0; i<array_length(rolling_items); i++){ 
         //roll_times[i][0] += 1
         rolling_items[i].speed = sspeed
 }}
+show_debug_message([drop, sspeed, rolling])

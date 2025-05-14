@@ -32,7 +32,7 @@ global.items_db = {
         type: "item"
     }
 };
-//room = pre_fight
+room = pre_fight
 global.chests_db = {
     basic: {
         name: "basic",
@@ -44,6 +44,7 @@ col = c_black
 rolling_items = []
 time = 30
 drop = noone
+can_roll = true
 chestt = "basic"
 s = noone
 sspeed = random_range(25, 30)

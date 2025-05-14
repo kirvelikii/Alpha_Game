@@ -1,5 +1,6 @@
 //global.loot[loot_ruleset.team-1] = chest.drop
 chest.drop = noone
+chest.can_roll = true
 chest.rolling_items = []
 chest.rolling = 0
 chest.rolling_items = []

@@ -14,6 +14,7 @@ if temp{
     basic_crit_chance = 50
     basic_crit_damage = 2
     name = "Template"
+    lore = "Начало начал, этот человек видел многое, он основал множество техник, опробовал все, что есть в этом мире. Не пора ли ему уйти на пенсию?"
     skills = [template_skill]
     equips = []
     common_pos = "frontline"

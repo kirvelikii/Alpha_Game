@@ -1,6 +1,7 @@
 battlefield = [[], [], [], [], [], [], []]
 global.blink_time = 0
 randomize()
+display_reset(0, true);
 for (var i = 0; i < array_length(global.layout[0]); i++){
     for(var j = 0; j < array_length(global.layout[0][i]); j++){
         var a = create_from_template(global.layout[0][i][j], room_width / 2 - 256 - 128 - 256 * (2-i), 100 + j * 138, "Instances", 1, i)
@@ -21,10 +22,12 @@ function check_win(){
     if array_length(teams) == 1{
         show_debug_message(string(teams[0]) + " win")
         room = loot
+        global.inv_team = 0
     }
     else if array_length(teams) == 0{
         show_debug_message(string("Draw"))
         room = loot
+        global.inv_team = 0
 } return 
 }
 function create_from_template(template, x, y, layer, team, pos) {

@@ -1,7 +1,10 @@
-team = 1
-randomize()
-page = "chars"
-//global.loot = [[global.items_db.damage_up], [global.items_db.hero]]
+if !variable_global_exists("inv_team"){
+     global.inv_team = 0
+    global.char_to_show = noone
+}
+if global.inv_team = 0{
+    global.inv_team = 1
+    global.loot = [[global.items_db.damage_up], [global.items_db.hero]]
 if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
     global.layout = [[[hero], [hero], [hero]], [[hero], [hero], [hero]]]
     global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]
@@ -25,6 +28,12 @@ for (var i = 0; i < array_length(global.loot[1]); i++){
         array_push(global.items_non_equipped[1], global.loot[1][i])
     }
 }
+}
+team = global.inv_team
+//show_message(team)
+page = "chars"
+randomize()
+if team = 1{
 global.loot = [[], []]
 global.layout_t1  = [[], [], []]
 global.not_sorted_t1 = []
@@ -36,6 +45,15 @@ for (var i = 0; i < array_length(global.layout[0]); i++){
 }for (var i = 0; i < array_length(global.not_sorted[0]); i++){
     var a = instance_create_layer(925 + 128 * (i % 3), 64 + 128 * floor(i / 3), "Instances", pre_fight_hero, {type: global.not_sorted[0][i], equipped: 0})
     with a {array_push(global.not_sorted_t1, self)}
+}
+with pre_fight_hero{
+    if self == global.char_to_show{
+        reff = global.char_to_show.reff
+    } 
+        }    
+}
+else{
+    event_user(1)
 }
 drag_obj = noone
 function check_spaces_eq(equipped){

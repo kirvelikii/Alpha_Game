@@ -1,4 +1,5 @@
 if team == 1{
+    //show_message(team)
     with chars_panel{event_user(0)}    
     global.layout[0] = [[], [], []]
     global.not_sorted[0] = []
