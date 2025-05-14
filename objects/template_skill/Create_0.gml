@@ -3,7 +3,7 @@ description = "Данный текст показывает, что вы либ�
 skill_power = 10
 range = 2
 target_type = "Враг"
-sub_target_count = 0
+sub_target_count = 1
 damage_to_targets = [1]
 crit_chance = 10
 crit_damage = 2
@@ -74,7 +74,7 @@ function draw_skill_cooldown(x, y, size, progress, color) {
 function find_target(n_sub_targets, _priority="hp"){
     var potential_targets = [];
     var tem = host.team
-    var sub = n_sub_targets
+    var sub = n_sub_targets - 1
     // Собираем всех возможных целей
     with (hero) {
         if (team != tem && hp > 0) and other.distance_to_target(self, other.host) < other.range{
@@ -83,7 +83,7 @@ function find_target(n_sub_targets, _priority="hp"){
     }
     target = noone
     sub_targets = []
-    while array_length(potential_targets) > 0 and n_sub_targets > array_length(sub_targets){
+    while array_length(potential_targets) > 0 and (n_sub_targets > array_length(sub_targets) + 1 or target == noone){
         var chos = irandom(array_length(potential_targets)-1)
         if target == noone{
             target = potential_targets[chos];

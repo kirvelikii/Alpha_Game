@@ -8,7 +8,7 @@ for (var i = 0; i < array_length(restrictions); i++) {
     }
 }
 if (can_cast) {
-    find_target(1);
+    find_target(sub_target_count);
     // Добавляем задержку перед анимацией эффекта
     if (instance_exists(target)) and abs(distance_to_target(target, host))<range {
         show_effect(target, eff);

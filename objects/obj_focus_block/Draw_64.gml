@@ -1,20 +1,21 @@
 if position_meeting(mouse_x, mouse_y, self){
-    draw_sprite(vsp_s, 1, 0, 0)
+    
+    draw_sprite(vsp_s, 1, 966, 0)
     //draw_sprite_ext(Sprite18, 1, 0, 0, 0.5, 0.5, 0, c_white, 0.3)
-    draw_sprite(focus_icon, 1, 20, 20)
+    draw_sprite(focus_icon, 1, 1066-20, 20)
     draw_set_halign(fa_center)
-    draw_text(200, 50, focus_name)
-    draw_text(200, 100, focus_description)
-    draw_text(200, 175, "Цена: " + string(focus_cost))
+    draw_text(1366-200, 50, focus_name)
+    draw_text(1366-200, 100, focus_description)
+    draw_text(1366-200, 175, "Цена: " + string(focus_cost))
     if !focus_unlocked and can_unlock(){ 
         draw_set_halign(fa_left)
-        draw_text_color(10, 700, "-" + string(focus_cost), c_red, c_white, c_red, c_red, 1)
+        draw_text_color(1366-10, 700, "-" + string(focus_cost), c_red, c_white, c_red, c_red, 1)
         draw_set_halign(fa_center)
     }
-    draw_text(200, 200, "Требования:")
+    draw_text(1366-200, 200, "Требования:")
     var len = 1
     for (var i = 0; i<array_length(focus_restrictions); i++ ){
-        if i != 0{draw_text(200, 200 + 25 * len, "Или"); len+=1}
+        if i != 0{draw_text(1366-200, 200 + 25 * len, "Или"); len+=1}
         for (var j = 0; j < array_length(focus_restrictions[i]); j++){
             if !string_starts_with(focus_restrictions[i][j], "!"){
                 if string_starts_with(focus_restrictions[i][j], "f"){
@@ -30,7 +31,7 @@ if position_meeting(mouse_x, mouse_y, self){
                             }
                         }
                     }
-                    draw_text_color(200, 200 + 25 * len, "Должен быть изучен фокус " + "'" + fcs + "'", cl, cl, cl, cl, 1)
+                    draw_text_color(1366-200, 200 + 25 * len, "Должен быть изучен фокус " + "'" + fcs + "'", cl, cl, cl, cl, 1)
                     len+=1
                 }
             }
@@ -48,16 +49,18 @@ if position_meeting(mouse_x, mouse_y, self){
                             }
                         }
                     }
-                    draw_text_color(200, 200 + 25 * len, "Должен быть не изучен фокус " + "'" + fcs + "'", c1, c1, c1, c1, 1)
+                    draw_text_color(1366-200, 200 + 25 * len, "Должен быть не изучен фокус " + "'" + fcs + "'", c1, c1, c1, c1, 1)
                     len+=1
                 }
             }
         }
     }
     if can_unlock() and !focus_unlocked{
-        draw_text_color(200, 600, "Доступно", c_green, c_lime, c_green, c_lime, 1)
+        draw_text_color(1366-200, 600, "Доступно", c_green, c_lime, c_green, c_lime, 1)
     }
     else if focus_unlocked{
-        draw_text_color(200, 600, "Разблокировано", c_green, c_green, c_green, c_lime, 1)
+        draw_text_color(1366-200, 600, "Разблокировано", c_green, c_green, c_green, c_lime, 1)
     }
+draw_set_halign(fa_left)    
+draw_text_color(1366-100, 700, "-" + string(focus_cost), c_red, c_red, c_red, c_red, 1)
 }

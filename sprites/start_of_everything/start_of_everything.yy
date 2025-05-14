@@ -26,7 +26,7 @@
   "origin":0,
   "parent":{
     "name":"temp",
-    "path":"folders/Objects/chartrees/temp.yy",
+    "path":"folders/Objects/character page/chartrees/temp.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

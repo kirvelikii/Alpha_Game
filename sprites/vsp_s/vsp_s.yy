@@ -28,7 +28,7 @@
   "origin":0,
   "parent":{
     "name":"chartrees",
-    "path":"folders/Objects/chartrees.yy",
+    "path":"folders/Objects/character page/chartrees.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

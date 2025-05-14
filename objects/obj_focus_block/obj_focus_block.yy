@@ -13,7 +13,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"chartrees",
-    "path":"folders/Objects/chartrees.yy",
+    "path":"folders/Objects/character page/chartrees.yy",
   },
   "parentObjectId":null,
   "persistent":false,

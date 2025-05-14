@@ -1,6 +1,9 @@
 if page != ctrl_page{
     ctrl_page = page
-    with skill_showcase{instance_destroy()}
+    with skill_showcase{instance_destroy()} 
+    with obj_focus_block{instance_destroy()}
+    with starter_tree{instance_destroy()}    
+    with camera_man{char_page_ruleset.camera_pos_x = x; char_page_ruleset.camera_pos_y = y; x = 688; y = 334; alarm[0] = 1}      
     if page == "skills"{
         var first = noone
         for (var j = 0; j < array_length(data.variables.skills); j++){
@@ -16,5 +19,10 @@ if page != ctrl_page{
     }
     if page == "equipment"{
         
+    }
+    if page == "focus_tree"{
+        instance_create_layer(0, 0, "UI", starter_tree, {host: global.char_to_show})
+        //instance_create_layer(0, 0, "Instances", obj_skill_tree_controller)
+        instance_create_layer(camera_pos_x, camera_pos_y, "UI", camera_man)
     }
 }

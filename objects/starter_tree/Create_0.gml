@@ -2,14 +2,16 @@ global.player_exp = 10000
 focus_tree = [
     {
         id: "старт",
-        name: "dew",
-        description: "+10% к урону мечами",
+        name: "Сильное начало",
+        description: "+10% к урону",
         cost: 100,
         prerequisites: [],
         restrictions: [],
         unlocked: false,
         icon: start_of_everything,
-        dep: 1
+        dep: 1,
+        stat_changes: [["basic_attack_perc", 0.1]],
+        gives: []
     },
     {
         id: "1",
@@ -20,7 +22,9 @@ focus_tree = [
         restrictions: [["fстарт", "!f2"]],
         unlocked: false,
         icon: start_of_everything,
-        dep: 2
+        dep: 2,
+        stat_changes: [["max_hp", 65]],
+        gives: []
     },
     {
         id: "2",
@@ -31,7 +35,9 @@ focus_tree = [
         restrictions: [["fстарт", "!f1"]],
         unlocked: false,
         icon: start_of_everything,
-        dep: 2
+        dep: 2,
+        stat_changes: [],
+        gives: [["skill", template_skill]]
     },
     {
         id: "e",
@@ -42,7 +48,9 @@ focus_tree = [
         restrictions: [["f1"], ["f2"]],
         unlocked: false,
         icon: start_of_everything,
-        dep: 2
+        dep: 2,
+        stat_changes: [["basic_crit_chance", 30]],
+        gives: []
     },
 ];
 focus_object_map = ds_map_create();
@@ -70,7 +78,9 @@ function create_focus_objects() {
         focus_prerequisites: data.prerequisites,
         focus_unlocked: data.unlocked,
         focus_icon: data.icon,
-        focus_restrictions: data.restrictions}
+        focus_restrictions: data.restrictions,
+        stat_changes: data.stat_changes,
+        gives: data.gives}
         );
         // Сохраняем ссылку
         ds_map_add(focus_object_map, data.id, inst);
@@ -504,13 +514,13 @@ function arrange_focus_tree() {
     
     // 4. Распределяем деревья по экрану
     var tree_spacing = 200;
-    var current_x = (room_width - combined_width - (array_length(tree_structures)-1)*tree_spacing) / 2;
+    var current_x = (1100 + combined_width + (array_length(tree_structures)-1)*tree_spacing) / 2;
     
     for (var i = 0; i < array_length(tree_structures); i++) {
         position_single_tree(
             tree_structures[i].all_nodes,
             current_x + tree_structures[i].tree_width/2,
-            200,
+            300,
             tree_structures[i].tree_width
         );
         current_x += tree_structures[i].tree_width + tree_spacing;

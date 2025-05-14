@@ -12,7 +12,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"temp",
-    "path":"folders/Objects/chartrees/temp.yy",
+    "path":"folders/Objects/character page/chartrees/temp.yy",
   },
   "parentObjectId":null,
   "persistent":false,
