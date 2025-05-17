@@ -7,34 +7,34 @@ if room != fight{
     }
 }
 if temp{
-    max_hp = 100
-    basic_attack = 5
-    attack_interval = 60 * 1.5
+    max_hp = 200
+    basic_attack = 20
+    attack_interval = 60 * 1.0
     attack_delay = 10
     basic_range = 1
     basic_accuracy = 85
     dodge_chance = 5
     mov_speed = 1 / 2
     basic_target_count = 1
-    basic_crit_chance = 50
+    basic_crit_chance = 80
     basic_crit_damage = 2
-    name = "Template"
-    lore = "Начало начал, этот человек видел многое, он основал множество техник, опробовал все, что есть в этом мире. Не пора ли ему уйти на пенсию?"
-    skills = [template_skill]
-    legacy_skills = [template_skill]
+    name = "Имба Вайбмен"
+    lore = "Крутой чувак йоу"
+    skills = [template_skill_1]
+    legacy_skills = [template_skill_1]
     equips = []
     common_pos = "frontline"
     crit_eff = basic_crit_attack_effect
     eff = basic_attack_effect
     hp = max_hp 
-    max_sanity = 100
+    max_sanity = 150
     low_sanity_effect = {s50: "retreat", s25: "panic", s0: "crazy"}
     damage_to_sanity = {damage: {hp75: 0.45, hp50:0.65, hp25:1.5, hp10: 3}, ally_death:{row: 15, glob: 8}}
     heal_sanity = {kill: 20, enemy_death:{row: 5, glob: 0}, succesful_retreat: 0.4, sanity_on_panic: 0.4}
     state = "normal"
     modifer = { 
-    max_hp: 0,
-    basic_attack: 0,
+    max_hp: 0.2,
+    basic_attack: 0.5,
     basic_range: 0,
     attack_interval: 0,
     basic_accuracy: 0,
@@ -44,80 +44,7 @@ if temp{
     mov_speed: 0,
     max_sanity: 0,
     }
-    focus_tree = [
-    {
-        focus_id: "старт",
-        focus_name: "Сильное начало",
-        focus_description: "+10% к урону",
-        focus_cost: 100,
-        focus_prerequisites: [],
-        focus_restrictions: [],
-        focus_unlocked: false,
-        focus_icon: start_of_everything,
-        stat_changes: [["basic_attack_perc", 0.1]],
-        gives: []
-    },
-    {
-        focus_id: "1",
-        focus_name: "Фредди уров",
-        focus_description: "Открывает заклинания огня",
-        focus_cost: 150,
-        focus_prerequisites: ["старт"],
-        focus_restrictions: [["fстарт", "!f2"]],
-        focus_unlocked: false,
-        focus_icon: start_of_everything,
-        stat_changes: [["max_hp", 65]],
-        gives: []
-    },
-    {
-        focus_id: "2",
-        focus_name: "лунаси йоууу",
-        focus_description: "Открывает ледяные заклинания",
-        focus_cost: 150,
-        focus_prerequisites: ["старт"],
-        focus_restrictions: [["fстарт", "!f1"]],
-        focus_unlocked: false,
-        focus_icon: start_of_everything,
-        stat_changes: [],
-        gives: [["skill", template_skill]]
-    },
-    {
-        focus_id: "e",
-        focus_name: "Вайбмен Вайбс",
-        focus_description: "Открывает секрет пасхалко уууу",
-        focus_cost: 150,
-        focus_prerequisites: ["1", "2"],
-        focus_restrictions: [["f1"], ["f2"]],
-        focus_unlocked: false,
-        focus_icon: start_of_everything,
-        stat_changes: [],
-        gives: [["transformation", hero_transformed]]
-    },
-    {
-        focus_id: "not_e",
-        focus_name: "АнтиВайбмен Вайбс",
-        focus_description: "Ты против вайба? уууу",
-        focus_cost: 150,
-        focus_prerequisites: ["1", "2"],
-        focus_restrictions: [["f1", "!fe"], ["f2", "!fe"]],
-        focus_unlocked: false,
-        focus_icon: start_of_everything,
-        stat_changes: [["max_hp_perc", 0.2], ["max_hp", 50], ["basic_attack", 20]],
-        gives: []
-    },
-    {
-        focus_id: "финалка",
-        focus_name: "Положить конец веселью",
-        focus_description: "Настало время покончить с ними",
-        focus_cost: 150,
-        focus_prerequisites: ["not_e"],
-        focus_restrictions: [["fnot_e"]],
-        focus_unlocked: false,
-        focus_icon: start_of_everything,
-        stat_changes: [["basic_crit_damage", 1]],
-        gives: [["skill", template_skill]]
-    },
-    ]
+    focus_tree = []
 }
 else{
     if team == 1{

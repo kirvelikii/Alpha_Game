@@ -2,10 +2,10 @@ display_reset(0, true);
 // Для GMS 2.3+ (struct):
 global.items_db = {
     hero: {
-        name: "New_basic_hero!",
+        name: "New basic hero!",
         texture: sp_hero,
         chance: 0.5,
-        rarity: "common",
+        rarity: "uncommon",
         pools: ["basic", "chars"],
         affinity: "all",
         type: "hero",
@@ -15,7 +15,7 @@ global.items_db = {
         name: "Damage UP!",
         texture: damage_up,
         chance: 0.5,
-        rarity: "legendary",
+        rarity: "uncommon",
         pools: ["basic", "stats_up"],
         affinity: "all",
         type: "stat_up",

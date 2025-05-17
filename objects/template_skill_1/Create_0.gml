@@ -1,14 +1,14 @@
-name = "Template Skill"
-description = "Данный текст показывает, что вы либо наткнулись на баг, либо тестировщик, либо господин разработчик, иначе.. вы ГРЯЗНЫЙ ХАКЕР"
-skill_power = 10
+name = "Vibe Template Skill"
+description = "Данный текст показывает, что вы крутой ВАЙБМЕН"
+skill_power = 30
 range = 2
 target_type = "Враг"
-sub_target_count = 0
+sub_target_count = 1
 damage_to_targets = [1]
-crit_chance = 10
+crit_chance = 30
 crit_damage = 2
-cooldown = 60 * 2
-cast_delay = [5, 10]
+cooldown = 60 * 3
+cast_delay = [10, 15]
 animation_delay = 5
 ready = false
 cd = cooldown
@@ -16,7 +16,7 @@ restrictions = []
 target = noone
 sub_targets = []
 eff = basic_skill_effect
-effects_on_use = [[fragility, "main_target_enemy", {potency:5}, {duration:120}]]
+effects_on_use = [[fragility, "main_target_enemy", {potency:15}, {duration:240}]]
 function use_skill(_target, main_target=true, modifers = undefined){
     if !instance_exists(_target){return }
     var crit = irandom(100)

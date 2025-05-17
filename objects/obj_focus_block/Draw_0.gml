@@ -48,8 +48,10 @@ if (is_mouse_over) {
                 }
         }
     }
+if focus_unlocked {var col = c_white} else {var col = c_gray}
 
-draw_sprite(focus_table, 1, x - 32, y + 64)
+draw_sprite_ext(focus_table, 1, x - 32, y + 64, 1, 1, 0, col, 1)
+draw_set_valign(fa_middle)
 draw_set_halign(fa_center)
 draw_set_font(fnt_focus)
-draw_text_color(x+32, y + 64 + 12,  focus_name, c_white, c_white, c_white, c_ltgray, 1)
+draw_text_ext_color(x+32, y + 64 + 24,  focus_name, -1, 128, c_white, c_white, c_white, c_ltgray, 1)

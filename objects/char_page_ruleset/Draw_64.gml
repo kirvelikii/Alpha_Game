@@ -1,6 +1,8 @@
+draw_set_halign(fa_center)
+draw_set_valign(fa_top)
 draw_text_color(130, 250, data.variables.name, c_white, c_white, c_white, c_white, 1)
 draw_sprite(avatarr, 1 ,75, 100)
-if !collision_point(mouse_x, mouse_y, obj_focus_block, false, false) or collision_point(mouse_x, mouse_y, obj_focus_block, false, false).focus_unlocked{ 
+if !position_meeting(mouse_x, mouse_y, obj_focus_block) or collision_point(mouse_x, mouse_y, obj_focus_block, false, false).focus_unlocked{ 
 draw_set_halign(fa_center)
 draw_set_valign(fa_top)
 draw_set_font(fnt_focus) 
@@ -21,24 +23,24 @@ draw_text_color(100, 444, data.variables.basic_crit_chance, c_white, c_white, c_
 draw_sprite(crit_damage_icon, 1, 150, 444)
 draw_text_color(200, 444, data.variables.basic_crit_damage, c_white, c_white, c_white, c_white, 1)
 draw_sprite(speed_icon, 1, 50, 492)
-draw_text_color(200, 492, data.variables.mov_speed, c_white, c_white, c_white, c_white, 1)
+draw_text_color(100, 492, data.variables.mov_speed, c_white, c_white, c_white, c_white, 1)
 draw_sprite(sanity_icon, 1, 150, 492)
-draw_text_color(100, 492, data.variables.max_sanity, c_white, c_white, c_white, c_white, 1)
+draw_text_color(200, 492, data.variables.max_sanity, c_white, c_white, c_white, c_white, 1)
 }
 else{
     var rew = collision_point(mouse_x, mouse_y, obj_focus_block, false, false)
-    draw_stat_with_change(100, 300, hp_icon, data.variables.max_hp, "max_hp")
-            draw_stat_with_change(100, 348, rang_icon, data.variables.basic_range, "basic_range")
-            draw_stat_with_change(100, 396, accuracy_icon, data.variables.basic_accuracy, "basic_accuracy")
-            draw_stat_with_change(100, 444, crit_chance_icon, data.variables.basic_crit_chance, "basic_crit_chance")
-            draw_stat_with_change(100, 492, speed_icon, data.variables.mov_speed, "mov_speed")
+            draw_stat_with_change(100 - 50, 300, hp_icon, data.variables.max_hp, "max_hp")
+            draw_stat_with_change(100 - 50, 348, rang_icon, data.variables.basic_range, "basic_range")
+            draw_stat_with_change(100 - 50, 396, accuracy_icon, data.variables.basic_accuracy, "basic_accuracy")
+            draw_stat_with_change(100 - 50, 444, crit_chance_icon, data.variables.basic_crit_chance, "basic_crit_chance")
+            draw_stat_with_change(100 - 50, 492, speed_icon, data.variables.mov_speed, "mov_speed")
             
             // Статы (второй столбец)
-            draw_stat_with_change(200, 300, atk_icon, data.variables.basic_attack, "basic_attack")
-            draw_stat_with_change(200, 348, atk_speed_icon, data.variables.attack_interval / 60, "attack_interval")
-            draw_stat_with_change(200, 396, dodge_icon, data.variables.dodge_chance, "dodge_chance")
-            draw_stat_with_change(200, 444, crit_damage_icon, data.variables.basic_crit_damage, "basic_crit_damage")
-            draw_stat_with_change(200, 492, sanity_icon, data.variables.max_sanity, "max_sanity")
+            draw_stat_with_change(200 - 50, 300, atk_icon, data.variables.basic_attack, "basic_attack")
+            draw_stat_with_change(200 - 50, 348, atk_speed_icon, data.variables.attack_interval / 60, "attack_interval")
+            draw_stat_with_change(200 - 50, 396, dodge_icon, data.variables.dodge_chance, "dodge_chance")
+            draw_stat_with_change(200 - 50, 444, crit_damage_icon, data.variables.basic_crit_damage, "basic_crit_damage")
+            draw_stat_with_change(200 - 50, 492, sanity_icon, data.variables.max_sanity, "max_sanity")
 }
 if page == "info"{
     draw_text_ext(800, 100, data.variables.lore, -1, 600)

@@ -123,3 +123,4 @@ function column_get_teams(arr){
     return [t1, t2]
 }
 check_spaces()
+check_win()

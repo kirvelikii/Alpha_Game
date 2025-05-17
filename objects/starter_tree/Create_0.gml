@@ -1,60 +1,6 @@
 global.player_exp = 10000
-focus_tree = [
-    {
-        id: "старт",
-        name: "Сильное начало",
-        description: "+10% к урону",
-        cost: 100,
-        prerequisites: [],
-        restrictions: [],
-        unlocked: false,
-        icon: start_of_everything,
-        dep: 1,
-        stat_changes: [["basic_attack_perc", 0.1]],
-        gives: []
-    },
-    {
-        id: "1",
-        name: "Фредди уров",
-        description: "Открывает заклинания огня",
-        cost: 150,
-        prerequisites: ["старт"],
-        restrictions: [["fстарт", "!f2"]],
-        unlocked: false,
-        icon: start_of_everything,
-        dep: 2,
-        stat_changes: [["max_hp", 65]],
-        gives: []
-    },
-    {
-        id: "2",
-        name: "лунаси",
-        description: "Открывает ледяные заклинания",
-        cost: 150,
-        prerequisites: ["старт"],
-        restrictions: [["fстарт", "!f1"]],
-        unlocked: false,
-        icon: start_of_everything,
-        dep: 2,
-        stat_changes: [],
-        gives: [["skill", template_skill]]
-    },
-    {
-        id: "e",
-        name: "лимбус\nкомпавни",
-        description: "Открывает ледяные заклинания",
-        cost: 150,
-        prerequisites: ["1", "2"],
-        restrictions: [["f1"], ["f2"]],
-        unlocked: false,
-        icon: start_of_everything,
-        dep: 2,
-        stat_changes: [["basic_crit_chance", 30]],
-        gives: []
-    },
-];
+focus_tree = global.char_to_show.reff.variables.focus_tree
 focus_object_map = ds_map_create();
-
 function get_focus_object(focus_id) {
     if (ds_map_exists(focus_object_map, focus_id)) {
         return ds_map_find_value(focus_object_map, focus_id);
@@ -71,19 +17,19 @@ function create_focus_objects() {
         
         // Передаём ТОЛЬКО нужные данные
     {
-        focus_id: data.id,
-        focus_name: data.name,
-        focus_description: data.description,
-        focus_cost: data.cost,
-        focus_prerequisites: data.prerequisites,
-        focus_unlocked: data.unlocked,
-        focus_icon: data.icon,
-        focus_restrictions: data.restrictions,
+        focus_id: data.focus_id,
+        focus_name: data.focus_name,
+        focus_description: data.focus_description,
+        focus_cost: data.focus_cost,
+        focus_prerequisites: data.focus_prerequisites,
+        focus_unlocked: data.focus_unlocked,
+        focus_icon: data.focus_icon,
+        focus_restrictions: data.focus_restrictions,
         stat_changes: data.stat_changes,
         gives: data.gives}
         );
         // Сохраняем ссылку
-        ds_map_add(focus_object_map, data.id, inst);
+        ds_map_add(focus_object_map, data.focus_id, inst);
     }
     
     arrange_by_dependencies();
@@ -96,7 +42,7 @@ function get_focus_instance(focus_id) {
 // Функция для получения данных фокуса
 function get_focus_data(focus_id) {
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (focus_tree[i].id == focus_id) {
+        if (focus_tree[i].focus_id == focus_id) {
             return focus_tree[i];
         }
     }
@@ -106,8 +52,8 @@ function get_focus_data(focus_id) {
 // Функция обновления статуса фокуса
 function update_focus_status(focus_id, unlocked) {
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (focus_tree[i].id == focus_id) {
-            focus_tree[i].unlocked = unlocked;
+        if (focus_tree[i].focus_id == focus_id) {
+            focus_tree[i].focus_unlocked = unlocked;
             return true;
         }
     }
@@ -136,8 +82,8 @@ function calculate_dependency_depth(focus_id, visited = []) {
     var max_depth = -1;
     
     // Вычисляем максимальную глубину среди требований
-    for (var i = 0; i < array_length(focus.prerequisites); i++) {
-        var parent_depth = calculate_dependency_depth(focus.prerequisites[i], visited);
+    for (var i = 0; i < array_length(focus.focus_prerequisites); i++) {
+        var parent_depth = calculate_dependency_depth(focus.focus_prerequisites[i], visited);
         max_depth = max(max_depth, parent_depth);
     }
     
@@ -152,7 +98,7 @@ function arrange_by_dependencies() {
     
     for (var i = 0; i < array_length(focus_tree); i++) {
         if (focus_tree[i].dep < 0) {
-            focus_tree[i].dep = calculate_dependency_depth(focus_tree[i].id);
+            focus_tree[i].dep = calculate_dependency_depth(focus_tree[i].focus_id);
         }
     }
     
@@ -187,7 +133,7 @@ function arrange_by_dependencies() {
             };
             
             // Обновляем позицию объекта
-            var inst = get_focus_object(focuses[j].id);
+            var inst = get_focus_object(focuses[j].focus_id);
             if (inst != noone) {
                 inst.x = focuses[j].position.x;
                 inst.y = focuses[j].position.y;
@@ -222,7 +168,7 @@ function center_tree() {
         focus_tree[i].position.x += offset_x;
         focus_tree[i].position.y += offset_y;
         
-        var inst = get_focus_object(focus_tree[i].id);
+        var inst = get_focus_object(focus_tree[i].focus_id);
         if (inst != noone) {
             inst.x = focus_tree[i].position.x;
             inst.y = focus_tree[i].position.y;
@@ -233,7 +179,7 @@ function center_tree() {
 
 function find_focus_data_by_id(focus_id) {
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (focus_tree[i].id == focus_id) return focus_tree[i];
+        if (focus_tree[i].focus_id == focus_id) return focus_tree[i];
     }
     return undefined;
 }
@@ -261,7 +207,7 @@ function arrange_hoi4_style() {
     // Находим корневые узлы (без требований)
     var roots = [];
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (array_length(focus_tree[i].prerequisites) == 0) {
+        if (array_length(focus_tree[i].focus_prerequisites) == 0) {
             array_push(roots, focus_tree[i]);
         }
     }
@@ -289,7 +235,7 @@ function position_focus(focus, x_spacing, y_spacing) {
     if (focus.calculated) return;
     
     // Находим позицию первого родителя
-    var parent = get_focus_data(focus.prerequisites[0]);
+    var parent = get_focus_data(focus.focus_prerequisites[0]);
     if (parent == undefined) return;
     
     // Если родитель еще не расставлен - расставляем его сначала
@@ -302,12 +248,12 @@ function position_focus(focus, x_spacing, y_spacing) {
     focus.position.y = parent.position.y + y_spacing;
     
     // Корректируем позицию, если есть "братья"
-    var siblings = get_focuses_with_parent(focus.prerequisites[0]);
+    var siblings = get_focuses_with_parent(focus.focus_prerequisites[0]);
     if (array_length(siblings) > 1) {
         // Заменяем array_pos на ручной поиск индекса
         var index = -1;
         for (var i = 0; i < array_length(siblings); i++) {
-            if (siblings[i].id == focus.id) {
+            if (siblings[i].focus_id == focus.focus_id) {
                 index = i;
                 break;
             }
@@ -325,7 +271,7 @@ function position_focus(focus, x_spacing, y_spacing) {
 function get_focuses_with_parent(parent_id) {
     var result = [];
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (array_contains(focus_tree[i].prerequisites, parent_id)) {
+        if (array_contains(focus_tree[i].focus_prerequisites, parent_id)) {
             array_push(result, focus_tree[i]);
         }
     }
@@ -334,7 +280,7 @@ function get_focuses_with_parent(parent_id) {
 
 function apply_positions() {
     for (var i = 0; i < array_length(focus_tree); i++) {
-        var inst = get_focus_object(focus_tree[i].id);
+        var inst = get_focus_object(focus_tree[i].focus_id);
         if (inst != noone) {
             inst.x = focus_tree[i].position.x;
             inst.y = focus_tree[i].position.y;
@@ -347,11 +293,11 @@ function draw_hoi4_connections() {
     
     for (var i = 0; i < array_length(focus_tree); i++) {
         var focus = focus_tree[i];
-        var inst = get_focus_object(focus.id);
+        var inst = get_focus_object(focus.focus_id);
         
         if (inst != noone) {
-            for (var j = 0; j < array_length(focus.prerequisites); j++) {
-                var parent = get_focus_object(focus.prerequisites[j]);
+            for (var j = 0; j < array_length(focus.focus_prerequisites); j++) {
+                var parent = get_focus_object(focus.focus_prerequisites[j]);
                 if (parent != noone) {
                     // Горизонтальная линия к центру
                     var mid_y = parent.y + (inst.y - parent.y) * 0.3 + 32 + 48;
@@ -373,7 +319,7 @@ function arrange_trees() {
     // 1. Разделяем фокусы на отдельные деревья
     var root_foci = [];
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (array_length(focus_tree[i].prerequisites) == 0) {
+        if (array_length(focus_tree[i].focus_prerequisites) == 0) {
             array_push(root_foci, focus_tree[i]);
         }
     }
@@ -415,7 +361,7 @@ function get_all_tree_nodes(root_focus) {
     
     while (i < array_length(nodes)) {
         var current = nodes[i];
-        var children = get_children(current.id);
+        var children = get_children(current.focus_id);
         
         for (var j = 0; j < array_length(children); j++) {
             if (!array_contains(nodes, children[j])) {
@@ -429,12 +375,12 @@ function get_all_tree_nodes(root_focus) {
 }
 
 function get_relative_x_position(focus) {
-    if (array_length(focus.prerequisites) == 0) return 0;
+    if (array_length(focus.focus_prerequisites) == 0) return 0;
     
-    var parent = get_focus_data(focus.prerequisites[0]);
+    var parent = get_focus_data(focus.focus_prerequisites[0]);
     if (parent == undefined) return 0;
     
-    var siblings = get_children(parent.id);
+    var siblings = get_children(parent.focus_id);
     var index = find_focus_index(siblings, focus);
     
     if (index == -1) return 0;
@@ -445,7 +391,7 @@ function get_relative_x_position(focus) {
 function calculate_all_depths() {
     for (var i = 0; i < array_length(focus_tree); i++) {
         if (focus_tree[i].dep == undefined) {
-            focus_tree[i].dep = calculate_depth(focus_tree[i].id);
+            focus_tree[i].dep = calculate_depth(focus_tree[i].focus_id);
         }
     }
 }
@@ -460,8 +406,8 @@ function calculate_depth(focus_id, visited = []) {
     var max_depth = 0;
     
     // Для каждого родителя вычисляем глубину
-    for (var i = 0; i < array_length(focus.prerequisites); i++) {
-        var parent_depth = calculate_depth(focus.prerequisites[i], visited);
+    for (var i = 0; i < array_length(focus.focus_prerequisites); i++) {
+        var parent_depth = calculate_depth(focus.focus_prerequisites[i], visited);
         max_depth = max(max_depth, parent_depth);
     }
     
@@ -477,7 +423,7 @@ function array_find_index(_array, _value) {
 
 function find_focus_index(siblings, focus) {
     for (var i = 0; i < array_length(siblings); i++) {
-        if (siblings[i].id == focus.id) {
+        if (siblings[i].focus_id == focus.focus_id) {
             return i;
         }
     }
@@ -488,7 +434,7 @@ function arrange_focus_tree() {
     // 1. Находим все корневые узлы
     var root_nodes = [];
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (array_length(focus_tree[i].prerequisites) == 0) {
+        if (array_length(focus_tree[i].focus_prerequisites) == 0) {
             array_push(root_nodes, focus_tree[i]);
         }
     }
@@ -535,7 +481,7 @@ function get_tree_nodes(root) {
     var i = 0;
     
     while (i < array_length(nodes)) {
-        var children = get_children(nodes[i].id);
+        var children = get_children(nodes[i].focus_id);
         for (var j = 0; j < array_length(children); j++) {
             if (!array_contains(nodes, children[j])) {
                 array_push(nodes, children[j]);
@@ -570,11 +516,11 @@ function position_tree(nodes, center_x, start_y, tree_width) {
         
         for (var j = 0; j < array_length(focuses); j++) {
             // Для узлов с несколькими родителями - средняя позиция
-            if (array_length(focuses[j].prerequisites) > 1) {
+            if (array_length(focuses[j].focus_prerequisites) > 1) {
                 var avg_x = 0;
                 var parents = 0;
-                for (var k = 0; k < array_length(focuses[j].prerequisites); k++) {
-                    var parent = get_focus_data(focuses[j].prerequisites[k]);
+                for (var k = 0; k < array_length(focuses[j].focus_prerequisites); k++) {
+                    var parent = get_focus_data(focuses[j].focus_prerequisites[k]);
                     if (parent != undefined) {
                         avg_x += parent.position.x;
                         parents++;
@@ -598,7 +544,7 @@ function position_tree(nodes, center_x, start_y, tree_width) {
 function get_children(parent_id) {
     var children = [];
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (array_contains(focus_tree[i].prerequisites, parent_id)) {
+        if (array_contains(focus_tree[i].focus_prerequisites, parent_id)) {
             array_push(children, focus_tree[i]);
         }
     }
@@ -622,9 +568,9 @@ function get_all_nodes_in_tree(root_node) {
     var i = 0;
     
     while (i < array_length(tree_nodes)) {
-        var child_nodes = get_direct_children(tree_nodes[i].id);
+        var child_nodes = get_direct_children(tree_nodes[i].focus_id);
         for (var j = 0; j < array_length(child_nodes); j++) {
-            if (!is_node_in_list(tree_nodes, child_nodes[j].id)) {
+            if (!is_node_in_list(tree_nodes, child_nodes[j].focus_id)) {
                 array_push(tree_nodes, child_nodes[j]);
             }
         }
@@ -637,7 +583,7 @@ function get_all_nodes_in_tree(root_node) {
 function get_direct_children(parent_id) {
     var children = [];
     for (var i = 0; i < array_length(focus_tree); i++) {
-        if (array_contains(focus_tree[i].prerequisites, parent_id)) {
+        if (array_contains(focus_tree[i].focus_prerequisites, parent_id)) {
             array_push(children, focus_tree[i]);
         }
     }
@@ -646,7 +592,7 @@ function get_direct_children(parent_id) {
 
 function is_node_in_list(node_list, node_id) {
     for (var i = 0; i < array_length(node_list); i++) {
-        if (node_list[i].id == node_id) return true;
+        if (node_list[i].focus_id == node_id) return true;
     }
     return false;
 }
@@ -678,8 +624,9 @@ function calculate_tree_width(tree_nodes) {
 }
 
 function position_single_tree(tree_nodes, center_x, start_y, total_width) {
-    var x_spacing = 150 + 32;
-    var y_spacing = 120 + 64;
+    var x_spacing = 150 + 32; // Расстояние между узлами по X
+    var y_spacing = 120 + 64; // Расстояние между уровнями по Y
+    var min_node_distance = x_spacing * 0.9; // Минимальное расстояние между узлами
     
     // Группируем узлы по глубине
     var depth_groups = ds_map_create();
@@ -695,28 +642,116 @@ function position_single_tree(tree_nodes, center_x, start_y, total_width) {
     var depths = ds_map_keys_to_array(depth_groups);
     array_sort(depths, true);
     
+    // 1. Сначала расставляем все узлы равномерно
     for (var i = 0; i < array_length(depths); i++) {
         var level_nodes = depth_groups[? depths[i]];
-        var level_start_x = center_x - (array_length(level_nodes) - 1) * x_spacing / 2;
+        var level_width = (array_length(level_nodes) - 1) * x_spacing;
+        var level_start_x = center_x - level_width / 2;
         
         for (var j = 0; j < array_length(level_nodes); j++) {
-            // Для узлов с несколькими родителями - среднее арифметическое
-            if (array_length(level_nodes[j].prerequisites) > 1) {
-                var sum_x = 0;
-                var parents_found = 0;
-                for (var k = 0; k < array_length(level_nodes[j].prerequisites); k++) {
-                    var parent = get_focus_data(level_nodes[j].prerequisites[k]);
-                    if (parent != undefined) {
-                        sum_x += parent.position.x;
-                        parents_found++;
-                    }
-                }
-                level_nodes[j].position.x = parents_found > 0 ? sum_x / parents_found : level_start_x + j * x_spacing;
-            } else {
-                level_nodes[j].position.x = level_start_x + j * x_spacing;
+            level_nodes[j].position = {
+                x: level_start_x + j * x_spacing,
+                y: start_y + (depths[i] - 1) * y_spacing
+            };
+        }
+    }
+    
+    // 2. Корректируем позиции для узлов с несколькими родителями
+    for (var i = 1; i < array_length(depths); i++) { // Начинаем с 1, так как корни уже расставлены
+        var level_nodes = depth_groups[? depths[i]];
+        
+        // Сортируем узлы по количеству родителей (сначала многородительские)
+        array_sort(level_nodes, function(a, b) {
+            return array_length(b.focus_prerequisites) - array_length(a.focus_prerequisites);
+        });
+        
+        for (var j = 0; j < array_length(level_nodes); j++) {
+            var node = level_nodes[j];
+            var parents = [];
+            
+            // Находим всех родителей
+            for (var k = 0; k < array_length(node.focus_prerequisites); k++) {
+                var parent = get_focus_data(node.focus_prerequisites[k]);
+                if (parent != undefined) array_push(parents, parent);
             }
             
-            level_nodes[j].position.y = start_y + (depths[i] - 1) * y_spacing;
+            if (array_length(parents) > 1) {
+                // Вычисляем идеальную позицию - среднюю между родителями
+                var sum_x = 0;
+                for (var k = 0; k < array_length(parents); k++) {
+                    sum_x += parents[k].position.x;
+                }
+                var target_x = sum_x / array_length(parents);
+                
+                // Ищем ближайшую свободную позицию к target_x
+                var best_x = node.position.x; // Начальное значение - текущая позиция
+                var best_offset = 0;
+                var found = false;
+                
+                // Проверяем позиции в порядке возрастания расстояния от target_x
+                for (var offset = 0; offset <= array_length(level_nodes) * x_spacing; offset += x_spacing / 2) {
+                    // Проверяем в обе стороны от target_x
+                    for (var dir = -1; dir <= 1; dir += 2) {
+                        if (dir == 0) continue;
+                        var test_x = target_x + dir * offset;
+                        
+                        // Проверяем, что позиция свободна
+                        var collision = false;
+                        for (var k = 0; k < array_length(level_nodes); k++) {
+                            if (level_nodes[k] != node && abs(level_nodes[k].position.x - test_x) < min_node_distance) {
+                                collision = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!collision) {
+                            best_x = test_x;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) break;
+                }
+                
+                // Обновляем позицию узла
+                node.position.x = best_x;
+                
+                // Сдвигаем соседние узлы, если нужно
+                if (found) {
+                    var shift_direction = (best_x > target_x) ? 1 : -1;
+                    var shift_amount = x_spacing * 0.2;
+                    
+                    for (var k = 0; k < array_length(level_nodes); k++) {
+                        if (level_nodes[k] != node && abs(level_nodes[k].position.x - best_x) < x_spacing) {
+                            level_nodes[k].position.x += shift_direction * shift_amount;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // 3. Центрируем каждый уровень относительно его узлов
+    for (var i = 0; i < array_length(depths); i++) {
+        var level_nodes = depth_groups[? depths[i]];
+        if (array_length(level_nodes) == 0) continue;
+        
+        // Находим min и max X позиции на уровне
+        var min_x = level_nodes[0].position.x;
+        var max_x = level_nodes[0].position.x;
+        
+        for (var j = 1; j < array_length(level_nodes); j++) {
+            min_x = min(min_x, level_nodes[j].position.x);
+            max_x = max(max_x, level_nodes[j].position.x);
+        }
+        
+        // Вычисляем смещение для центрирования
+        var level_center = (min_x + max_x) / 2;
+        var offset = center_x - level_center;
+        
+        // Применяем смещение ко всем узлам уровня
+        for (var j = 0; j < array_length(level_nodes); j++) {
+            level_nodes[j].position.x += offset;
         }
     }
     
@@ -725,7 +760,7 @@ function position_single_tree(tree_nodes, center_x, start_y, total_width) {
 
 function update_all_positions() {
     for (var i = 0; i < array_length(focus_tree); i++) {
-        var focus_obj = get_focus_object(focus_tree[i].id);
+        var focus_obj = get_focus_object(focus_tree[i].focus_id);
         if (focus_obj != noone) {
             focus_obj.x = focus_tree[i].position.x;
             focus_obj.y = focus_tree[i].position.y;

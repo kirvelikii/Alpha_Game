@@ -14,5 +14,5 @@ global.lootobj = [[], []]
 global.equips = [[], []]
 global.ai = false
 global.mode = "duel"
-global.teams = [3, 3]
+global.teams = [1, 1]
 room = draft

@@ -1,3 +1,4 @@
+//show_message(global.loot)
 if !variable_global_exists("inv_team"){
      global.inv_team = 0
     global.char_to_show = noone

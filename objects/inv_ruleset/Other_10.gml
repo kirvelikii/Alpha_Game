@@ -28,6 +28,7 @@ if team == 1{
 drag_obj = noone
 }
 else{
+    with chars_panel{event_user(0)}   
     global.layout[1] = [[], [], []]
     global.not_sorted[1] = []
     for (var i = 0; i < array_length(global.layout_t1); i++){
