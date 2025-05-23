@@ -9,7 +9,8 @@ global.items_db = {
         pools: ["basic", "chars"],
         affinity: "all",
         type: "hero",
-        obj: hero
+        obj: hero,
+        owner: noone
     },
     damage_up: {
         name: "Damage UP!",
@@ -20,7 +21,8 @@ global.items_db = {
         affinity: "all",
         type: "stat_up",
         effect: [["basic_attack_perc", 0.2], ["basic_attack", 10]],
-        obj: damage_up
+        obj: damage_up, 
+        owner: noone
     },
     first_strike_ult:{
         name: "Ultimate: First Strike\n (D-Grade)",
@@ -29,7 +31,9 @@ global.items_db = {
         rarity: "rare",
         pools: ["basic", "ultimate"],
         affinity: "all",
-        type: "item"
+        type: "item",
+        gives: [["skill", first_strike]],
+        owner: noone
     }
 };
 room = pre_fight

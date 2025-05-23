@@ -7,6 +7,7 @@ if room != fight{
     }
 }
 if temp{
+    uid = id
     max_hp = 100
     basic_attack = 5
     attack_interval = 60 * 1.5
@@ -60,24 +61,24 @@ if temp{
     {
         focus_id: "1",
         focus_name: "Фредди уров",
-        focus_description: "Открывает заклинания огня",
+        focus_description: "гайс чи то фредди фазбер",
         focus_cost: 150,
         focus_prerequisites: ["старт"],
-        focus_restrictions: [["fстарт", "!f2"]],
+        focus_restrictions: {"and":["fстарт", "!f2"]},
         focus_unlocked: false,
-        focus_icon: start_of_everything,
+        focus_icon: eueueuee,
         stat_changes: [["max_hp", 65]],
         gives: []
     },
     {
         focus_id: "2",
         focus_name: "лунаси йоууу",
-        focus_description: "Открывает ледяные заклинания",
+        focus_description: "генерал директор оф проджкт мун",
         focus_cost: 150,
         focus_prerequisites: ["старт"],
-        focus_restrictions: [["fстарт", "!f1"]],
+        focus_restrictions: {"and":["fстарт", "!f1"]},
         focus_unlocked: false,
-        focus_icon: start_of_everything,
+        focus_icon: limbus,
         stat_changes: [],
         gives: [["skill", template_skill]]
     },
@@ -87,9 +88,9 @@ if temp{
         focus_description: "Открывает секрет пасхалко уууу",
         focus_cost: 150,
         focus_prerequisites: ["1", "2"],
-        focus_restrictions: [["f1"], ["f2"]],
+        focus_restrictions: {"and":["!fnot_e", {"or":["f1", "f2"]}]},
         focus_unlocked: false,
-        focus_icon: start_of_everything,
+        focus_icon: vibeman,
         stat_changes: [],
         gives: [["transformation", hero_transformed]]
     },
@@ -99,9 +100,9 @@ if temp{
         focus_description: "Ты против вайба? уууу",
         focus_cost: 150,
         focus_prerequisites: ["1", "2"],
-        focus_restrictions: [["f1", "!fe"], ["f2", "!fe"]],
+        focus_restrictions: {"and":["!fe", {"or":["f1", "f2"]}]},
         focus_unlocked: false,
-        focus_icon: start_of_everything,
+        focus_icon: antivibe,
         stat_changes: [["max_hp_perc", 0.2], ["max_hp", 50], ["basic_attack", 20]],
         gives: []
     },
@@ -111,9 +112,9 @@ if temp{
         focus_description: "Настало время покончить с ними",
         focus_cost: 150,
         focus_prerequisites: ["not_e"],
-        focus_restrictions: [["fnot_e"]],
+        focus_restrictions: ["fnot_e"],
         focus_unlocked: false,
-        focus_icon: start_of_everything,
+        focus_icon: final_to_vibe,
         stat_changes: [["basic_crit_damage", 1]],
         gives: [["skill", template_skill]]
     },
@@ -199,6 +200,12 @@ function find_basic_target() {
 }
 function attack(_target, modifers=[]){
     if !instance_exists(_target){return }
+    var shot = irandom(100)
+    if shot >= basic_accuracy{
+        _target.get_damage(0, "attack", self, 1)
+        show_effect(_target, eff)
+        return
+    }    
     var crit = irandom(100)
     var is_crit = false
     var attack_power = basic_attack
@@ -207,19 +214,33 @@ function attack(_target, modifers=[]){
         is_crit = true
     }
     show_debug_message("Attack:" + name + " (" + string(team) + ") базовый урон - "+ string(attack_power) + ", врага "+ _target.name + " ("+ string(_target.team) + "), оставшееся хп - " + string(_target.hp - attack_power))
-    _target.get_damage(attack_power, "attack", self)
     if is_crit{
         show_effect(_target, crit_eff)
+        _target.get_damage(attack_power, "attack", self, 0, 1)
     }
     else{
         show_effect(_target, eff)
+        _target.get_damage(attack_power, "attack", self, 0, 0)
     }
     
 }
 function show_effect(_target, _effect){
-    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: _effect, constant: false, image_xscale: _target.image_xscale, host: _target})
+    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: _effect, constant: false, image_xscale: -1*_target.image_xscale, host: _target})
 }
-function get_damage(n, type, dealer){
+function get_damage(n, type, dealer, miss=false, crit=false){
+    if type == "attack"{
+        var dodge = irandom(100)
+        if dodge <= dodge_chance{
+            miss = true
+        }
+    }    
+    if miss{
+        var _miss = instance_create_layer(x + 64 * image_xscale, y + 64, "effects", damage_text);
+        _miss.text = "MISS";
+        _miss.color = c_gray;              // Серый = промах
+        _miss.scale_max = 2.8;
+        return
+    }
     var total = n
     var atk_modifer = 1
     for (var i =0; i < array_length(statuses_visual); i++){
@@ -229,6 +250,19 @@ function get_damage(n, type, dealer){
     }
     change_sanity(-1, "damage", total * atk_modifer)
     hp -= total * atk_modifer
+    if crit{
+        var _dmg = instance_create_layer(x + 64 * image_xscale, y + 64, "effects", damage_text);
+        _dmg.text = string(round(total * atk_modifer)); // Число урона
+        _dmg.color = c_red;                // Красный = урон
+        _dmg.scale_max = 2.5;              // Эффект "увеличения"
+    }
+    else{
+        var _crit = instance_create_layer(x + 64 * image_xscale, y + 64, "effects", damage_text);
+        _crit.text = string(round(total * atk_modifer));
+        _crit.color = c_yellow;            // Желтый = крит
+        _crit.scale_max = 3.0;             // Больше масштаб
+        _crit.drift_speed = 2.0;  
+    }
 }
 function distance_to_target(_target){
     var a = id
@@ -400,4 +434,44 @@ function find_anything_target(state_ex=["crazy", "panic", "retreat"]){
         }    
 
     }
+}
+current_hp_display = hp; // Текущее отображаемое значение здоровья
+hp_drain_speed = 0.4;   // Скорость убывания индикатора (чем больше, тем быстрее)
+
+function draw_my_healthbar() {
+    var _x1 = x;
+    var _x2 = x - 10 * image_xscale;
+    var _y1 = y;
+    var _y2 = y + 128;
+    
+    // Фон шкалы (черная рамка)
+    draw_rectangle_color(_x1, _y1, _x2, _y2, c_black, c_red, c_red, c_red, false);
+    
+    // Обновляем текущее отображаемое здоровье (плавное убывание)
+    current_hp_display = lerp(current_hp_display, hp, 0.1 * hp_drain_speed);
+    
+    // Рассчитываем высоту для текущего и реального здоровья
+    var current_hp_height = 128 * (current_hp_display / max_hp);
+    var real_hp_height = 128 * (hp / max_hp);
+    
+    // Желтый индикатор убывания (если current_hp > real_hp)
+    if (current_hp_display > hp) {
+        var drain_height = current_hp_height - real_hp_height;
+        var drain_y = _y2 - current_hp_height;
+        draw_rectangle_color(
+            _x1, drain_y,
+            _x2, drain_y + drain_height,
+            c_yellow, c_yellow, c_yellow, c_yellow, false
+        );
+    }
+    
+    // Зеленая часть - текущее здоровье
+    draw_rectangle_color(
+        _x1, _y2 - real_hp_height,
+        _x2, _y2,
+        c_green, c_green, c_lime, c_green, false
+    );
+    
+    // Белая рамка поверх всего
+    //draw_rectangle(_x1, _y1, _x2, _y2, true);
 }

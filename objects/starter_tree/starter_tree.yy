@@ -12,8 +12,8 @@
   "name":"starter_tree",
   "overriddenProperties":[],
   "parent":{
-    "name":"temp",
-    "path":"folders/Objects/character page/chartrees/temp.yy",
+    "name":"chartrees",
+    "path":"folders/Objects/character page/chartrees.yy",
   },
   "parentObjectId":null,
   "persistent":false,

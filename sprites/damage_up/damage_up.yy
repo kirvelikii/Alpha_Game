@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"loot",
-    "path":"folders/Objects/loot.yy",
+    "name":"items",
+    "path":"folders/Objects/loot/items.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

@@ -1,7 +1,7 @@
 name = "Template Skill"
 description = "Данный текст показывает, что вы либо наткнулись на баг, либо тестировщик, либо господин разработчик, иначе.. вы ГРЯЗНЫЙ ХАКЕР"
 skill_power = 10
-range = 2
+range = 1
 target_type = "Враг"
 sub_target_count = 0
 damage_to_targets = [1]
@@ -119,7 +119,7 @@ var stat = array_find_index(_target.statuses_visual, _finder.check);
 }
 function show_effect(_target, _effect){
     if !instance_exists(_target){return }
-    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: eff, constant: false, image_xscale: _target.image_xscale, host: _target})
+    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: eff, constant: false, image_xscale: -1*_target.image_xscale, host: _target})
 }
 function distance_to_target(_target, _host){
     var a = _host

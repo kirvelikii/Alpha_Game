@@ -3,9 +3,12 @@ if !variable_global_exists("inv_team"){
      global.inv_team = 0
     global.char_to_show = noone
 }
+if !variable_global_exists("equipped_items"){
+    global.equipped_items = [[], []]
+}
 if global.inv_team = 0{
     global.inv_team = 1
-    global.loot = [[global.items_db.damage_up], [global.items_db.hero]]
+    global.loot = [[global.items_db.damage_up, global.items_db.first_strike_ult], [global.items_db.hero]]
 if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
     global.layout = [[[hero], [hero], [hero]], [[hero], [hero], [hero]]]
     global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]

@@ -14,6 +14,9 @@ if is_dragging{
             }
 
     }
+    else{
+        array_push(targ.reff.variables.equips, data)
+        }    
     instance_destroy()
 }
 else{

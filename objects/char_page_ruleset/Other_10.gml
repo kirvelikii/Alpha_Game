@@ -4,6 +4,7 @@ if page != ctrl_page{
     with starter_tree{instance_destroy()}  
     with obj_focus_block{instance_destroy()}  
     with camera_man{char_page_ruleset.camera_pos_x = x; char_page_ruleset.camera_pos_y = y; x = 688; y = 334; alarm[0] = 1}      
+    with equip_rule{instance_destroy()}
     if page == "skills"{
         var first = noone
         for (var j = 0; j < array_length(data.variables.skills); j++){
@@ -18,7 +19,7 @@ if page != ctrl_page{
         with first {other.skill_chosen = self}
     }
     if page == "equipment"{
-        
+        instance_create_layer(0,0, "UI", equip_rule)
     }
     if page == "focus_tree"{
         instance_create_layer(0, 0, "UI", starter_tree, {host: global.char_to_show})

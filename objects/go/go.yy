@@ -10,7 +10,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"draft",
-    "path":"folders/Objects/inventory/draft.yy",
+    "path":"folders/Objects/draft.yy",
   },
   "parentObjectId":null,
   "persistent":false,

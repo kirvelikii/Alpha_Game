@@ -35,7 +35,15 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         for (var i = 0; i < array_length(reff.variables.skills); i++) { 
         var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
         var pos_x = xx - offset + (i % 6) * spacing;
-        draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.5, 0.5, 0, c_white, 1);
+        draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1);
+        }
+        var yy = y + 375
+        count = array_length(reff.variables.equips)
+    
+        for (var i = 0; i < array_length(reff.variables.equips); i++) { 
+        offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
+        pos_x = xx - offset + (i % 6) * spacing;
+        draw_sprite_ext(reff.variables.equips[i].texture, 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1);    
     }
     }
     else{
@@ -74,8 +82,15 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         for (var i = 0; i < array_length(reff.variables.skills); i++) { 
         var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
         var pos_x = xx - offset + (i % 6) * spacing;
-        draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.5, 0.5, 0, c_white, 1);
+        draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1);
     }
+        yy = y + 375
+            count = array_length(reff.variables.equips)
+    
+            for (var i = 0; i < array_length(reff.variables.equips); i++) { 
+            var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
+            var pos_x = xx - offset + (i % 6) * spacing;
+            draw_sprite_ext(reff.variables.equips[i].texture, 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1); }
 }
 }
  if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj != noone and inv_ruleset.drag_obj.type == item {
@@ -130,8 +145,16 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
             for (var i = 0; i < array_length(reff.variables.skills); i++) { 
                 var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5
                 var pos_x = xx - offset + (i % 6) * spacing
-                draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.5, 0.5, 0, c_white, 1)
+                draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1)
             }
+            
+            yy = y + 375
+            count = array_length(reff.variables.equips)
+    
+            for (var i = 0; i < array_length(reff.variables.equips); i++) { 
+            var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
+            var pos_x = xx - offset + (i % 6) * spacing;
+            draw_sprite_ext(reff.variables.equips[i].texture, 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1); }
         }
         else {
             // ПРАВАЯ ПАНЕЛЬ (команда 1)
@@ -167,7 +190,14 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
             for (var i = 0; i < array_length(reff.variables.skills); i++) { 
                 var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5
                 var pos_x = xx - offset + (i % 6) * spacing
-                draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.5, 0.5, 0, c_white, 1)
+                draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1)
             }
+            yy = y + 375
+            count = array_length(reff.variables.equips)
+    
+            for (var i = 0; i < array_length(reff.variables.equips); i++) { 
+            var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
+            var pos_x = xx - offset + (i % 6) * spacing;
+            draw_sprite_ext(reff.variables.equips[i].texture, 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1); }
         }
     }

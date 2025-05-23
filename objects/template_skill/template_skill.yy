@@ -12,8 +12,8 @@
   "name":"template_skill",
   "overriddenProperties":[],
   "parent":{
-    "name":"chars",
-    "path":"folders/Objects/chars.yy",
+    "name":"parents for many things",
+    "path":"folders/Objects/parents for many things.yy",
   },
   "parentObjectId":null,
   "persistent":false,

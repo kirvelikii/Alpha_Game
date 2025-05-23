@@ -32,9 +32,6 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":null,
-  "spriteMaskId":{
-    "name":"damage_up_1",
-    "path":"sprites/damage_up_1/damage_up_1.yy",
-  },
+  "spriteMaskId":null,
   "visible":true,
 }

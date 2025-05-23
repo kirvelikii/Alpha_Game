@@ -26,7 +26,7 @@
   "origin":0,
   "parent":{
     "name":"draft",
-    "path":"folders/Objects/inventory/draft.yy",
+    "path":"folders/Objects/draft.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

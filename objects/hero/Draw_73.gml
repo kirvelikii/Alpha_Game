@@ -1,0 +1,1 @@
+//draw_healthbar(x, y, y + 128, x + 20 * image_xscale, hp / max_hp, c_red, c_black, c_lime, 3, false, false)

@@ -14,10 +14,11 @@ if position_meeting(mouse_x, mouse_y, self){
         draw_text_color(1366-10, 700, "-" + string(focus_cost), c_red, c_white, c_red, c_red, 1)
         draw_set_halign(fa_center)
     }
-    draw_text(1366-200, 200, "Требования:")
-    var len = 1
-    var le = 0
-    for (var i = 0; i<array_length(focus_restrictions); i++ ){
+    //draw_text(1366-200, 200, "Требования:")
+    len = 1
+    le = 0
+    draw_focus_requirements(1366-200, 200, focus_restrictions)
+    /*for (var i = 0; i<array_length(focus_restrictions); i++ ){
         if i != 0{draw_text(1366-200, 200 + 25 * len + le, "Или"); len+=1}
         for (var j = 0; j < array_length(focus_restrictions[i]); j++){
             if !string_starts_with(focus_restrictions[i][j], "!"){
@@ -59,7 +60,7 @@ if position_meeting(mouse_x, mouse_y, self){
                 }
             }
         }
-    }
+    }*/
     draw_text(1366-200, 225 + len * 25 + le, "Разблокирует следующее:")
      for (var i = 0; i < array_length(gives); i++){
         if gives[i][0] == "skill"{

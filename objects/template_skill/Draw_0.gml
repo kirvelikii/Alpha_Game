@@ -1,4 +1,4 @@
-if host.chosen{
+if instance_exists(host) and host.chosen{
     draw_self()
 if (!ready) {
     var progress = 1 - (cd / cooldown);

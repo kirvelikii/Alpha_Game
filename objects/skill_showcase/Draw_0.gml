@@ -1,7 +1,8 @@
 draw_self()
 if char_page_ruleset.skill_chosen = self{
-    draw_rectangle_color(x - 2, y - 2, x+66, y+66, c_yellow, c_yellow, c_white, c_yellow, 0)
+    draw_rectangle_color(x - 2, y - 2, x+66, y+66, c_yellow, c_yellow, c_white, c_yellow, 1)
     draw_self()
+    draw_set_color(c_white)
     draw_set_halign(fa_left)
     draw_text(400, 250, reff.variables.name)
     draw_text_ext(400, 275, reff.variables.description, -1, 800)

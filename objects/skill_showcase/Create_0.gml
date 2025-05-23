@@ -1,5 +1,7 @@
 sprite_index = object_get_sprite(origin)
 mask_index = object_get_sprite(origin)
+image_xscale = 0.5
+image_yscale = 0.5
 function object_get_safe_stats_shown(obj) {
     if typeof(obj) == "struct"{
         sprite_index = object_get_sprite(obj.reff.object_index)
