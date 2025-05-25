@@ -14,6 +14,7 @@ if team == 1{
     with pre_fight_hero{
         instance_destroy()
     }
+    global.char_to_show = noone
     team = 2 
     global.layout_t1  = [[], [], []]
     global.not_sorted_t1 = []
@@ -31,6 +32,7 @@ else{
     with chars_panel{event_user(0)}   
     global.layout[1] = [[], [], []]
     global.not_sorted[1] = []
+    global.char_to_show = noone
     for (var i = 0; i < array_length(global.layout_t1); i++){
         for (var j = 0; j < array_length(global.layout_t1[i]); j++){
             array_push(global.layout[1][i], global.layout_t1[i][j])

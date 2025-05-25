@@ -1,0 +1,1 @@
+animation_progress = min(1, animation_progress + (1 / (60 * duration)));

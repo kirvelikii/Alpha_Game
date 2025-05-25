@@ -63,4 +63,4 @@ if rolling  and drop == noone{
         //roll_times[i][0] += 1
         rolling_items[i].speed = sspeed
 }}
-show_debug_message([drop, sspeed, rolling])
+//show_debug_message([drop, sspeed, rolling])

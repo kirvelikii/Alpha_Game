@@ -66,8 +66,8 @@ if position_meeting(mouse_x, mouse_y, self){
         if gives[i][0] == "skill"{
             var re = object_get_safe_stats_shown(gives[i][1])
             draw_set_halign(fa_left)
-            draw_text(1366-318, 225 + 25 * (i + len + 1) + le, re.variables.name)
-            draw_sprite_ext(object_get_sprite(gives[i][1]), 1 , 1366-350, 225 + 25 * (i + len + 1) + le, 0.3, 0.3, 0, c_white, 1)
+            draw_text(1366-310, 225 + 25 * (i + len + 1) + le, re.variables.name)
+            draw_sprite_ext(object_get_sprite(gives[i][1]), 1 , 1366-350, 225 + 25 * (i + len + 1) + le, 0.25, 0.25, 0, c_white, 1)
     }
         if gives[i][0] == "transformation"{
             var re = object_get_safe_stats_shown(gives[i][1])

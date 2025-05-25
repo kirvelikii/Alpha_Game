@@ -1,4 +1,3 @@
-global.player_exp = 10000
 focus_tree = global.char_to_show.reff.variables.focus_tree
 focus_object_map = ds_map_create();
 function get_focus_object(focus_id) {

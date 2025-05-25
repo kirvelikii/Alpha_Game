@@ -30,7 +30,7 @@ for (var i = 0; i < array_length(stat_changes); i++){
             //show_message(targ.reff)
             stats_shown[$ (stat_changes[i][0])] = stat_changes[i][1]}
 function can_unlock() {
-    if (global.player_exp < focus_cost) return false;
+    if (global.char_to_show.reff.variables.expp < focus_cost) return false;
      //for (var i = 0; i<array_length(focus_restrictions); i++ ){
         //if i != 0{show_message(0)}        
         /*for (var j = 0; j < array_length(focus_restrictions[i]); j++){
@@ -114,6 +114,18 @@ function apply_effects(){
                 }
                 else if nam[j] == "focus_tree"{
                     new_obj.variables.focus_tree = global.char_to_show.reff.variables.focus_tree}
+                else if nam[j] == "statistics"{
+                    new_obj.variables.statistics = global.char_to_show.reff.variables.statistics
+                }
+                else if nam[j] == "uid"{
+                    new_obj.variables.uid = global.char_to_show.reff.variables.uid
+                }
+                else if nam[j] == "equips"{
+                    new_obj.variables.equips = global.char_to_show.reff.variables.equips
+                }
+                else if nam[j] == "starter_buffs"{
+                    new_obj.variables.starter_buffs = global.char_to_show.reff.variables.starter_buffs
+                }
             }
             global.char_to_show.reff = new_obj
             global.char_to_show.sprite_index = object_get_sprite(gives[i][1])

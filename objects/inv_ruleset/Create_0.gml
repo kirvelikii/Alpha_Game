@@ -8,7 +8,7 @@ if !variable_global_exists("equipped_items"){
 }
 if global.inv_team = 0{
     global.inv_team = 1
-    global.loot = [[global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher], [global.items_db.hero]]
+    //global.loot = [[global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher, global.items_db.hero], [global.items_db.hero, global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher]]
 if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
     global.layout = [[[hero], [hero], [hero]], [[hero], [hero], [hero]]]
     global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]
@@ -53,8 +53,9 @@ for (var i = 0; i < array_length(global.layout[0]); i++){
 with pre_fight_hero{
     if self == global.char_to_show{
         reff = global.char_to_show.reff
+        global.char_to_show = noone
     } 
-        }    
+        }
 }
 else{
     event_user(1)

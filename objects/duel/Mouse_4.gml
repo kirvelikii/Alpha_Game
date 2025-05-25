@@ -15,4 +15,5 @@ global.equips = [[], []]
 global.ai = false
 global.mode = "duel"
 global.teams = [1, 1]
+global.winner = noone
 room = draft

@@ -4,8 +4,8 @@ global.items_db = {
     hero: {
         name: "New basic hero!",
         texture: sp_hero,
-        chance: 0.5,
-        rarity: "uncommon",
+        chance: 0.35,
+        rarity: "rare",
         pools: ["basic", "chars"],
         affinity: "all",
         type: "hero",
@@ -28,8 +28,8 @@ global.items_db = {
     first_strike_ult:{
         name: "Ultimate: First Strike (С-Grade)",
         texture: first_strike_ult,
-        chance: 0,
-        rarity: "rare",
+        chance: 0.2,
+        rarity: "epic",
         pools: ["basic", "ultimate"],
         affinity: "all",
         type: "item",
@@ -40,21 +40,21 @@ global.items_db = {
     armor_crusher:{
         name: "Armor Crusher",
         texture: sp_armor_crusher,
-        chance: 0,
+        chance: 0.25,
         rarity: "epic",
         pools: ["basic", "weapons"],
         affinity: "all",
         type: "item",
         effect : [["basic_attack_perc", 0.1], ["basic_attack", 20], ["basic_crit_chance", 20]],
-        gives: [["buff", [armor_crush, {potency: 5, duration: 30}, {}]]],
+        gives: [["buff", [armor_crush, {potency: 5, status_duration: 120}, {}]]],
         owner: noone
     }
 };
-room = pre_fight
+//room = pre_fight
 global.chests_db = {
     basic: {
         name: "basic",
-        items: ["hero", "damage_up", "first_strike_ult"]
+        items: ["hero", "damage_up", "first_strike_ult", "armor_crusher"]
     }
 };
 rolling = 0

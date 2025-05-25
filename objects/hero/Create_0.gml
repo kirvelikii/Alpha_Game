@@ -8,6 +8,8 @@ if room != fight{
 }
 if temp{
     uid = id
+    expp = 0
+    type = hero
     max_hp = 100
     basic_attack = 5
     attack_interval = 60 * 1.5
@@ -45,6 +47,13 @@ if temp{
     dodge_chance: 0,
     mov_speed: 0,
     max_sanity: 0,
+    }
+    statistics = {
+        damage : {total: 0, last: 0, record: 0},
+        damage_taken: {total: 0, last: 0, record: 0},
+        kda_last: {kills: 0, deaths: 0, assists: 0},
+        kda_record: {kills : 0, deaths: 0, assists: 0},
+        kda_total: {kills: 0, deaths: 0, assists: 0}
     }
     focus_tree = [
     {
@@ -136,6 +145,8 @@ else if team == 2{
 }
 }
 hp = max_hp
+damage_dealers_to_me = []
+last_hit = noone
 sanity = max_sanity
 chosen = 0
 attack_cooldown = attack_interval
@@ -216,6 +227,11 @@ function attack(_target, modifers=[]){
         is_crit = true
     }
     show_debug_message("Attack:" + name + " (" + string(team) + ") базовый урон - "+ string(attack_power) + ", врага "+ _target.name + " ("+ string(_target.team) + "), оставшееся хп - " + string(_target.hp - attack_power))
+    for (var j = 0; j < array_length(statuses_visual); j++){
+        if statuses_visual[j].type == armor_crush{
+            apply_effect(_target, fragility, {potency: statuses_visual[j].stacks[0].potency}, {duration: statuses_visual[j].stacks[0].status_duration})
+        } 
+    }
     if is_crit{
         show_effect(_target, crit_eff)
         _target.get_damage(attack_power, "attack", self, 0, 1)
@@ -250,8 +266,13 @@ function get_damage(n, type, dealer, miss=false, crit=false){
             atk_modifer += statuses_visual[i].potency / 100
         } 
     }
+    //if atk_modifer > 1{show_message(atk_modifer)}
     change_sanity(-1, "damage", total * atk_modifer)
     hp -= total * atk_modifer
+    dealer.statistics.damage.last += total * atk_modifer
+    statistics.damage_taken.last += total * atk_modifer
+    array_push(damage_dealers_to_me, last_hit)
+    last_hit = dealer
     if crit{
         var _dmg = instance_create_layer(x + 64 * image_xscale, y + 64, "effects", damage_text);
         _dmg.text = string(round(total * atk_modifer)); // Число урона
@@ -540,3 +561,7 @@ var stat = array_find_index(_target.statuses_visual, _finder.check);
 for (var i = 0; i < array_length(starter_statuses); i++){
     apply_effect(self, starter_statuses[i][0], starter_statuses[i][1], starter_statuses[i][2])
 }
+//show_message(statuses_visual)
+statistics.damage.last = 0
+statistics.damage_taken.last = 0
+statistics.kda_last = {kills: 0, deaths:0, assists: 0}

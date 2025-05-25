@@ -21,12 +21,14 @@ function check_win(){
     }
     if array_length(teams) == 1{
         show_debug_message(string(teams[0]) + " win")
-        room = loot
+        room = post_fight
+        global.winner = teams[0]
         global.inv_team = 0
     }
     else if array_length(teams) == 0{
         show_debug_message(string("Draw"))
-        room = loot
+        room = post_fight
+        global.winner = "draw"
         global.inv_team = 0
 } return 
 }

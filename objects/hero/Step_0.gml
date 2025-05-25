@@ -1,3 +1,39 @@
+if (hp <= 0) {
+    statistics.kda_last.deaths += 1
+    with hero{
+        if team == other.team and other.id != id{
+            if pos = other.pos{
+                change_sanity(-1, "ally_death_row")
+            }
+            else{
+                change_sanity(-1, "ally_death_global")
+            }
+        }
+        else if team != other.team{}
+    }
+    if instance_exists(last_hit){
+        last_hit.statistics.kda_last.kills += 1
+    }
+    var trt = []
+    //show_message(trt)
+    for (var i = 0; i< array_length(damage_dealers_to_me); i++){
+        if instance_exists(damage_dealers_to_me[i]) and !array_contains(trt, damage_dealers_to_me[i].uid) and damage_dealers_to_me[i].uid != last_hit.uid{
+            array_push(trt, damage_dealers_to_me[i].uid)
+            damage_dealers_to_me[i].statistics.kda_last.assists += 1
+        }
+    }
+    /*with kill_banner{
+        killer = other.last_hit
+        assists = trt
+        death = sprite_index
+        event_user(0)
+    }*/
+    //instance_create_layer(room_width/2, 200, "UI" ,kill_banner, {killer: last_hit, assists: trt, death: sprite_index})
+    instance_destroy();
+    ruleset.check_spaces()
+    ruleset.check_win();
+}
+
 if (team == 1 and pos == 0) or (team == 2 and pos == 6){
     heal_timer += 1
     if heal_timer >= 30{ 
@@ -89,21 +125,6 @@ else if state == "retreat"{
         //show_debug_message(directionn)
         moving_progress = 0}
     }
-}
-if (hp <= 0) {
-    with hero{
-        if team == other.team and other.id != id{
-            if pos = other.pos{
-                change_sanity(-1, "ally_death_row")
-            }
-            else{
-                change_sanity(-1, "ally_death_global")
-            }
-        }
-    }
-    instance_destroy();
-    ruleset.check_spaces()
-    ruleset.check_win();
 }
 else if state == "panic"{
     target = noone

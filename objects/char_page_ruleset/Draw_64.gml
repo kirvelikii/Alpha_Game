@@ -1,3 +1,4 @@
+gpu_set_scissor(0, 0, 1366, 769);
 draw_set_halign(fa_center)
 draw_set_valign(fa_top)
 draw_text_color(130, 250, data.variables.name, c_white, c_white, c_white, c_white, 1)
@@ -43,11 +44,43 @@ else{
             draw_stat_with_change(200 - 50, 492, sanity_icon, data.variables.max_sanity, "max_sanity")
 }
 if page == "info"{
-    draw_text_ext(800, 100, data.variables.lore, -1, 600)
-    draw_text(600, 200, "Эффекты морали:")
+    draw_text_ext(700, 100, data.variables.lore, -1, 600)
+    draw_text(375, 200, "Эффекты морали:")
     var nms = struct_get_names(data.variables.low_sanity_effect)
     for (var i = 0; i < array_length(nms); i++){
         var dt = [nms[i] ,data.variables.low_sanity_effect[$ nms[i]]]
-        draw_text(600, 225 + 25 * i, "< " + string_replace(dt[0], "s", "") + " - " + dt[1])
+        draw_text(375, 225 + 25 * i, "< " + string_replace(dt[0], "s", "") + " - " + dt[1])
+    }
+    var nns = struct_get_names(data.variables.statistics)
+    var kd = 0
+    for (var r = 0; r < array_length(nns); r++){
+        if nns[r] == "damage"{
+            draw_text(1100, 200 + 100 * (r - kd), "Всего урона: " + string(data.variables.statistics[$ nns[r]].total))
+            draw_text(1100, 200 + 100 * (r - kd) + 25, "Рекорд урона за раунд: " + string(data.variables.statistics[$ nns[r]].record))
+            draw_text(1100, 200 + 100 * (r - kd) + 50, "Урон за последний раунд: " + string(data.variables.statistics[$ nns[r]].last))
+        }
+        else if nns[r] == "damage_taken"{
+            draw_text(1100, 200 + 100 * (r - kd), "Всего урона получено: " + string(data.variables.statistics[$ nns[r]].total))
+            draw_text(1100, 200 + 100 * (r - kd) + 25, "Рекорд полученного урона за раунд: " + string(data.variables.statistics[$ nns[r]].record))
+            draw_text(1100, 200 + 100 * (r - kd) + 50, "Полученный урон за последний раунд: " + string(data.variables.statistics[$ nns[r]].last))
+        }
+        else if nns[r] == "kda_last"{
+            draw_text(700, 200 + 100 * kd, "Убийств за последний раунд: " + string(data.variables.statistics[$ nns[r]].kills))
+            draw_text(700, 200 + 100 * kd + 25, "Смертей за последний раунд: " + string(data.variables.statistics[$ nns[r]].deaths))
+            draw_text(700, 200 + 100 * kd + 50, "Помощи за последний раунд: " + string(data.variables.statistics[$ nns[r]].assists))
+            kd += 1
+        }
+        else if nns[r] == "kda_record"{
+            draw_text(700, 200 + 100 * kd, "Максимум убийств: " + string(data.variables.statistics[$ nns[r]].kills))
+            draw_text(700, 200 + 100 * kd + 25, "Максимум смертей: " + string(data.variables.statistics[$ nns[r]].deaths))
+            draw_text(700, 200 + 100 * kd + 50, "Максимум помощи: " + string(data.variables.statistics[$ nns[r]].assists))
+            kd += 1
+        }
+        else if nns[r] == "kda_total"{
+            draw_text(700, 200 + 100 * kd, "Всего убийств: " + string(data.variables.statistics[$ nns[r]].kills))
+            draw_text(700, 200 + 100 * kd + 25, "Всего смертей: " + string(data.variables.statistics[$ nns[r]].deaths))
+            draw_text(700, 200 + 100 * kd + 50, "Всего помощи: " + string(data.variables.statistics[$ nns[r]].assists))
+            kd += 1
+        }
     }
 }

@@ -78,7 +78,7 @@ function draw_items_list(x, y, w, h, items, list_index) {
         // Отрисовка предмета
         draw_set_color(c_white);
         draw_sprite_ext(items[item_index].texture, 0, x + 5, item_y + ui.item_height/4, 0.5, 0.5, 0, c_white, 1);
-        
+        draw_set_halign(fa_left)
         var text = items[item_index].name;
         if (items[item_index].owner != global.char_to_show and items[item_index].owner != noone) text += " (" + string(items[item_index].owner.reff.variables.name) + ")";
         draw_text(x, item_y + 10, text);
@@ -168,6 +168,7 @@ function inventory_move_item() {
                 itemm.owner = global.char_to_show
                 array_push(inventory_system.equipped_items, itemm);
                 array_push(global.equipped_items[global.inv_team - 1], itemm)}
+                //show_message(global.equipped_items)
                 for (var ii = 0; ii < array_length(itemm.effect); ii++){
                     if string_ends_with(itemm.effect[ii][0], "_perc"){
                         global.char_to_show.reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] /= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")])
@@ -212,6 +213,19 @@ function inventory_move_item() {
                         break
                     }
                 }
+            for (var ii = array_length(itemm.effect) - 1; ii >= 0; ii--){
+                    if string_ends_with(itemm.effect[ii][0], "_perc"){
+                        global.not_sorted[global.inv_team-1][j].reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] /= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")])
+                        global.not_sorted[global.inv_team-1][j].reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] *= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] - itemm.effect[ii][1])
+                        global.not_sorted[global.inv_team-1][j].reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] -= itemm.effect[ii][1]
+                       }
+                    else{
+                        global.not_sorted[global.inv_team-1][j].reff.variables[$ (itemm.effect[ii][0])] -= itemm.effect[ii][1] * (1 + global.char_to_show.reff.variables.modifer[$ itemm.effect[ii][0]])}
+                    }
+            for (var jj= 0; jj < array_length(itemm.gives); jj++){
+                    if itemm.gives[jj][0] == "skill"{
+                        array_delete(global.not_sorted[global.inv_team-1][j].reff.variables.skills, array_get_index(global.char_to_show.reff.variables.skills, itemm.gives[jj][1]), 1)
+                }}
             } 
         } 
         for (var j = 0; j < array_length(global.layout[global.inv_team-1]); j++){
@@ -224,7 +238,20 @@ function inventory_move_item() {
                         break
                     }
                 }
-            } 
+            for (var ii = array_length(itemm.effect) - 1; ii >= 0; ii--){
+                    if string_ends_with(itemm.effect[ii][0], "_perc"){
+                        global.layout[global.inv_team-1][j][f].reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] /= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")])
+                        global.layout[global.inv_team-1][j][f].reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] *= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] - itemm.effect[ii][1])
+                        global.layout[global.inv_team-1][j][f].reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] -= itemm.effect[ii][1]
+                       }
+                    else{
+                        global.layout[global.inv_team-1][j][f].reff.variables[$ (itemm.effect[ii][0])] -= itemm.effect[ii][1] * (1 + global.char_to_show.reff.variables.modifer[$ itemm.effect[ii][0]])}
+                    }
+            for (var jj= 0; jj < array_length(itemm.gives); jj++){
+                    if itemm.gives[jj][0] == "skill"{
+                        array_delete(global.layout[global.inv_team-1][j][f].reff.variables.skills, array_get_index(global.char_to_show.reff.variables.skills, itemm.gives[jj][1]), 1)
+                }}
+                } 
         }         
         }}
     }

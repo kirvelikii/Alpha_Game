@@ -35,7 +35,12 @@ if is_dragging{
                         array_push(targ.reff.variables.starter_statuses, data.gives[j][1])
                 }
                 }
+        var ree = object_get_safe_stats_shown(targ).variables
+        data.owner = ree
+        //show_message(data)
         array_push(targ.reff.variables.equips, data) 
+        array_push(global.equipped_items[inv_ruleset.team - 1], data)
+        //show_message(global.equipped_items)
         }    
     instance_destroy()
 }

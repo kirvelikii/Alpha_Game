@@ -8,14 +8,18 @@ effec = sp_fragility
 effec_alpha = 0.5
 if room == fight{
 params = struct_merge(stackable_params, unstackable_params, true)
-duration = params.duration
-potency = params.potency
+    stacks = [{}] 
+    var names = struct_get_names(params)
+for (var i = 0; i < array_length(names); i++){
+        stacks[0][$ names[i]] = params[$ names[i]]
+    }    
+//duration = params.duration
+//potency = params.potency
 image_xscale = host.image_xscale
 array_push(host.statuses_visual, self)
 number = array_get_index(host.statuses_visual, self)
 x = host.x + (image_xscale * 32 * number) % 128
 y = host.y + 96 - floor(32 * number / 128) * 32
-stacks = [{potency: potency, duration: duration}]
 function add_params(par, upar) {
     // Проверяем, что par - это структура
     if (!is_struct(par)) return;
@@ -61,4 +65,5 @@ function struct_merge(struct1, struct2, overwrite) {
     
     return temp;
 }
-cad_formula = min(4, potency/5)}
+//cad_formula = min(4, potency/5)
+}
