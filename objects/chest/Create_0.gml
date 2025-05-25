@@ -21,18 +21,32 @@ global.items_db = {
         affinity: "all",
         type: "stat_up",
         effect: [["basic_attack_perc", 0.2], ["basic_attack", 10]],
+        gives: [],
         obj: damage_up, 
         owner: noone
     },
     first_strike_ult:{
-        name: "Ultimate: First Strike\n (D-Grade)",
+        name: "Ultimate: First Strike (С-Grade)",
         texture: first_strike_ult,
         chance: 0,
         rarity: "rare",
         pools: ["basic", "ultimate"],
         affinity: "all",
         type: "item",
+        effect : [],
         gives: [["skill", first_strike]],
+        owner: noone
+    },
+    armor_crusher:{
+        name: "Armor Crusher",
+        texture: sp_armor_crusher,
+        chance: 0,
+        rarity: "epic",
+        pools: ["basic", "weapons"],
+        affinity: "all",
+        type: "item",
+        effect : [["basic_attack_perc", 0.1], ["basic_attack", 20], ["basic_crit_chance", 20]],
+        gives: [["buff", [armor_crush, {potency: 5, duration: 30}, {}]]],
         owner: noone
     }
 };

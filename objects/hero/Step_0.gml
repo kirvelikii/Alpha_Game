@@ -1,3 +1,10 @@
+if (team == 1 and pos == 0) or (team == 2 and pos == 6){
+    heal_timer += 1
+    if heal_timer >= 30{ 
+        heal_timer = 0
+    if hp < max_hp { hp += max_hp * 0.1 if hp > max_hp hp = max_hp} 
+    if sanity < max_sanity {sanity += max_sanity * 0.035 if sanity < max_sanity sanity = max_sanity} }
+}
 if state == "normal"{
 attack_cooldown -= 1;
 if (attack_cooldown <= 0) {

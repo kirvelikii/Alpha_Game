@@ -24,6 +24,7 @@ if temp{
     skills = [template_skill]
     legacy_skills = [template_skill]
     equips = []
+    starter_statuses = []
     common_pos = "frontline"
     crit_eff = basic_crit_attack_effect
     eff = basic_attack_effect
@@ -115,7 +116,7 @@ if temp{
         focus_restrictions: ["fnot_e"],
         focus_unlocked: false,
         focus_icon: final_to_vibe,
-        stat_changes: [["basic_crit_damage", 1]],
+        stat_changes: [["basic_crit_damage", 1], ["basic_crit_chance", 25], ["basic_accuracy", 7]],
         gives: [["skill", template_skill]]
     },
     ]
@@ -146,6 +147,7 @@ moving_progress = 0
 is_moving = 0
 directionn = 0
 healing_sanity = false
+heal_timer = 0
 if team == 1{
     retr_target_row = 0
     esc_target_row = -1 
@@ -435,8 +437,11 @@ function find_anything_target(state_ex=["crazy", "panic", "retreat"]){
 
     }
 }
-current_hp_display = hp; // Текущее отображаемое значение здоровья
-hp_drain_speed = 0.4;   // Скорость убывания индикатора (чем больше, тем быстрее)
+// В Create Event объекта:
+current_hp_display = hp;    // Текущее отображаемое значение здоровья
+hp_drain_speed = 0.4;       // Скорость изменения индикатора
+heal_color = c_aqua;        // Цвет индикатора лечения
+damage_color = c_yellow;    // Цвет индикатора урона
 
 function draw_my_healthbar() {
     var _x1 = x;
@@ -444,34 +449,94 @@ function draw_my_healthbar() {
     var _y1 = y;
     var _y2 = y + 128;
     
-    // Фон шкалы (черная рамка)
+    // Фон шкалы (черная рамка с красными краями)
     draw_rectangle_color(_x1, _y1, _x2, _y2, c_black, c_red, c_red, c_red, false);
     
-    // Обновляем текущее отображаемое здоровье (плавное убывание)
+    // Плавное изменение отображаемого здоровья
     current_hp_display = lerp(current_hp_display, hp, 0.1 * hp_drain_speed);
     
-    // Рассчитываем высоту для текущего и реального здоровья
-    var current_hp_height = 128 * (current_hp_display / max_hp);
-    var real_hp_height = 128 * (hp / max_hp);
+    // Рассчитываем высоты
+    var display_height = 128 * (current_hp_display / max_hp);
+    var real_height = 128 * (hp / max_hp);
     
-    // Желтый индикатор убывания (если current_hp > real_hp)
+    // Индикатор урона (желтый) - когда отображаемое здоровье больше реального
     if (current_hp_display > hp) {
-        var drain_height = current_hp_height - real_hp_height;
-        var drain_y = _y2 - current_hp_height;
+        var damage_height = display_height - real_height;
+        var damage_y = _y2 - display_height;
         draw_rectangle_color(
-            _x1, drain_y,
-            _x2, drain_y + drain_height,
-            c_yellow, c_yellow, c_yellow, c_yellow, false
+            _x1, damage_y,
+            _x2, damage_y + damage_height,
+            damage_color, damage_color, damage_color, damage_color, false
         );
-    }
-    
-    // Зеленая часть - текущее здоровье
-    draw_rectangle_color(
-        _x1, _y2 - real_hp_height,
+        draw_rectangle_color(
+        _x1, _y2 - real_height,
         _x2, _y2,
         c_green, c_green, c_lime, c_green, false
     );
+    }
+    // Индикатор лечения (голубой) - когда отображаемое здоровье меньше реального
+    else if (current_hp_display < hp) {
+            // Основная зеленая часть - текущее реальное здоровье
+    draw_rectangle_color(
+        _x1, _y2 - real_height,
+        _x2, _y2,
+        c_green, c_green, c_lime, c_green, false
+    );
+        var heal_height = real_height - display_height;
+        var heal_y = _y2 - real_height;
+        draw_rectangle_color(
+            _x1, heal_y,
+            _x2, heal_y + heal_height,
+            heal_color, heal_color, heal_color, heal_color, false
+        );
+    }
+    else{
+                draw_rectangle_color(
+        _x1, _y2 - real_height,
+        _x2, _y2,
+        c_green, c_green, c_lime, c_green, false
+    );
+    }
     
-    // Белая рамка поверх всего
-    //draw_rectangle(_x1, _y1, _x2, _y2, true);
+    // Дополнительные улучшения:
+    
+    // 1. Анимация пульсации при полном здоровье
+    if (hp >= max_hp) {
+        var pulse = 0.3 + 0.1 * sin(current_time * 0.01);
+        draw_set_alpha(pulse);
+        draw_rectangle_color(
+            _x1, _y2 - real_height,
+            _x2, _y2,
+            c_green, c_green, c_white, c_lime, false
+        );
+        draw_set_alpha(1);
+    }
+    
+    // 2. Тонкая белая рамка для четкости
+    //draw_rectangle(_x1, _y1, _x2, _y2, false);
+}
+//show_message([starter_statuses, statuses_visual])
+function apply_effect(_target, _effect, _params = undefined, _uparams = undefined){
+    if !instance_exists(_target){return } 
+    var _finder = {
+    _effect: _effect,
+    check: function(_item) { return _item.type == self._effect; }
+}
+    //show_debug_message(_target.statuses_visual)
+//show_debug_message([instance_exists(_target)])    
+var stat = array_find_index(_target.statuses_visual, _finder.check);
+    if stat != -1{
+        if _target.statuses_visual[stat].is_stackable{
+            _target.statuses_visual[stat].add_params(_params, _uparams)
+            //_target.statuses_visual[stat].renew_statuses(_rparams)
+        }
+        else{            
+            instance_create_layer(0, 0, "effects", _effect, {host: _target, stackable_params:_params, unstackable_params: _uparams})}
+    }
+    else{
+        instance_create_layer(0, 0, "effects", _effect, {host: _target, stackable_params:_params, unstackable_params: _uparams})
+    }
+}
+for (var i = 0; i < array_length(starter_statuses); i++){
+    apply_effect(self, starter_statuses[i][0], starter_statuses[i][1], starter_statuses[i][2])
 }

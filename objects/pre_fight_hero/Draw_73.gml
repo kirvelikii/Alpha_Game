@@ -111,7 +111,7 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
                 var text = string(value)
                 var text_color = c_white
                 //show_message(value * inv_ruleset.drag_obj.stats_shown[$ (stat_name + "_perc")] )
-                var stat_change = (real(inv_ruleset.drag_obj.stats_shown[$ stat_name])) * (1 + real(inv_ruleset.drag_obj.stats_shown[$ (stat_name + "_perc")]) + reff.variables.modifer[$ stat_name]) + value * real(inv_ruleset.drag_obj.stats_shown[$ (stat_name + "_perc")]) 
+                var stat_change = (real(inv_ruleset.drag_obj.stats_shown[$ stat_name])) * (1 + real(inv_ruleset.drag_obj.stats_shown[$ (stat_name + "_perc")]) + reff.variables.modifer[$ stat_name]) + value / (1 + reff.variables.modifer[$ stat_name]) * (1 + real(inv_ruleset.drag_obj.stats_shown[$ (stat_name + "_perc")]) + reff.variables.modifer[$ stat_name]) - value 
                 if !is_undefined(stat_change) && stat_change != 0 {
                     var change_val = real(stat_change)
                     var change_str = (change_val >= 0 ? "+" : "") + string(stat_change)

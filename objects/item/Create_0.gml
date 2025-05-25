@@ -27,9 +27,7 @@ stats_shown = {
     mov_speed_perc: 0,
     max_sanity_perc: 0
 }
-if data.type = "stat_up"{
-        for (var i = 0; i < array_length(data.effect); i++){
-            //show_message(targ.reff)
-            stats_shown[$ (data.effect[i][0])] = string(data.effect[i][1])}
-}
+for (var i = 0; i < array_length(data.effect); i++){
+    //show_message(targ.reff)
+    stats_shown[$ (data.effect[i][0])] = string(data.effect[i][1])}
 //show_message(stats_shown)

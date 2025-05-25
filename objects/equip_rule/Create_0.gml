@@ -144,6 +144,19 @@ function inventory_move_item() {
                 break
             }
         }
+        for (var ii = array_length(itemm.effect) - 1; ii >= 0; ii--){
+                    if string_ends_with(itemm.effect[ii][0], "_perc"){
+                        global.char_to_show.reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] /= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")])
+                        global.char_to_show.reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] *= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] - itemm.effect[ii][1])
+                        global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] -= itemm.effect[ii][1]
+                       }
+                    else{
+                        global.char_to_show.reff.variables[$ (itemm.effect[ii][0])] -= itemm.effect[ii][1] * (1 + global.char_to_show.reff.variables.modifer[$ itemm.effect[ii][0]])}
+                    }
+        for (var j = 0; j < array_length(itemm.gives); j++){
+                    if itemm.gives[j][0] == "skill"{
+                        array_delete(global.char_to_show.reff.variables.skills, array_get_index(global.char_to_show.reff.variables.skills, itemm.gives[j][1]), 1)
+                }}
     } else {
         // Надеваем предмет
         var ow = noone
@@ -155,15 +168,22 @@ function inventory_move_item() {
                 itemm.owner = global.char_to_show
                 array_push(inventory_system.equipped_items, itemm);
                 array_push(global.equipped_items[global.inv_team - 1], itemm)}
-                else{
-                    for (var ii = 0; ii < array_length(itemm.effect); ii++){
+                for (var ii = 0; ii < array_length(itemm.effect); ii++){
                     if string_ends_with(itemm.effect[ii][0], "_perc"){
-                        global.char_to_show.reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] *= (1 + itemm.effect[ii][1])
+                        global.char_to_show.reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] /= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")])
+                        global.char_to_show.reff.variables[$ string_replace(itemm.effect[ii][0], "_perc", "")] *= (1 + global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] + itemm.effect[ii][1])
                         global.char_to_show.reff.variables.modifer[$ string_replace(itemm.effect[ii][0], "_perc", "")] += itemm.effect[ii][1]
                        }
                     else{
                         global.char_to_show.reff.variables[$ (itemm.effect[ii][0])] += itemm.effect[ii][1] * (1 + global.char_to_show.reff.variables.modifer[$ itemm.effect[ii][0]])}
                     }
+                for (var j = 0; j < array_length(itemm.gives); j++){
+                    if itemm.gives[j][0] == "skill"{
+                        array_push(global.char_to_show.reff.variables.skills, itemm.gives[j][1])
+                }
+                    else if itemm.gives[j][0] == "buff"{
+                        array_push(global.char_to_show.reff.variables.starter_statuses, itemm.gives[j][1])
+                }
                 }
                 break
             }

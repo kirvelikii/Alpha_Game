@@ -5,7 +5,8 @@ if is_dragging{
         for (var i = 0; i < array_length(data.effect); i++){
             //show_message(targ.reff)
             if string_ends_with(data.effect[i][0], "_perc"){
-                targ.reff.variables[$ string_replace(data.effect[i][0], "_perc", "")] *= (1 + data.effect[i][1])
+                targ.reff.variables[$ string_replace(data.effect[i][0], "_perc", "")] /= (1 + targ.reff.variables.modifer[$ string_replace(data.effect[i][0], "_perc", "")])
+                targ.reff.variables[$ string_replace(data.effect[i][0], "_perc", "")] *= (1 + targ.reff.variables.modifer[$ string_replace(data.effect[i][0], "_perc", "")] + data.effect[i][1])
                 targ.reff.variables.modifer[$ string_replace(data.effect[i][0], "_perc", "")] += data.effect[i][1]
             }
             else{
@@ -15,7 +16,26 @@ if is_dragging{
 
     }
     else{
-        array_push(targ.reff.variables.equips, data)
+        for (var i = 0; i < array_length(data.effect); i++){
+            //show_message(targ.reff)
+            if string_ends_with(data.effect[i][0], "_perc"){
+                targ.reff.variables[$ string_replace(data.effect[i][0], "_perc", "")] /= (1 + targ.reff.variables.modifer[$ string_replace(data.effect[i][0], "_perc", "")])
+                targ.reff.variables[$ string_replace(data.effect[i][0], "_perc", "")] *= (1 + targ.reff.variables.modifer[$ string_replace(data.effect[i][0], "_perc", "")] + data.effect[i][1])
+                targ.reff.variables.modifer[$ string_replace(data.effect[i][0], "_perc", "")] += data.effect[i][1]
+            }
+            else{
+                //show_message(targ.reff.variables.modifer[$ data.effect[i][0]])
+                targ.reff.variables[$ (data.effect[i][0])] += data.effect[i][1] * (1 + targ.reff.variables.modifer[$ data.effect[i][0]])}
+            }
+        for (var j = 0; j < array_length(data.gives); j++){
+                    if data.gives[j][0] == "skill"{
+                        array_push(targ.reff.variables.skills, data.gives[j][1])
+                }
+            else if data.gives[j][0] == "buff"{
+                        array_push(targ.reff.variables.starter_statuses, data.gives[j][1])
+                }
+                }
+        array_push(targ.reff.variables.equips, data) 
         }    
     instance_destroy()
 }

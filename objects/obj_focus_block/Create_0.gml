@@ -76,7 +76,8 @@ function apply_effects(){
     var a = struct_get_names(stats_shown)
     for (var i = 0; i < array_length(a); i++){
         if string_ends_with(a[i], "_perc"){
-                targ.reff.variables[$ string_replace(a[i], "_perc", "")] *= (1 + stats_shown[$ a[i]])
+                targ.reff.variables[$ string_replace(a[i], "_perc", "")] /= (1 + targ.reff.variables.modifer[$ string_replace(a[i], "_perc", "")])
+                targ.reff.variables[$ string_replace(a[i], "_perc", "")] *= (1 + stats_shown[$ a[i]] + targ.reff.variables.modifer[$ string_replace(a[i], "_perc", "")])
                 targ.reff.variables.modifer[$ string_replace(a[i], "_perc", "")] += stats_shown[$ a[i]]
             }
             else{

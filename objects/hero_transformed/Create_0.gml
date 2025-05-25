@@ -18,7 +18,7 @@ if temp{
     basic_crit_damage = 2
     name = "Имба Вайбмен"
     lore = "Крутой чувак йоу"
-    skills = [template_skill_1, first_strike]
+    skills = [template_skill_1]
     legacy_skills = [template_skill_1]
     equips = []
     common_pos = "frontline"
