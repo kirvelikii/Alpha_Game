@@ -13,7 +13,7 @@ if global.inv_team = 0{
     global.inv_team = 1
     global.loot = [[global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher, global.items_db.hero], [global.items_db.hero, global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher]]
 if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
-    global.layout = [[[], [], [warrior]], [[], [], [hero, hero, hero]]]
+    global.layout = [[[], [hero, hero, hero], [warrior]], [[], [hero, hero, hero], [warrior]]]
     global.not_sorted = [[hero, hero, warrior, warrior], [hero, hero, warrior, warrior]]
 }
 if !variable_global_exists("items_non_equipped"){

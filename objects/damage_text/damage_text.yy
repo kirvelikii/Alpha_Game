@@ -11,8 +11,8 @@
   "name":"damage_text",
   "overriddenProperties":[],
   "parent":{
-    "name":"classic fight",
-    "path":"folders/Objects/classic fight.yy",
+    "name":"Alpha_Game",
+    "path":"Alpha_Game.yyp",
   },
   "parentObjectId":null,
   "persistent":false,

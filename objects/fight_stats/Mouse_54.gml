@@ -1,0 +1,1 @@
+global.chosen_pers = noone

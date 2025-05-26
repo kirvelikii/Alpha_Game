@@ -485,11 +485,11 @@ hp_drain_speed = 0.4;       // Скорость изменения индика�
 heal_color = c_aqua;        // Цвет индикатора лечения
 damage_color = c_yellow;    // Цвет индикатора урона
 
-function draw_my_healthbar() {
-    var _x1 = x;
+function draw_my_healthbar(_x1 = x, _x2 = x-10*image_xscale, _y1 = y, _y2 = y + 128, hei=128) {
+    /*var _x1 = x;
     var _x2 = x - 10 * image_xscale;
     var _y1 = y;
-    var _y2 = y + 128;
+    var _y2 = y + 128;*/
     
     // Фон шкалы (черная рамка с красными краями)
     draw_rectangle_color(_x1, _y1, _x2, _y2, c_black, c_red, c_red, c_red, false);
@@ -498,8 +498,8 @@ function draw_my_healthbar() {
     current_hp_display = lerp(current_hp_display, hp, 0.1 * hp_drain_speed);
     
     // Рассчитываем высоты
-    var display_height = 128 * (current_hp_display / max_hp);
-    var real_height = 128 * (hp / max_hp);
+    var display_height = hei * (current_hp_display / max_hp);
+    var real_height = hei * (hp / max_hp);
     
     // Индикатор урона (желтый) - когда отображаемое здоровье больше реального
     if (current_hp_display > hp) {

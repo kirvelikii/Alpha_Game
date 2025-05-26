@@ -92,7 +92,7 @@ function check_spaces(){
     clean_battlefield()
     for (var p = 0; p < array_length(battlefield); p++){
         var tt = column_get_teams(battlefield[p])
-        var yy = room_height / 2 - 64
+        var yy = room_height / 2 - 64 - 200
         var count = array_length(tt[0])
         var spacing = 128
         for (var i = 0; i < array_length(tt[0]); i++) { 

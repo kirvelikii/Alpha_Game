@@ -76,6 +76,7 @@
     {"id":{"name":"equip_rule","path":"objects/equip_rule/equip_rule.yy",},},
     {"id":{"name":"equips_panel","path":"objects/equips_panel/equips_panel.yy",},},
     {"id":{"name":"exitt","path":"objects/exitt/exitt.yy",},},
+    {"id":{"name":"fight_stats","path":"objects/fight_stats/fight_stats.yy",},},
     {"id":{"name":"first_strike","path":"objects/first_strike/first_strike.yy",},},
     {"id":{"name":"fragility","path":"objects/fragility/fragility.yy",},},
     {"id":{"name":"gamba","path":"objects/gamba/gamba.yy",},},
