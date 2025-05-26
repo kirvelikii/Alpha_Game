@@ -1,5 +1,5 @@
 global.chars = [[], []]
-global.charlist = [sp_hero]
+global.charlist = [sp_hero, sp_warrior]
 global.draftlist = []
 allow_copy = 1
 for (var i=0; i<array_length(global.charlist); i++){

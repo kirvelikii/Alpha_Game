@@ -5,6 +5,10 @@ range = 1
 target_type = "Враг"
 sub_target_count = 0
 damage_to_targets = [1]
+aoe = false
+aoe_range = 0
+aoe_horizontal_range = 0
+aoe_damage = [0]
 crit_chance = 10
 crit_damage = 2
 cooldown = 60 * 2
@@ -25,6 +29,40 @@ function use_skill(_target, main_target=true, modifers = undefined){
         attack_power *= crit_damage
     }
     show_debug_message(host.name + " (" + string(host.team) + ")" + " использует " + name + " урон - "+ string(attack_power) + ", врага "+ _target.name + " ("+ string(_target.team) + "), оставшееся хп - " + string(_target.hp - attack_power) + " " + string(_target.pos - host.pos) + " дальность")
+    if aoe{
+        var index = array_get_index(ruleset.battlefield[_target.pos], _target)
+        var line = []
+        with hero{
+            if team == _target.team and pos - _target.pos <= other.aoe_horizontal_range{
+                array_push(line, id)
+            }
+        }
+        array_sort(line, function(a, b) {
+        var val_a = array_get_index(ruleset.battlefield[a.pos], a);
+        var val_b = array_get_index(ruleset.battlefield[b.pos], b);
+        
+        if (val_a == val_b) return 0;
+        return val_a - val_b; // Возрастание
+    });
+        for (var f = 0; f < array_length(line); f++){
+            if line[f] == _target{
+                //show_message(array_get_index(ruleset.battlefield[_target.pos], _target))
+                //show_message(f)
+                for (var g = 1; g <= aoe_range; g++){
+                    if f-g>=0{
+                        line[f-g].get_damage(attack_power * aoe_damage[g-1], "skill", host)
+                        //show_message(array_get_index(ruleset.battlefield[line[f-g].pos], line[f-g]))
+                        //show_message(f-g)
+                    }
+                    if f+g < array_length(line){
+                        line[f+g].get_damage(attack_power * aoe_damage[g-1], "skill", host)
+                        //show_message(array_get_index(ruleset.battlefield[line[f+g].pos], line[f+g]))
+                        //show_message(f+g)
+                    }
+                }
+            }
+        }
+    }
     _target.get_damage(attack_power, "skill", host)
     for (var i = 0; i < array_length(effects_on_use); i++){
         if effects_on_use[i][1] == "target_and_sub_enemy" or (main_target and effects_on_use[i][1] == "main_target_enemy") or (!main_target and effects_on_use[i][1] == "sub_target_enemy"){ 
@@ -78,8 +116,8 @@ function find_target(n_sub_targets, _priority="hp"){
     // Собираем всех возможных целей
     with (hero) {
         if (team != tem && hp > 0) and other.distance_to_target(self, other.host) < other.range{
-            array_push(potential_targets, id);
-        }
+                array_push(potential_targets, id);
+            }
     }
     target = noone
     sub_targets = []

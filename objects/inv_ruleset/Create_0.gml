@@ -1,4 +1,7 @@
 //show_message(global.loot)
+if !variable_global_exists("winner"){
+    global.winner = noone
+}
 if !variable_global_exists("inv_team"){
      global.inv_team = 0
     global.char_to_show = noone
@@ -8,10 +11,10 @@ if !variable_global_exists("equipped_items"){
 }
 if global.inv_team = 0{
     global.inv_team = 1
-    //global.loot = [[global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher, global.items_db.hero], [global.items_db.hero, global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher]]
+    global.loot = [[global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher, global.items_db.hero], [global.items_db.hero, global.items_db.damage_up, global.items_db.first_strike_ult, global.items_db.armor_crusher]]
 if !variable_global_exists("not_sorted") and !variable_global_exists("layout"){
-    global.layout = [[[hero], [hero], [hero]], [[hero], [hero], [hero]]]
-    global.not_sorted = [[hero, hero, hero, hero], [hero, hero, hero, hero]]
+    global.layout = [[[], [], [warrior]], [[], [], [hero, hero, hero]]]
+    global.not_sorted = [[hero, hero, warrior, warrior], [hero, hero, warrior, warrior]]
 }
 if !variable_global_exists("items_non_equipped"){
     global.items_non_equipped = [[], []]
@@ -51,7 +54,7 @@ for (var i = 0; i < array_length(global.layout[0]); i++){
     with a {array_push(global.not_sorted_t1, self)}
 }
 with pre_fight_hero{
-    if self == global.char_to_show{
+    if global.char_to_show != noone and reff.variables.uid == global.char_to_show.reff.variables.uid{
         reff = global.char_to_show.reff
         global.char_to_show = noone
     } 

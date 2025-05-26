@@ -123,14 +123,18 @@ function apply_effects(){
                 else if nam[j] == "equips"{
                     new_obj.variables.equips = global.char_to_show.reff.variables.equips
                 }
-                else if nam[j] == "starter_buffs"{
-                    new_obj.variables.starter_buffs = global.char_to_show.reff.variables.starter_buffs
+                else if nam[j] == "starter_statuses"{
+                    new_obj.variables.starter_statuses = global.char_to_show.reff.variables.starter_statuses
                 }
             }
             global.char_to_show.reff = new_obj
             global.char_to_show.sprite_index = object_get_sprite(gives[i][1])
             with char_page_ruleset {event_user(1)}
-    }}
+    }
+        if gives[i][0] == "buff"{
+            array_push(targ.reff.variables.starter_statuses, gives[i][1])
+    }
+    }
     }
 function object_get_safe_stats_shown(obj) {
     if typeof(obj) == "struct"{
@@ -274,6 +278,23 @@ function check_single_condition(cond) {
             var focus_id = string_copy(cond, 2, string_length(cond)-1);
             return is_focus_unlocked(focus_id);
     }
+        if (string_char_at(cond, 1) == "s"){
+            var a = string_split(string_copy(cond, 2, string_length(cond)-1), ":")
+            switch (a[2]) {
+                case ">":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] > real(a[3]){return true}
+                else {return false}
+                case "<": if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] < real(a[3]){return true}
+                else {return false}
+                case ">=":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] >= real(a[3]){return true}
+                else {return false}
+                case "<=":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] <= real(a[3]){return true}
+                else {return false}
+                case "==":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] == real(a[3]){return true}
+                else {return false}
+                case "!=":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]]!= real(a[3]){return true}
+                else {return false}
+            }
+        }
 }}
 
 function is_focus_unlocked(f){
@@ -324,13 +345,46 @@ function draw_requirement_node(x, y, node, indent, name_cache) {
             unlocked = is_focus_unlocked(focus_id);
             color = unlocked ? c_red : c_green;
             text = indent_str + "НЕ изучен: " + get_focus_name(focus_id);}
-        } else if (string_char_at(node, 1) == "f"){
+        } else {
+            if (string_char_at(node, 1) == "f"){
             focus_id = string_copy(node, 2, string_length(node)-1);
             unlocked = is_focus_unlocked(focus_id);
             color = unlocked ? c_green : c_red;
             text = indent_str + "Изучен: " + get_focus_name(focus_id);
         }
-        
+            if (string_char_at(node, 1) == "s"){ 
+            var a = string_split(string_copy(node, 2, string_length(node)-1), ":") 
+            var txt = "" 
+            switch (a[1]) {
+                case "total": txt += "Суммарный " break
+                case "last": txt += "Последний " break
+                case "record": txt += "Рекордный " break
+                case "kills": txt += "убийств " break
+                case "deaths": txt += "смертей " break
+                case "assists": txt += "помощи "break           
+            }        
+            switch (a[0]) {
+                case "damage": txt += "нанесенный урон "break
+                case "damage_taken": txt += "полученный урон "break
+                case "kda_total": txt = "Суммарное число " + txt   break
+                case "kda_last": txt = "Число " + txt + "в последнем матче "  break
+                case "kda_record": txt = "Рекорд " + txt        break         
+            }
+            txt += a[2] + " " + a[3] 
+            unlocked = false       
+            //show_message(a)    
+            switch (a[2]) {
+                case ">": if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] > real(a[3]){unlocked = true}break
+                case "<": if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] < real(a[3]){unlocked = true}break
+                case ">=":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] >= real(a[3]){unlocked = true}break
+                case "<=":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] <= real(a[3]){unlocked = true}break
+                case "==":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]] == real(a[3]){unlocked = true}break
+                case "!=":if global.char_to_show.reff.variables.statistics[$ a[0]][$ a[1]]!= real(a[3]){unlocked = true}break
+            }
+            text = txt    
+            color = unlocked ? c_green : c_red;    
+        }
+        }
         draw_text_color(x, current_y, text, color, color, color, color, 1);
         return current_y + line_height;
     }

@@ -21,15 +21,15 @@ function check_win(){
     }
     if array_length(teams) == 1{
         show_debug_message(string(teams[0]) + " win")
-        room = post_fight
         global.winner = teams[0]
         global.inv_team = 0
+        room = post_fight
     }
     else if array_length(teams) == 0{
         show_debug_message(string("Draw"))
-        room = post_fight
         global.winner = "draw"
         global.inv_team = 0
+        room = post_fight
 } return 
 }
 function create_from_template(template, x, y, layer, team, pos) {

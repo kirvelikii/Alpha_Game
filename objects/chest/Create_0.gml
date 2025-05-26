@@ -50,7 +50,7 @@ global.items_db = {
         owner: noone
     }
 };
-//room = pre_fight
+room = pre_fight
 global.chests_db = {
     basic: {
         name: "basic",

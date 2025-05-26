@@ -61,5 +61,6 @@ else if is_dragging{
     equipped = 0
 }
 }
+inv_ruleset.check_spaces()
 is_dragging = false;
 inv_ruleset.drag_obj = noone

@@ -9,9 +9,3 @@ statistics.kda_record.kills = max(statistics.kda_record.kills, statistics.kda_la
 statistics.kda_record.deaths = max(statistics.kda_record.deaths, statistics.kda_last.deaths)
 statistics.kda_record.kills = max(statistics.kda_record.kills, statistics.kda_last.kills)
 expp += statistics.kda_last.kills * 100
-if global.winner == team{
-    expp += 150
-}
-else{
-    expp += 50
-}

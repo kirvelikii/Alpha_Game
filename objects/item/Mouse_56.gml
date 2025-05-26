@@ -50,4 +50,5 @@ else{
 }
 is_dragging = false;
 inv_ruleset.drag_obj = noone
+inv_ruleset.check_spaces_inv()    
 }

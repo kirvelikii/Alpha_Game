@@ -72,9 +72,16 @@ if position_meeting(mouse_x, mouse_y, self){
         if gives[i][0] == "transformation"{
             var re = object_get_safe_stats_shown(gives[i][1])
             draw_set_halign(fa_left)
-            draw_text_ext(1366-318, 225 + 25 * (i + len + 1) + le, "Персонаж превращается в: " + re.variables.name, -1, 250)
+            draw_text_ext(1366-318, 225 + 25 * (i + len + 1) + le, "Персонаж превращается в: " + re.variables.name, -1, 300)
             draw_sprite_ext(object_get_sprite(gives[i][1]), 1 , 1366-360, 225 + 25 * (i + len + 1) + le, 0.25, 0.25, 0, c_white, 1)
             le += string_height_ext("Персонаж превращается в: " + re.variables.name, -1, 250) - 20
+    }
+        if gives[i][0] == "buff"{
+            var re = object_get_safe_stats_shown(gives[i][1][0])
+            draw_set_halign(fa_left)
+            draw_text_ext(1366-318, 225 + 25 * (i + len + 1) + le, "Получен эффект: " + re.variables.name, -1, 300)
+            draw_sprite_ext(object_get_sprite(gives[i][1][0]), 1 , 1366-360, 225 + 25 * (i + len + 1) + le, 0.5, 0.5, 0, c_white, 1)
+            le += string_height_ext("Получен эффект: " + re.variables.name, -1, 250) - 20
     }
     }
     if can_unlock() and !focus_unlocked{

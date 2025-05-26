@@ -4,7 +4,7 @@
 // Inherit the parent event
 event_inherited();
 
-name = "armor_crush"
+name = "Разлом брони"
 description = "С каждой базовой атакой, увеличивает получаемый целью урон, на процент, равный силе эффекта"
 type = armor_crush
 constance = true

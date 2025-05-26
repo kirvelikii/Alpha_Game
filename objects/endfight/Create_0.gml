@@ -5,8 +5,8 @@ function calculate_kda(kills, deaths, assists) {
 }
 function calculate_mvp_score(player) {
     var kda_score = player.kda * 2
-    var damage_score = player.damage_dealt / 100; // 1000 урона = 1 балл
-    var damage_taken_score = (1 - player.damage_taken / player.max_hp) * 3; // Меньше урона = лучше
+    var damage_score = player.damage_dealt / 100; // 150 урона = 1 балл
+    var damage_taken_score = (player.damage_taken / player.max_hp) * 2; // больше урона = лучше
     //var objectives_score = player.objectives * 2; // Участие в убийствах объектов
     
     return kda_score + damage_score + damage_taken_score
@@ -34,6 +34,12 @@ for (var i = 0; i<array_length(global.layout[xx][t]); i++){
     }
     if sco > mvp[1] or mvp[0] == noone{
         mvp = [global.layout[xx][t][i], sco]
+    }
+    if global.layout[xx][t][i].reff.variables.team == global.winner{
+        global.layout[xx][t][i].reff.variables.expp += 150
+    }
+    else{
+        global.layout[xx][t][i].reff.variables.expp += 50
     }
 }
 }}

@@ -75,7 +75,7 @@ if instance_exists(target_to_move){
         moving_progress = 0
     }
         moving_progress += (mov_speed  * (0.8 + random(0.4)) / 60)
-    if moving_progress >= 1{
+    if moving_progress >= 1 and 0 <= (pos + directionn) < 7{
         //show_debug_message(pos)
         //show_debug_message(array_find_index(ruleset.battlefield[pos], function(item) { show_message([id, item.id])return item == id; }))
         array_delete(ruleset.battlefield[pos], array_find_instance(ruleset.battlefield[pos], self), 1)

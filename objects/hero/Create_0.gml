@@ -8,7 +8,7 @@ if room != fight{
 }
 if temp{
     uid = id
-    expp = 0
+    expp = 10000
     type = hero
     max_hp = 100
     basic_attack = 5
@@ -265,6 +265,12 @@ function get_damage(n, type, dealer, miss=false, crit=false){
         if statuses_visual[i].name == "fragility"{
             atk_modifer += statuses_visual[i].potency / 100
         } 
+        if statuses_visual[i].name == "defense_up"{
+            if atk_modifer - statuses_visual[i].potency / 100 < 0.15 and atk_modifer > 0.15{atk_modifer = 0.15}
+            else if atk_modifer - statuses_visual[i].potency / 100 >= 0.15{
+            atk_modifer -= statuses_visual[i].potency / 100}
+            
+        } 
     }
     //if atk_modifer > 1{show_message(atk_modifer)}
     change_sanity(-1, "damage", total * atk_modifer)
@@ -370,7 +376,7 @@ function check_sanity(){
     var keys = struct_get_names(low_sanity_effect)
     state = "normal"
             for (var i = array_length(keys)-1; i>=0; i--){
-                if sanity < int64(string_replace(keys[i], "s", "")){
+                if sanity / max_sanity * 100 < int64(string_replace(keys[i], "s", "")){
                     state = low_sanity_effect[$ keys[i]]
                     switch_to_state(state)
                     //show_message([hp, hp_proc, keys[i], sanity])
