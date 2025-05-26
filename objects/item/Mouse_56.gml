@@ -29,7 +29,7 @@ if is_dragging{
             }
         for (var j = 0; j < array_length(data.gives); j++){
                     if data.gives[j][0] == "skill"{
-                        array_push(targ.reff.variables.skills, data.gives[j][1])
+                        array_push(targ.reff.variables.skills, object_get_safe_stats_shown(data.gives[j][1]))
                 }
             else if data.gives[j][0] == "buff"{
                         array_push(targ.reff.variables.starter_statuses, data.gives[j][1])

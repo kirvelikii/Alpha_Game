@@ -20,6 +20,11 @@ if temp{
     name = "Имба Вайбмен"
     lore = "Крутой чувак йоу"
     skills = [template_skill_1]
+    for (var i = 0; i < array_length(skills); i++){
+        skills[i] = object_get_safe_stats_shown(skills[i])
+        //instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
+        //instance_create_layer(x +  64 * (i+1), y, "Instances", skills[i], {host: id, image_xscale: -1})
+    }
     legacy_skills = [template_skill_1]
     equips = []
     common_pos = "frontline"

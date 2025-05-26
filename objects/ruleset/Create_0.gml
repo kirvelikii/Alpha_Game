@@ -32,7 +32,7 @@ function check_win(){
         room = post_fight
 } return 
 }
-function create_from_template(template, x, y, layer, team, pos) {
+function create_from_template(template, x, y, layer, team=0, pos=0) {
 // Создаем экземпляр с начальными параметрами
     var inst = instance_create_layer(x, y, layer, template.reff.object_index, { team: team, temp: true, pos: pos});
     //instance_deactivate_object(inst)
@@ -124,5 +124,15 @@ function column_get_teams(arr){
     }
     return [t1, t2]
 }
+/*reff.variables.basic_attack += irandom(2)
+if reff.variables.max_hp == 100{
+    reff.variables.max_hp = irandom_range(90, 110)
+    reff.variables.hp = reff.variables.max_hp
+}
+else{
+    reff.variables.max_hp += irandom_range(1, 10)
+    reff.variables.hp = reff.variables.max_hp
+}*/
+
 check_spaces()
 check_win()

@@ -35,7 +35,7 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         for (var i = 0; i < array_length(reff.variables.skills); i++) { 
         var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
         var pos_x = xx - offset + (i % 6) * spacing;
-        draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1);
+        draw_sprite_ext(object_get_sprite(reff.variables.skills[i].object_index), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1);
         }
         var yy = y + 375
         count = array_length(reff.variables.equips)
@@ -82,7 +82,7 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         for (var i = 0; i < array_length(reff.variables.skills); i++) { 
         var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5;
         var pos_x = xx - offset + (i % 6) * spacing;
-        draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1);
+        draw_sprite_ext(object_get_sprite(reff.variables.skills[i].object_index), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1);
     }
         yy = y + 375
             count = array_length(reff.variables.equips)
@@ -116,7 +116,12 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
                     var change_val = real(stat_change)
                     var change_str = (change_val >= 0 ? "+" : "") + string(stat_change)
                     text += " " + change_str
-                    text_color = (change_val >= 0) ? c_green : c_red
+                    if stat_name != "attack_interval" and stat_name != "attack_interval_perc"{
+                        text_color = (change_val >= 0) ? c_green : c_red
+                    }
+                    else{
+                        text_color = (change_val >= 0) ? c_red : c_green
+                    }
                 }
                 draw_set_halign(fa_left)
                 draw_text_color(_x + 32, _y, text, c_white, c_white, text_color, text_color, 1)
@@ -145,7 +150,7 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
             for (var i = 0; i < array_length(reff.variables.skills); i++) { 
                 var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5
                 var pos_x = xx - offset + (i % 6) * spacing
-                draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1)
+                draw_sprite_ext(object_get_sprite(reff.variables.skills[i].object_index), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1)
             }
             
             yy = y + 375
@@ -190,7 +195,7 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
             for (var i = 0; i < array_length(reff.variables.skills); i++) { 
                 var offset = spacing * min((count - 1 - floor(i/6) * 6), 5) * 0.5
                 var pos_x = xx - offset + (i % 6) * spacing
-                draw_sprite_ext(object_get_sprite(reff.variables.skills[i]), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1)
+                draw_sprite_ext(object_get_sprite(reff.variables.skills[i].object_index), 1, pos_x, yy + 48 * floor(i/6), 0.25, 0.25, 0, c_white, 1)
             }
             yy = y + 375
             count = array_length(reff.variables.equips)

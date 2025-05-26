@@ -24,6 +24,11 @@ if temp{
     name = "Template"
     lore = "Начало начал, этот человек видел многое, он основал множество техник, опробовал все, что есть в этом мире. Не пора ли ему уйти на пенсию?"
     skills = [template_skill]
+    for (var i = 0; i < array_length(skills); i++){
+        skills[i] = object_get_safe_stats_shown(skills[i])
+        //instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
+        //instance_create_layer(x +  64 * (i+1), y, "Instances", skills[i], {host: id, image_xscale: -1})
+    }
     legacy_skills = [template_skill]
     equips = []
     starter_statuses = []
@@ -134,13 +139,18 @@ else{
     if team == 1{
     image_xscale = 1
     for (var i = 0; i < array_length(skills); i++){
-        instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
+        var skill = object_get_safe_stats_shown(skills[i])
+        create_item_from_template(skill, x - 64 * (i+1), y, "Instances", id)
+        //instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
     }
 }
 else if team == 2{
     image_xscale = -1
     for (var i = 0; i < array_length(skills); i++){
-        instance_create_layer(x +  64 * (i+1), y, "Instances", skills[i], {host: id, image_xscale: -1})
+        var skill = object_get_safe_stats_shown(skills[i])
+        create_item_from_template(skill, x + 64 * (i+1), y, "Instances", id)
+        //instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
+        //instance_create_layer(x +  64 * (i+1), y, "Instances", skills[i], {host: id, image_xscale: -1})
     }
 }
 }
@@ -245,7 +255,7 @@ function attack(_target, modifers=[]){
 function show_effect(_target, _effect){
     var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: _effect, constant: false, image_xscale: -1*_target.image_xscale, host: _target})
 }
-function get_damage(n, type, dealer, miss=false, crit=false){
+function get_damage(n, type, dealer, miss=false, crit=false, skill=noone){
     if type == "attack"{
         var dodge = irandom(100)
         if dodge <= dodge_chance{
@@ -276,6 +286,11 @@ function get_damage(n, type, dealer, miss=false, crit=false){
     change_sanity(-1, "damage", total * atk_modifer)
     hp -= total * atk_modifer
     dealer.statistics.damage.last += total * atk_modifer
+    sk = skill
+    if type == "skill"{
+        //show_message(dealer.skills)
+        dealer.skills[array_find_index(dealer.skills, function(el) {return el.variables.uid == sk; })].variables.statistics.damage.last += total * atk_modifer
+    }
     statistics.damage_taken.last += total * atk_modifer
     array_push(damage_dealers_to_me, last_hit)
     last_hit = dealer
@@ -566,6 +581,112 @@ var stat = array_find_index(_target.statuses_visual, _finder.check);
 }
 for (var i = 0; i < array_length(starter_statuses); i++){
     apply_effect(self, starter_statuses[i][0], starter_statuses[i][1], starter_statuses[i][2])
+}
+function create_item_from_template(template, x, y, layer, _host=noone) {
+// Создаем экземпляр с начальными параметрами
+    var inst = instance_create_layer(x, y, layer, template.object_index, {host: _host, temp: true});
+    //instance_deactivate_object(inst)
+    if (!instance_exists(inst)) return noone;
+    //instance_deactivate_object(inst)
+    // Копируем обычные переменные
+    if (variable_struct_exists(template, "variables")) {
+        var vars = template.variables;
+        var var_names = variable_struct_get_names(vars);
+        for (var i = 0; i < array_length(var_names); i++) {
+            var name = var_names[i];
+            variable_instance_set(inst, name, struct_get(vars, name))
+            //inst[$ name] = struct_get(vars, name)
+                //show_message(vars[$ name])
+        }
+    }
+    var instt = noone
+    with inst{
+        host = _host
+        temp = false
+        instt = instance_copy(true)
+        instance_destroy()
+    }
+    //show_message(inst.hp)
+    //inst.attack(self)
+    //instance_activate_object(inst)
+    // Копируем методы с привязкой контекста
+    /*if (variable_struct_exists(template.reff, "methods")) {
+        var methods = template.reff.methods;
+        var method_names = variable_struct_get_names(methods);
+        
+        for (var i = 0; i < array_length(method_names); i++) {
+            var m_name = method_names[i];
+            inst[$ m_name] = method(inst, methods[$ m_name]);
+        }
+    }*/
+    return instt;
+}
+function object_get_safe_stats_shown(obj) {
+    if typeof(obj) == "struct"{
+        //sprite_index = object_get_sprite(obj.object_index)
+        //mask_index = object_get_mask(obj.object_index)
+        return obj
+    }
+    sprite_index = object_get_sprite(type)
+    mask_index = object_get_mask(type)
+    // Проверяем тип входных данных
+    if (instance_exists(obj)) {
+        // Работаем с экземпляром
+        return get_instance_stats_shown(obj);
+    }
+    else if (object_exists(obj)) {
+        // Работаем с шаблоном объекта
+        return get_object_template_stats_shown(obj);
+    }
+    else {
+        show_debug_message("Invalid object reference:", obj);
+        return undefined;
+    }
+}
+
+function get_instance_stats_shown(inst) {
+    var stats_shown = {
+        object_index: inst.object_index,
+        variables: {}
+    };
+    
+    // Получаем только изменяемые переменные
+    var vars = variable_instance_get_names(inst);
+    for (var i = 0; i < array_length(vars); i++) {
+        var var_name = vars[i];
+        
+        // Пропускаем системные и служебные переменные
+        if (!string_starts_with(var_name, "__") && var_name != "object_index") {
+            try {
+                stats_shown.variables[$ var_name] = inst[$ var_name];
+            } catch(e) {
+                show_debug_message("Failed to copy variable", var_name, ":", e);
+            }
+        }
+    }
+    var meths = (inst);
+    for (var i = 0; i < array_length(meths); i++) {
+        var var_name = meths[i];
+        
+        // Пропускаем системные и служебные переменные
+        if (!string_starts_with(var_name, "__") && var_name != "object_index") {
+            try {
+                stats_shown.variables[$ var_name] = inst[$ var_name];
+            } catch(e) {
+                show_debug_message("Failed to copy variable", var_name, ":", e);
+            }
+        }
+    }
+    return stats_shown;
+}
+
+function get_object_template_stats_shown(obj_index) {
+    // Создаем временный экземпляр для получения данных по умолчанию
+    var temp_inst = instance_create_depth(0, 0, -10000, obj_index, {temp:true});
+    var stats_shown = get_instance_stats_shown(temp_inst);
+    instance_destroy(temp_inst);
+    
+    return stats_shown;
 }
 //show_message(statuses_visual)
 statistics.damage.last = 0

@@ -180,7 +180,7 @@ function inventory_move_item() {
                     }
                 for (var j = 0; j < array_length(itemm.gives); j++){
                     if itemm.gives[j][0] == "skill"{
-                        array_push(global.char_to_show.reff.variables.skills, itemm.gives[j][1])
+                        array_push(global.char_to_show.reff.variables.skills, object_get_safe_stats_shown(itemm.gives[j][1]))
                 }
                     else if itemm.gives[j][0] == "buff"{
                         array_push(global.char_to_show.reff.variables.starter_statuses, itemm.gives[j][1])
@@ -447,4 +447,69 @@ function inventory_draw() {
         var btn_w = 120;
         var btn_h = 45;
         draw_buttonn(btn_x, btn_y, btn_w, btn_h, "Переместить", inventory_move_item)
+}
+
+
+function object_get_safe_stats_shown(obj) {
+    if typeof(obj) == "struct"{
+        return obj
+    }
+    // Проверяем тип входных данных
+    if (instance_exists(obj)) {
+        // Работаем с экземпляром
+        return get_instance_stats_shown(obj);
+    }
+    else if (object_exists(obj)) {
+        // Работаем с шаблоном объекта
+        return get_object_template_stats_shown(obj);
+    }
+    else {
+        show_debug_message("Invalid object reference:", obj);
+        return undefined;
+    }
+}
+
+function get_instance_stats_shown(inst) {
+    var stats_shown = {
+        object_index: inst.object_index,
+        variables: {}
+    };
+    
+    // Получаем только изменяемые переменные
+    var vars = variable_instance_get_names(inst);
+    for (var i = 0; i < array_length(vars); i++) {
+        var var_name = vars[i];
+        
+        // Пропускаем системные и служебные переменные
+        if (!string_starts_with(var_name, "__") && var_name != "object_index") {
+            try {
+                stats_shown.variables[$ var_name] = inst[$ var_name];
+            } catch(e) {
+                show_debug_message("Failed to copy variable", var_name, ":", e);
+            }
+        }
+    }
+    var meths = (inst);
+    for (var i = 0; i < array_length(meths); i++) {
+        var var_name = meths[i];
+        
+        // Пропускаем системные и служебные переменные
+        if (!string_starts_with(var_name, "__") && var_name != "object_index") {
+            try {
+                stats_shown.variables[$ var_name] = inst[$ var_name];
+            } catch(e) {
+                show_debug_message("Failed to copy variable", var_name, ":", e);
+            }
+        }
+    }
+    return stats_shown;
+}
+
+function get_object_template_stats_shown(obj_index) {
+    // Создаем временный экземпляр для получения данных по умолчанию
+    var temp_inst = instance_create_depth(0, 0, -10000, obj_index, {temp:true});
+    var stats_shown = get_instance_stats_shown(temp_inst);
+    instance_destroy(temp_inst);
+    
+    return stats_shown;
 }

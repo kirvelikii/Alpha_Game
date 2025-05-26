@@ -1,12 +1,12 @@
-sprite_index = object_get_sprite(origin)
-mask_index = object_get_sprite(origin)
+sprite_index = object_get_sprite(origin.object_index)
+mask_index = object_get_sprite(origin.object_index)
 image_xscale = 0.5
 image_yscale = 0.5
 function object_get_safe_stats_shown(obj) {
     if typeof(obj) == "struct"{
-        sprite_index = object_get_sprite(obj.reff.object_index)
-        mask_index = object_get_mask(obj.reff.object_index)
-        return obj.reff
+        sprite_index = object_get_sprite(obj.object_index)
+        mask_index = object_get_mask(obj.object_index)
+        return obj
     }
     // Проверяем тип входных данных
     if (instance_exists(obj)) {
@@ -69,3 +69,19 @@ function get_object_template_stats_shown(obj_index) {
 }
 reff = object_get_safe_stats_shown(origin)
 alarm[0] = 1
+function calculate(arr){
+    var l = array_length(arr)
+    if l == 0{
+        return false
+    }
+    var str = ""
+    for (var i = 0; i < l; i++){
+        if string_starts_with(arr[i], "/"){
+            str += string(reff.variables[$ string_replace(arr[i], "/", "")])
+        }
+        else{
+            str += arr[i]
+        }
+    }
+    return str
+}

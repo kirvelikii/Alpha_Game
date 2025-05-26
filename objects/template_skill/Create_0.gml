@@ -1,6 +1,11 @@
+if temp{
+    uid = id
 name = "Template Skill"
+type = template_skill
 description = "Данный текст показывает, что вы либо наткнулись на баг, либо тестировщик, либо господин разработчик, иначе.. вы ГРЯЗНЫЙ ХАКЕР"
 skill_power = 10
+skill_power_shown = "10"    
+    skill_power_shown_formula = []
 range = 1
 target_type = "Враг"
 sub_target_count = 0
@@ -16,11 +21,13 @@ cast_delay = [5, 10]
 animation_delay = 5
 ready = false
 cd = cooldown
-restrictions = []
+restrictions = [] 
+    statistics = {damage: {total: 0, record: 0, last: 0}} 
 target = noone
 sub_targets = []
 eff = basic_skill_effect
 effects_on_use = [[fragility, "main_target_enemy", {potency:5}, {duration:120}]]
+}
 function use_skill(_target, main_target=true, modifers = undefined){
     if !instance_exists(_target){return }
     var crit = irandom(100)
@@ -50,12 +57,12 @@ function use_skill(_target, main_target=true, modifers = undefined){
                 //show_message(f)
                 for (var g = 1; g <= aoe_range; g++){
                     if f-g>=0{
-                        line[f-g].get_damage(attack_power * aoe_damage[g-1], "skill", host)
+                        line[f-g].get_damage(attack_power * aoe_damage[g-1], "skill", host, 0, 0, uid)
                         //show_message(array_get_index(ruleset.battlefield[line[f-g].pos], line[f-g]))
                         //show_message(f-g)
                     }
                     if f+g < array_length(line){
-                        line[f+g].get_damage(attack_power * aoe_damage[g-1], "skill", host)
+                        line[f+g].get_damage(attack_power * aoe_damage[g-1], "skill", host, 0, 0, uid)
                         //show_message(array_get_index(ruleset.battlefield[line[f+g].pos], line[f+g]))
                         //show_message(f+g)
                     }
@@ -63,7 +70,7 @@ function use_skill(_target, main_target=true, modifers = undefined){
             }
         }
     }
-    _target.get_damage(attack_power, "skill", host)
+    _target.get_damage(attack_power, "skill", host, 0, 0, uid)
     for (var i = 0; i < array_length(effects_on_use); i++){
         if effects_on_use[i][1] == "target_and_sub_enemy" or (main_target and effects_on_use[i][1] == "main_target_enemy") or (!main_target and effects_on_use[i][1] == "sub_target_enemy"){ 
             apply_effect(_target, effects_on_use[i][0], effects_on_use[i][2], effects_on_use[i][3])
@@ -184,3 +191,6 @@ icon_size = 64;
 margin = 10;
 start_x = margin;
 start_y = display_get_gui_height() - icon_size - margin;
+if room = fight{
+    statistics.damage.last = 0
+}

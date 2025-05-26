@@ -86,7 +86,7 @@ function apply_effects(){
             }
     for (var i = 0; i < array_length(gives); i++){
         if gives[i][0] == "skill"{
-            array_push(targ.reff.variables.skills, gives[i][1])
+            array_push(targ.reff.variables.skills, object_get_safe_stats_shown(gives[i][1]))
     }
         if gives[i][0] == "transformation"{
             var re = object_get_safe_stats_shown(gives[i][1])
@@ -134,8 +134,16 @@ function apply_effects(){
         if gives[i][0] == "buff"{
             array_push(targ.reff.variables.starter_statuses, gives[i][1])
     }
+        else if gives[i][0] == "skill_buff"{
+            sk = gives[i][1]
+            var n = struct_get_names(gives[i][2])
+            for (var e = 0; e < array_length(n); e++){
+                global.char_to_show.reff.variables.skills[array_find_index(global.char_to_show.reff.variables.skills, function(el) {return el.object_index == other.sk; })].variables[$ n[e]] += gives[i][2][$ n[e]]
+            }
+            
     }
     }
+}
 function object_get_safe_stats_shown(obj) {
     if typeof(obj) == "struct"{
         return obj.reff
@@ -295,6 +303,24 @@ function check_single_condition(cond) {
                 else {return false}
             }
         }
+        if (string_char_at(cond, 1) == "k"){
+            var a = string_split(string_copy(cond, 2, string_length(cond)-1), ":")
+            var ss = global.char_to_show.reff.variables.skills[find_skill(a[0])]
+            switch (a[3]) {
+                case ">":if ss.statistics[$ a[1]][$ a[2]] > real(a[4]){return true}
+                else {return false}
+                case "<": if ss.statistics[$ a[1]][$ a[2]] < real(a[4]){return true}
+                else {return false}
+                case ">=":if ss.variables.statistics[$ a[1]][$ a[2]] >= real(a[4]){return true}
+                else {return false}
+                case "<=":if ss.variables.statistics[$ a[1]][$ a[2]] <= real(a[4]){return true}
+                else {return false}
+                case "==":if ss.reff.variables.statistics[$ a[1]][$ a[2]] == real(a[4]){return true}
+                else {return false}
+                case "!=":if ss.reff.variables.statistics[$ a[1]][$ a[2]]!= real(a[4]){return true}
+                else {return false}
+            }
+        }
 }}
 
 function is_focus_unlocked(f){
@@ -384,9 +410,42 @@ function draw_requirement_node(x, y, node, indent, name_cache) {
             text = txt    
             color = unlocked ? c_green : c_red;    
         }
+            if (string_char_at(node, 1) == "k"){ 
+                var a = string_split(string_copy(node, 2, string_length(node)-1), ":") 
+            var txt = "" 
+            txt += global.char_to_show.reff.variables.skills[find_skill(a[0])].variables.name + ": "
+            switch (a[2]) {
+                case "total": txt += "cуммарный " break
+                case "last": txt += "последний " break
+                case "record": txt += "рекордный " break
+                case "kills": txt += "убийств " break
+                case "deaths": txt += "смертей " break
+                case "assists": txt += "помощи "break           
+            }        
+            switch (a[1]) {
+                case "damage": txt += "нанесенный урон "break
+                case "damage_taken": txt += "полученный урон "break
+                case "kda_total": txt = "Суммарное число " + txt   break
+                case "kda_last": txt = "Число " + txt + "в последнем матче "  break
+                case "kda_record": txt = "Рекорд " + txt        break         
+            }
+            txt += a[3] + " " + a[4] 
+            unlocked = false       
+            //show_message(a)    
+            switch (a[3]) {
+                case ">": if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] > real(a[4]){unlocked = true}break
+                case "<": if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] < real(a[4]){unlocked = true}break
+                case ">=":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] >= real(a[4]){unlocked = true}break
+                case "<=":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] <= real(a[4]){unlocked = true}break
+                case "==":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] == real(a[4]){unlocked = true}break
+                case "!=":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]]!= real(a[4]){unlocked = true}break
+            }
+            text = txt    
+            color = unlocked ? c_green : c_red; 
+            }
         }
-        draw_text_color(x, current_y, text, color, color, color, color, 1);
-        return current_y + line_height;
+        draw_text_ext_color(x, current_y, text, -1, 380, color, color, color, color, 1);
+        return current_y + line_height + (string_height_ext(text, -1, 380)) - line_height;
     }
     else if (is_array(node)) {
         // Совместимость со старой системой (все условия И)
@@ -470,4 +529,11 @@ function get_focus_name(f){
             return focus_name
         }
     }
+}
+
+function find_skill(name){
+    nme = name
+    //show_message(nme)
+    //show_message(object_get_name(global.char_to_show.reff.variables.skills[0].object_index))
+    return array_find_index(global.char_to_show.reff.variables.skills, function(el) {return object_get_name(el.object_index) == nme; })
 }
