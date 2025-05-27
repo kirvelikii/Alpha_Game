@@ -1,7 +1,8 @@
 gpu_set_scissor(0, 0, 1366, 769);
 draw_set_halign(fa_center)
 draw_set_valign(fa_top)
-draw_text_color(130, 250, data.variables.name, c_white, c_white, c_white, c_white, 1)
+draw_text_color(130, 235, data.variables.nickname, c_white, c_white, c_white, c_white, 1)
+draw_text_color(130, 265, data.variables.name, c_white, c_white, c_white, c_white, 1)
 draw_sprite(avatarr, 1 ,75, 100)
 if !position_meeting(mouse_x, mouse_y, obj_focus_block) or collision_point(mouse_x, mouse_y, obj_focus_block, false, false).focus_unlocked{ 
 draw_set_halign(fa_center)

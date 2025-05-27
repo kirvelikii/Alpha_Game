@@ -5,7 +5,8 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         draw_set_halign(fa_center)
         draw_set_valign(fa_top)
         draw_set_font(fnt_focus)
-        draw_text_color(x - 150 - (1-image_xscale) / 2 * 128, y + 16, reff.variables.name, c_white, c_white, c_white, c_white, 1)
+        draw_text_color(x - 150 - (1-image_xscale) / 2 * 128, y + 10, reff.variables.nickname, c_white, c_white, c_white, c_white, 1)
+        draw_text_color(x - 150 - (1-image_xscale) / 2 * 128, y + 32, reff.variables.name, c_white, c_white, c_white, c_white, 1)
         draw_sprite(hp_icon, 1, x - 250 - (1-image_xscale) / 2 * 128, y + 64)
         draw_set_halign(fa_left)
         draw_text_color(x - 200 - (1-image_xscale) / 2 * 128, y + 64, reff.variables.max_hp, c_white, c_white, c_white, c_white, 1)
@@ -52,7 +53,8 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
         draw_set_halign(fa_center)
         draw_set_valign(fa_top)
         draw_set_font(fnt_focus)
-        draw_text_color(x+128 + 150 - (1-image_xscale) / 2 * 128, y + 16, reff.variables.name, c_white, c_white, c_white, c_white, 1)
+        draw_text_color(x+128 + 150 - (1-image_xscale) / 2 * 128, y + 10, reff.variables.nickname, c_white, c_white, c_white, c_white, 1)
+        draw_text_color(x+128 + 150 - (1-image_xscale) / 2 * 128, y + 32, reff.variables.name, c_white, c_white, c_white, c_white, 1)
         draw_sprite(hp_icon, 1, x+128 + 50 - (1-image_xscale) / 2 * 128, y + 64)
         draw_set_halign(fa_left)
         draw_text_color(x+128 + 100 - (1-image_xscale) / 2 * 128, y + 64, reff.variables.max_hp, c_white, c_white, c_white, c_white, 1)
@@ -103,7 +105,8 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
             draw_set_halign(fa_center)
             draw_set_valign(fa_top)
             draw_set_font(fnt_focus)
-            draw_text_color(x - 150, y + 16, reff.variables.name, c_white, c_white, c_white, c_white, 1)
+            draw_text_color(x - 150, y + 10, reff.variables.nickname, c_white, c_white, c_white, c_white, 1)
+            draw_text_color(x - 150, y + 32, reff.variables.name, c_white, c_white, c_white, c_white, 1)
             
             // Функция для отрисовки стата с изменениями
             function draw_stat_with_change(_x, _y, icon, value, stat_name) {
@@ -170,7 +173,8 @@ if position_meeting(mouse_x, mouse_y, self) and inv_ruleset.drag_obj == noone{
             draw_set_halign(fa_center)
             draw_set_valign(fa_top)
             draw_set_font(fnt_focus)
-            draw_text_color(x + 128 + 150, y + 16, reff.variables.name, c_white, c_white, c_white, c_white, 1)
+            draw_text_color(x + 128 + 150, y + 10, reff.variables.nickname, c_white, c_white, c_white, c_white, 1)
+            draw_text_color(x + 128 + 150, y + 32, reff.variables.name, c_white, c_white, c_white, c_white, 1)
             
             // Статы (первый столбец)
             draw_stat_with_change(x + 128 + 50, y + 64, hp_icon, reff.variables.max_hp, "max_hp")

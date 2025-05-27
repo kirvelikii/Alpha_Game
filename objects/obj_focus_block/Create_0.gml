@@ -126,6 +126,9 @@ function apply_effects(){
                 else if nam[j] == "starter_statuses"{
                     new_obj.variables.starter_statuses = global.char_to_show.reff.variables.starter_statuses
                 }
+                else if nam[j] == "nickname"{
+                    new_obj.variables.nickname = global.char_to_show.reff.variables.nickname
+                }
             }
             global.char_to_show.reff = new_obj
             global.char_to_show.sprite_index = object_get_sprite(gives[i][1])

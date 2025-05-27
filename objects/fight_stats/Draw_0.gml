@@ -27,7 +27,7 @@ if global.chosen_pers == noone{
         else{
             draw_sprite_ext((tops1[i][0].sprite_index), 1, 50, 832 + 64 * i, 0.5, 0.5, 0, c_red, 1)
         }
-        draw_text(150, 832 + 16 + 64 * i, string(tops1[i][1]) + " " + tops1[i][0].name)
+        draw_text(150, 832 + 16 + 64 * i, string(tops1[i][1]) + " " + tops1[i][0].nickname)
         draw_set_halign(fa_center)
         draw_set_valign(fa_middle)
         for (var t = 0; t < 5; t++){
@@ -50,7 +50,7 @@ if global.chosen_pers == noone{
         else{
             draw_sprite_ext((tops2[i][0].sprite_index), 1, 1999, 832 + 64 * i, -0.5, 0.5, 0, c_red, 1)
         }
-        draw_text(1899, 832 + 16 + 64 * i, tops2[i][0].name + " " + string(tops1[i][1]))
+        draw_text(1899, 832 + 16 + 64 * i, tops2[i][0].nickname + " " + string(tops2[i][1]))
         draw_set_halign(fa_center)
         draw_set_valign(fa_middle)
         for (var t = 0; t < 5; t++){
@@ -103,7 +103,8 @@ if global.chosen_pers == noone{
     draw_set_font(fnt_result)
     draw_text(750, 900, string(global.chosen_pers.hp) + "/" + string(global.chosen_pers.max_hp))
     draw_text(750, 935, string(global.chosen_pers.sanity) + "/" + string(global.chosen_pers.max_sanity)) 
-    draw_text(750, 820, global.chosen_pers.name)
+    draw_text(750, 805, global.chosen_pers.nickname)
+    draw_text(750, 835, global.chosen_pers.name)
     var st = ""
     switch global.chosen_pers.state{
         case "retreat" : st = "Отступает" break
@@ -112,7 +113,7 @@ if global.chosen_pers == noone{
         default: st = "В порядке" break
             
      }   
-    draw_text(750, 860, st)
+    draw_text(750, 865, st)
     draw_set_halign(fa_center)
         draw_set_valign(fa_top)
         draw_set_halign(fa_left)
