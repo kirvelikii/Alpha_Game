@@ -62,3 +62,4 @@ function struct_merge(struct1, struct2, overwrite) {
     return temp;
 }
 cad_formula = min(4, potency/5)}
+drawn_stat = "potency"

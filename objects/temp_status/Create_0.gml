@@ -2,6 +2,7 @@ name = "fragility"
 description = "Увеличивает получаемый целью урон, на процент, равный силе эффекта"
 type = fragility
 constance = false
+drawn_stat = ""
 proof = "debuff"
 is_stackable = true
 effec = sp_fragility

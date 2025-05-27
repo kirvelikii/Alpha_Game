@@ -1,6 +1,7 @@
 battlefield = [[], [], [], [], [], [], []]
 global.blink_time = 0
 randomize()
+sdvg = 0
 display_reset(0, true);
 for (var i = 0; i < array_length(global.layout[0]); i++){
     for(var j = 0; j < array_length(global.layout[0][i]); j++){
@@ -92,7 +93,7 @@ function check_spaces(){
     clean_battlefield()
     for (var p = 0; p < array_length(battlefield); p++){
         var tt = column_get_teams(battlefield[p])
-        var yy = room_height / 2 - 64 - 200
+        var yy = room_height / 2 - 64 - sdvg
         var count = array_length(tt[0])
         var spacing = 128
         for (var i = 0; i < array_length(tt[0]); i++) { 

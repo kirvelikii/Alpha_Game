@@ -33,13 +33,13 @@ if (hp <= 0) {
     ruleset.check_spaces()
     ruleset.check_win();
 }
-
-if (team == 1 and pos == 0) or (team == 2 and pos == 6){
+taking_damage_timer += 1
+if ((team == 1 and pos == 0) or (team == 2 and pos == 6)) and state != "crazy" and state != "panic" and taking_damage_timer >= 60{
     heal_timer += 1
     if heal_timer >= 30{ 
         heal_timer = 0
     if hp < max_hp { hp += max_hp * 0.1 if hp > max_hp hp = max_hp} 
-    if sanity < max_sanity {sanity += max_sanity * 0.035 if sanity < max_sanity sanity = max_sanity} }
+    if sanity < max_sanity {sanity += max_sanity * 0.05 if sanity > max_sanity sanity = max_sanity} }
 }
 if state == "normal"{
 attack_cooldown -= 1;
@@ -232,7 +232,9 @@ if (hp <= 0) {
     ruleset.check_spaces()
     ruleset.check_win();
 }
-//show_debug_message([target_to_move, pos, need_pos])
-if healing_sanity{
+show_debug_message([target, target_to_move, pos, need_pos])
+if healing_sanity and sanity < max_sanity{
     sanity += heal_sanity.succesful_retreat
+    sanity = min(sanity, max_sanity)
+    healing_sanity = false
 }

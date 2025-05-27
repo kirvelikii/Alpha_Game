@@ -1,7 +1,9 @@
 if !instance_exists(host){
     instance_destroy(self)
 }
-cd -= 1
+if cd > 0{
+    cd -= 1
+}
 if (cd <= 0 && ready == false) and instance_exists(host) and host.state == "normal" {
     ready = true;
     

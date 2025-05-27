@@ -39,7 +39,7 @@ if temp{
     max_sanity = 100
     low_sanity_effect = {s50: "retreat", s25: "panic", s0: "crazy"}
     damage_to_sanity = {damage: {hp75: 0.45, hp50:0.65, hp25:1.5, hp10: 3}, ally_death:{row: 15, glob: 8}}
-    heal_sanity = {kill: 20, enemy_death:{row: 5, glob: 0}, succesful_retreat: 0.4, sanity_on_panic: 0.4}
+    heal_sanity = {kill: 20, enemy_death:{row: 5, glob: 0}, succesful_retreat: 20, sanity_on_panic: 0.4}
     state = "normal"
     modifer = { 
     max_hp: 0,
@@ -136,19 +136,23 @@ if temp{
     ]
 }
 else{
-    if team == 1{
+    if team == 1{ 
+        skills_ins = []
     image_xscale = 1
     for (var i = 0; i < array_length(skills); i++){
         var skill = object_get_safe_stats_shown(skills[i])
-        create_item_from_template(skill, x - 64 * (i+1), y, "Instances", id)
+        var a = create_item_from_template(skill, x - 64 * (i+1), y, "Instances", id)
+        array_push(skills_ins, a)
         //instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
     }
 }
 else if team == 2{
+    skills_ins = []
     image_xscale = -1
     for (var i = 0; i < array_length(skills); i++){
         var skill = object_get_safe_stats_shown(skills[i])
-        create_item_from_template(skill, x + 64 * (i+1), y, "Instances", id)
+        var a = create_item_from_template(skill, x + 64 * (i+1), y, "Instances", id)
+        array_push(skills_ins, a)
         //instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
         //instance_create_layer(x +  64 * (i+1), y, "Instances", skills[i], {host: id, image_xscale: -1})
     }
@@ -269,6 +273,7 @@ function get_damage(n, type, dealer, miss=false, crit=false, skill=noone){
         _miss.scale_max = 2.8;
         return
     }
+    taking_damage_timer = 0
     var total = n
     var atk_modifer = 1
     for (var i =0; i < array_length(statuses_visual); i++){
@@ -485,7 +490,7 @@ hp_drain_speed = 0.4;       // Скорость изменения индика�
 heal_color = c_aqua;        // Цвет индикатора лечения
 damage_color = c_yellow;    // Цвет индикатора урона
 
-function draw_my_healthbar(_x1 = x, _x2 = x-10*image_xscale, _y1 = y, _y2 = y + 128, hei=128) {
+function draw_my_healthbar(_x1 = x, _x2 = x+10*image_xscale, _y1 = y, _y2 = y + 128, hei=128) {
     /*var _x1 = x;
     var _x2 = x - 10 * image_xscale;
     var _y1 = y;
@@ -688,6 +693,7 @@ function get_object_template_stats_shown(obj_index) {
     
     return stats_shown;
 }
+taking_damage_timer = 0
 //show_message(statuses_visual)
 statistics.damage.last = 0
 statistics.damage_taken.last = 0

@@ -1,6 +1,7 @@
 sprite_index = data.texture
 image_xscale = 0.5
 image_yscale = 0.5
+uid = id
 is_dragging = false;
 drag_offset_x = 0;
 drag_offset_y = 0;

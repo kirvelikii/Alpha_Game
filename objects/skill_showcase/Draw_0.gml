@@ -16,7 +16,12 @@ if char_page_ruleset.skill_chosen = self{
         draw_text_ext(400, 350, "Сила: " + string(reff.variables.skill_power_shown), -1, 280)
         dop += string_height_ext("Сила: " + string(reff.variables.skill_power_shown), -1, 280) - string_height("A")
     }
-    draw_text(700, 350, "Цели: " + string(1 + reff.variables.sub_target_count) + ", " + string(reff.variables.target_type))
+    if reff.variables.aoe{
+        draw_text(700, 350, "Цели: " + string(1 + reff.variables.sub_target_count) + ", " + string(reff.variables.target_type) + ", AOE область: " + string(reff.variables.aoe_range))
+    }
+    else{
+        draw_text(700, 350, "Цели: " + string(1 + reff.variables.sub_target_count) + ", " + string(reff.variables.target_type))
+    }
     draw_text(400, 375 + dop, "Перезарядка: " + string(reff.variables.cooldown / 60))
     draw_text(700, 375, "Криты(шанс, урон): " + string(reff.variables.crit_chance) + "%, " + string(reff.variables.crit_damage) + "X")
     draw_text(1000, 350, "Всего урона: " + string(reff.variables.statistics.damage.total))
