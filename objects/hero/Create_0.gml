@@ -42,7 +42,10 @@ if temp{
     basic_attack = 5
     attack_interval = 60 * 1.5
     attack_delay = 10
+    animation_delay = 5
     basic_range = 1
+    fear_range = 0
+    fear = false
     basic_accuracy = 85
     dodge_chance = 5
     mov_speed = 1 / 2
@@ -61,6 +64,8 @@ if temp{
     equips = []
     starter_statuses = []
     common_pos = "frontline"
+    eff_type = "basic"
+    stats_proj = {}
     crit_eff = basic_crit_attack_effect
     eff = basic_attack_effect
     hp = max_hp 
@@ -257,8 +262,8 @@ function attack(_target, modifers=[]){
     if !instance_exists(_target){return }
     var shot = irandom(100)
     if shot >= basic_accuracy{
-        _target.get_damage(0, "attack", self, 1)
-        show_effect(_target, eff)
+        show_effect(_target, eff, eff_type, stats_proj)
+        _target.get_damage(0, "attack", self, 1, 0, noone, animation_delay)
         return
     }    
     var crit = irandom(100)
@@ -275,19 +280,25 @@ function attack(_target, modifers=[]){
         } 
     }
     if is_crit{
-        show_effect(_target, crit_eff)
-        _target.get_damage(attack_power, "attack", self, 0, 1)
+        show_effect(_target, crit_eff, eff_type, stats_proj)
+        _target.get_damage(attack_power, "attack", self, 0, 1, noone, animation_delay)
     }
     else{
-        show_effect(_target, eff)
-        _target.get_damage(attack_power, "attack", self, 0, 0)
+        show_effect(_target, eff, eff_type, stats_proj)
+        _target.get_damage(attack_power, "attack", self, 0, 0, animation_delay)
     }
     
 }
-function show_effect(_target, _effect){
-    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: _effect, constant: false, image_xscale: -1*_target.image_xscale, host: _target})
+function show_effect(_target, _effect, unique_type="basic", stats){
+    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: _effect, constant: false, image_xscale: -1*_target.image_xscale, host: _target, type: unique_type, st: stats})
 }
-function get_damage(n, type, dealer, miss=false, crit=false, skill=noone){
+function get_damage(n, type, dealer, miss=false, crit=false, skill=noone, delay=0){
+   if delay > 0{
+        alarm[0] = delay
+    delay_stats = [n, type, dealer, miss, crit, skill, delay=0]
+    return
+}
+ 
     if type == "attack"{
         var dodge = irandom(100)
         if dodge <= dodge_chance{
@@ -475,7 +486,7 @@ function find_anything_target(state_ex=["crazy", "panic", "retreat"]){
     
     with (hero) {
         //show_message([id!=other.id, array_contains(state_ex, state), team != other.team, (floor(abs(distance_to_target(other))) < other.basic_range)])
-        if hp > 0 and id != other.id and (!array_contains(state_ex, state) or team != other.team) and (floor(abs(distance_to_target(other))) < other.basic_range) {
+        if hp > 0 and id != other.id and (!array_contains(state_ex, state) or team != other.team) and (floor(abs(distance_to_target(other))) < other.basic_range){
             array_push(potential_targets, id);
         }
     }

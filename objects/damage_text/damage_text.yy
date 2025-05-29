@@ -11,8 +11,8 @@
   "name":"damage_text",
   "overriddenProperties":[],
   "parent":{
-    "name":"Alpha_Game",
-    "path":"Alpha_Game.yyp",
+    "name":"UI",
+    "path":"folders/Objects/UI.yy",
   },
   "parentObjectId":null,
   "persistent":false,

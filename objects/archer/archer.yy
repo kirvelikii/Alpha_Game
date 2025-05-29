@@ -1,20 +1,20 @@
 {
   "$GMObject":"",
-  "%Name":"temp_status",
+  "%Name":"archer",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":2,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":1,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"temp_status",
+  "name":"archer",
   "overriddenProperties":[],
   "parent":{
-    "name":"parents for many things",
-    "path":"folders/Objects/parents for many things.yy",
+    "name":"archer",
+    "path":"folders/Objects/chars/archer.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"hero",
+    "path":"objects/hero/hero.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -32,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sp_archer",
+    "path":"sprites/sp_archer/sp_archer.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

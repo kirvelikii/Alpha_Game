@@ -1,0 +1,1 @@
+get_damage(delay_stats[0], delay_stats[1], delay_stats[2], delay_stats[3], delay_stats[4], delay_stats[4], delay_stats[5])

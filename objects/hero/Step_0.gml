@@ -42,8 +42,18 @@ if ((team == 1 and pos == 0) or (team == 2 and pos == 6)) and state != "crazy" a
     if sanity < max_sanity {sanity += max_sanity * 0.05 if sanity > max_sanity sanity = max_sanity} }
 }
 if state == "normal"{
+if fear_range > 0{fear = false with (hero) {
+            if ((team != other.team or state == "crazy") && hp > 0) and (abs(distance_to_target(other))) < other.fear_range{
+                //show_message((abs(distance_to_target(other))))
+                if other.pos > 0 and other.pos < 6{
+                //show_message(floor(abs(distance_to_target(other))))
+                other.fear = true
+                other.need_pos = other.pos - other.image_xscale * 1
+            }
+        }
+    }}
 attack_cooldown -= 1;
-if (attack_cooldown <= 0) {
+if (attack_cooldown <= 0) and !fear {
     // Случайный разброс интервала атаки (±20% от базового)
     if (!instance_exists(target)){
         find_basic_target();
@@ -68,14 +78,14 @@ if (attack_cooldown <= 0) {
     }
 }
 if need_pos < 0{target_to_move = noone}
-if instance_exists(target_to_move){
+if instance_exists(target_to_move) or fear{
     if !is_moving{
         is_moving = 1
         directionn = abs(need_pos - pos) / (need_pos - pos)
         moving_progress = 0
     }
         moving_progress += (mov_speed  * (0.8 + random(0.4)) / 60)
-    if moving_progress >= 1 and 0 <= (pos + directionn) < 7{
+    if moving_progress >= 1 and 0 < (pos + directionn) < 7{
         //show_debug_message(pos)
         //show_debug_message(array_find_index(ruleset.battlefield[pos], function(item) { show_message([id, item.id])return item == id; }))
         array_delete(ruleset.battlefield[pos], array_find_instance(ruleset.battlefield[pos], self), 1)

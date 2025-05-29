@@ -1,3 +1,6 @@
+if !instance_exists(host){
+    instance_destroy()
+}
 name = "fragility"
 description = "Увеличивает получаемый целью урон, на процент, равный силе эффекта"
 type = fragility

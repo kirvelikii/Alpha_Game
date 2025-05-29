@@ -162,9 +162,9 @@ var stat = array_find_index(_target.statuses_visual, _finder.check);
         instance_create_layer(0, 0, "effects", _effect, {host: _target, stackable_params:_params, unstackable_params: _uparams})
     }
 }
-function show_effect(_target, _effect){
+function show_effect(_target, _effect, type="basic", stats={}){
     if !instance_exists(_target){return }
-    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: eff, constant: false, image_xscale: -1*_target.image_xscale, host: _target})
+    var a = instance_create_layer(_target.x, _target.y, "effects", effect, {sprite_index: eff, constant: false, image_xscale: -1*_target.image_xscale, host: _target, type: type, st:stats})
 }
 function distance_to_target(_target, _host){
     var a = _host
