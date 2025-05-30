@@ -1,4 +1,4 @@
-if !instance_exists(host){
+if room == fight and !instance_exists(host){
     instance_destroy()
 }
 name = "fragility"

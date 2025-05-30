@@ -21,13 +21,13 @@ if temp{
     basic_crit_damage = 2.2
     name = "Лучник"
     lore = "Легкий воин дальнего боя, при должных стараниях лук в его руках станет орудием, несущем смерть на расстоянии"
-    skills = []
+    skills = [arrow_rain]
     for (var i = 0; i < array_length(skills); i++){
         skills[i] = object_get_safe_stats_shown(skills[i])
         //instance_create_layer(x - 64 * (i+1), y, "Instances", skills[i], {host: id})
         //instance_create_layer(x +  64 * (i+1), y, "Instances", skills[i], {host: id, image_xscale: -1})
     }
-    legacy_skills = []
+    legacy_skills = [arrow_rain]
     equips = []
     common_pos = "frontline"
     crit_eff = archer_effect
