@@ -1,6 +1,7 @@
 data = global.char_to_show.reff
 avatarr = global.char_to_show.sprite_index
-camera_pos_x = 688
+focus_unl = false
+camera_pos_x = 0
 camera_pos_y = 334
 page = "info"
 ctrl_page = "info"

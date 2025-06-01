@@ -13,6 +13,51 @@ for (var i = 0; i < array_length(global.layout[1]); i++){
         var b = create_from_template(global.layout[1][i][j], room_width / 2 + 256 + 128 + 256 * (2-i), 100 + j * 138, "Instances", 2 , 6 - i)
         array_push(battlefield[6-i], b)
 }}
+function save_teams() {
+    var save = global.layout;
+    // Чтение существующих данных
+    var save_data = {};
+    if (file_exists("save.json")) {
+        var file = file_text_open_read("save.json");
+        if (file != -1) {  // Проверка успешного открытия файла
+            var json_string = file_text_read_string(file);
+            file_text_close(file);  // Важно закрыть файл после чтения!
+            
+            try {
+                save_data = json_parse(json_string);
+            } catch (e) {
+                show_message("Ошибка парсинга JSON: " + string(e));
+                save_data = {};
+            }
+        }
+    }
+    // Обновление данных
+    var round_key = string(global.round);
+    if (is_struct(save_data)){  // Проверка, что save_data - структура
+        if (variable_struct_exists(save_data, round_key)) {
+            if (is_array(save_data[$ round_key])) {
+                save_data[$ round_key] = array_union(save_data[$ round_key], save);
+            } else {
+                save_data[$ round_key] = [save_data[$ round_key], save];
+            }
+        } else {
+            save_data[$ round_key] = [save];
+        }
+    } else {
+        save_data = ds_map_create();
+        save_data[? round_key] = [save];
+    }
+    //show_debug_message(save_data)
+    // Запись новых данных
+    var filee = file_text_open_write("save.json");
+    if (filee != -1) {  // Проверка успешного открытия файла
+        var json_str = json_stringify(save_data);
+        file_text_write_string(filee, json_str);
+        file_text_close(filee);  // Важно закрыть файл после записи!
+    } else {
+        show_message("Не удалось открыть файл для записи");
+    }
+}
 function check_win(){
     var teams = []
     with (hero){
@@ -21,13 +66,13 @@ function check_win(){
         }
     }
     if array_length(teams) == 1{
-        show_debug_message(string(teams[0]) + " win")
+        //show_debug_message(string(teams[0]) + " win")
         global.winner = teams[0]
         global.inv_team = 0
         room = post_fight
     }
     else if array_length(teams) == 0{
-        show_debug_message(string("Draw"))
+        //show_debug_message(string("Draw"))
         global.winner = "draw"
         global.inv_team = 0
         room = post_fight

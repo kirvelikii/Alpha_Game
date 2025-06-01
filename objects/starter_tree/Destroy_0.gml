@@ -1,3 +1,4 @@
+if room = char_list{
 function object_get_safe_stats_shown(obj) {
     if typeof(obj) == "struct"{
         sprite_index = object_get_sprite(obj.reff.object_index)
@@ -65,6 +66,12 @@ function get_object_template_stats_shown(obj_index) {
     
     return stats_shown;
 }
+char_page_ruleset.focus_unl = false
+with (obj_focus_block){
+    if !focus_unlocked and can_unlock(){
+        char_page_ruleset.focus_unl = true
+    }
+}
 var aa = ds_map_values_to_array(focus_object_map);
 global.char_to_show.reff.variables.focus_tree = []
 for (var i = 0; i < array_length(aa); i++){
@@ -83,5 +90,5 @@ for (var i = 0; i < array_length(aa); i++){
         gives: a.gives}
     //show_message(a.focus_unlocked)    
     array_push(global.char_to_show.reff.variables.focus_tree ,strr)
-    }
+    }}
 //show_message(global.char_to_show.reff.variables.focus_tree)

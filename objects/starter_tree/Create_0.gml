@@ -1,4 +1,9 @@
-focus_tree = global.char_to_show.reff.variables.focus_tree
+if room = char_list{
+    focus_tree = global.char_to_show.reff.variables.focus_tree
+}
+else{
+    focus_tree = host.variables.focus_tree
+}
 focus_object_map = ds_map_create();
 function get_focus_object(focus_id) {
     if (ds_map_exists(focus_object_map, focus_id)) {
@@ -161,7 +166,9 @@ function center_tree() {
     // Вычисляем смещение для центрирования
     var offset_x = (room_width - (max_x - min_x)) / 2 - min_x;
     var offset_y = (room_height - (max_y - min_y)) / 2 - min_y;
-    
+    if room = char_list and char_page_ruleset.page == "focus_tree" and camera_man.x == 0{
+        camera_man.x = offset_x / 2
+    }
     // Применяем смещение ко всем объектам
     for (var i = 0; i < array_length(focus_tree); i++) {
         focus_tree[i].position.x += offset_x;
@@ -338,17 +345,14 @@ function arrange_trees() {
     for (var i = 0; i < array_length(treess); i++) {
         total_width += treess[i].width;
     }
-    
     var spacing = 200; // Минимальное расстояние между деревьями
     var start_x = (room_width - total_width - (array_length(treess)-1)*spacing) / 2;
     var current_x = start_x;
-    
     // 4. Позиционируем каждое дерево
     for (var i = 0; i < array_length(treess); i++) {
         position_tree(treess[i].root, current_x + treess[i].width/2, 100);
         current_x += treess[i].width + spacing;
     }
-    
     // 5. Обновляем позиции объектов
     apply_positions();
 }

@@ -85,3 +85,6 @@ if page == "info"{
         }
     }
 }
+if focus_unl and page!="focus_tree"{
+    draw_sprite(redyy, 1, tree_page.x + 10, tree_page.y + 16)
+}

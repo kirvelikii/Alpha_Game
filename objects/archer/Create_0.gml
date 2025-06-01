@@ -17,8 +17,8 @@ if temp{
     dodge_chance = 10
     mov_speed = 1 / 1.8
     basic_target_count = 1
-    basic_crit_chance = 30
-    basic_crit_damage = 2.2
+    basic_crit_chance = 17
+    basic_crit_damage = 2
     name = "Лучник"
     lore = "Легкий воин дальнего боя, при должных стараниях лук в его руках станет орудием, несущем смерть на расстоянии"
     skills = [arrow_rain]

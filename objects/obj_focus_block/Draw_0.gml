@@ -55,3 +55,6 @@ draw_set_valign(fa_middle)
 draw_set_halign(fa_center)
 draw_set_font(fnt_focus)
 draw_text_ext_color(x+32, y + 64 + 24,  focus_name, -1, 128, c_white, c_white, c_white, c_ltgray, 1)
+if !focus_unlocked and can_unlock(){
+    draw_sprite(redyy, 1, x - 32, y)
+}

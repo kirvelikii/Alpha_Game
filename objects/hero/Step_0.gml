@@ -1,3 +1,5 @@
+if killstr_cd > 0{killstr_cd-=1}
+    else {killstreak = 0}
 if (hp <= 0) {
     statistics.kda_last.deaths += 1
     with hero{
@@ -20,6 +22,60 @@ if (hp <= 0) {
         if instance_exists(damage_dealers_to_me[i]) and !array_contains(trt, damage_dealers_to_me[i].uid) and damage_dealers_to_me[i].uid != last_hit.uid{
             array_push(trt, damage_dealers_to_me[i].uid)
             damage_dealers_to_me[i].statistics.kda_last.assists += 1
+        }
+    }
+    last_hit.killstreak += 1
+    last_hit.killstr_cd = 240
+    var mess = "убил"
+    if last_hit.killstreak > 1{
+        switch (last_hit.killstreak) {
+            case 2: mess = "двойное убийство!" break
+            case 3: mess = "тройное убийство!" break
+            case 4: mess = "квадра-убийство!!" break
+            case 5: mess = "пентакилл!!!" break
+            default: mess = "буйство!!!!" break }}
+        else{
+            if statistics.kda_last.kills >= 3{
+                mess = "серия прервана"}
+            else{
+                switch (last_hit.statistics.kda_last.kills) {
+                    case 1: mess = "убил" break
+                    case 2: mess = "убил" break
+                    case 3: mess = "серия убийств" break
+                    case 4: mess = "мега-убийство" break
+                    case 5: mess = "неудержимость!" break
+                    case 6: mess = "божественно!!" break
+                    default: mess = "легендарно!!!" break }}
+            }
+    killfeed.add_kill_message(last_hit, self, mess)
+    var tot = fight_stats.schet[0] + fight_stats.schet[1]
+        var roll = irandom(tot)
+        if array_contains(struct_get_names(reactions.death), string(last_hit.name)){
+            var ch = reactions.death[$ string(last_hit.name)][0]
+            if ch <= roll{
+                killfeed.add_message(self, reactions.death[$ string(last_hit.name)][1][irandom(array_length(reactions.death[$ string(last_hit.name)][1])-1)])
+            }
+        }
+        else{
+            var ch = reactions.death.def[0]
+            if ch <= roll{
+                killfeed.add_message(self, reactions.death.def[1][irandom(array_length(reactions.death.def[1])-1)])
+            }
+        }
+    with last_hit{
+        var tot = fight_stats.schet[0] + fight_stats.schet[1]
+        var roll = irandom(tot)
+        if array_contains(struct_get_names(reactions.kill), string(other.name)){
+            var ch = reactions.kill[$ string(other.name)][0]
+            if ch <= roll{
+                killfeed.add_message(self, reactions.kill[$ string(other.name)][1][irandom(array_length(reactions.kill[$ string(other.name)][1])-1)])
+            }
+        }
+        else{
+            var ch = reactions.kill.def[0]
+            if ch <= roll{
+                killfeed.add_message(self, reactions.kill.def[1][irandom(array_length(reactions.kill.def[1])-1)])
+            }
         }
     }
     /*with kill_banner{

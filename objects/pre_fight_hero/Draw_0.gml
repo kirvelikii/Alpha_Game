@@ -27,3 +27,6 @@ else if collision_rectangle(356+256, 0, 356+512, 768, self, false, false) and is
     }
 }
 draw_self()
+if equipped != 0 and unl{
+    draw_sprite(redyy, 1, x + 32 * (image_xscale-1)/2, y)
+}

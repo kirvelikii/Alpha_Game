@@ -1,4 +1,4 @@
-if team == 1{
+if team == 1 and global.mode == "duel"{
     //show_message(team)
     with chars_panel{event_user(0)}    
     global.layout[0] = [[], [], []]
@@ -41,4 +41,26 @@ else{
         array_push(global.not_sorted[1], global.not_sorted_t1[i])
         instance_destroy(global.not_sorted_t1[i])
 }
+}
+if global.mode == "assync_mp"{
+    var save_data = {};
+    if (file_exists("save.json")) {
+        var file = file_text_open_read("save.json");
+        if (file != -1) {  // Проверка успешного открытия файла
+            var json_string = file_text_read_string(file);
+            file_text_close(file);  // Важно закрыть файл после чтения!
+            
+            try {
+                save_data = json_parse(json_string);
+            } catch (e) {
+                show_message("Ошибка парсинга JSON: " + string(e));
+                save_data = {};
+            }
+        }
+    }
+    var names = struct_get_names(save_data)
+    global.layout[1] = save_data[$ string(global.round)][irandom(array_length((save_data[$ string(global.round)]))-1)]
+    //show_message(global.layout[1])
+    show_debug_message(array_length([global.layout[1]]))
+    room = fight
 }

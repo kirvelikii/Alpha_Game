@@ -83,3 +83,8 @@ else{
     reff.variables.hp = reff.variables.max_hp
 }*/
 type = pre_fight_hero
+instance_create_layer(0, 0, "Instances", starter_tree, {host: reff})
+unl = false
+with obj_focus_block{if !focus_unlocked and can_unlock(){other.unl = true}}  
+    with obj_focus_block{instance_destroy()}
+ with starter_tree{instance_destroy()} 

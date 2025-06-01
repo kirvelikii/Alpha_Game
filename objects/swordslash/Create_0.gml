@@ -8,7 +8,7 @@ if temp{
     name = "Взмах меча"
 description = "Выглядит незаурядно, но доставит много проблем тем, кто попадет под него"
 type = swordslash 
-skill_power = 20  
+skill_power = 10  
     atk_perc = 60
 skill_power_shown_formula = ["/skill_power", " + ", "/atk_perc", "% от базовой атаки"]
 range = 1

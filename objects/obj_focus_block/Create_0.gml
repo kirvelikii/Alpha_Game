@@ -30,7 +30,7 @@ for (var i = 0; i < array_length(stat_changes); i++){
             //show_message(targ.reff)
             stats_shown[$ (stat_changes[i][0])] = stat_changes[i][1]}
 function can_unlock() {
-    if (global.char_to_show.reff.variables.expp < focus_cost) return false;
+    if (room = char_list and (global.char_to_show.reff.variables.expp < focus_cost)) or (room = pre_fight and starter_tree.host.variables.expp < focus_cost) return false;
      //for (var i = 0; i<array_length(focus_restrictions); i++ ){
         //if i != 0{show_message(0)}        
         /*for (var j = 0; j < array_length(focus_restrictions[i]); j++){
@@ -99,17 +99,17 @@ function apply_effects(){
                     new_obj.variables[$ nam[j]] += global.char_to_show.reff.variables[$ nam[j]] - pre.variables[$ nam[j]] 
                 }
                 else if nam[j] == "skills"{
-                    /*var add_skills = []
-                    for (var t = 0; t < array_length(pre.variables.skills); t++){
-                        if !array_contains(pre.variables.legacy_skills, pre.variables.skills[t]){
-                            array_push(add_skills, pre.variables.skills[t])
+                    //var nn = array_subtract(global.char_to_show.reff.variables.skills, global.char_to_show.reff.variables.legacy_skills)
+                    for (var t = 0; t < array_length(global.char_to_show.reff.variables.skills); t++){
+                        //show_message([global.char_to_show.reff.variables.legacy_skills, array_contains(global.char_to_show.reff.variables.legacy_skills, global.char_to_show.reff.variables.skills[t].variables.type)])
+                        if !array_contains(global.char_to_show.reff.variables.legacy_skills, global.char_to_show.reff.variables.skills[t].variables.type){
+                            array_push(new_obj.variables.skills, global.char_to_show.reff.variables.skills[t])
                         }
                         else{
-                            
+                            array_delete(global.char_to_show.reff.variables.legacy_skills, array_get_index(global.char_to_show.reff.variables.legacy_skills, global.char_to_show.reff.variables.skills[t].variables.type), 1)
                         }
-                    }*/
+                    }
                     //show_message([new_obj.variables.skills, global.char_to_show.reff.variables.skills, global.char_to_show.reff.variables.legacy_skills])
-                    new_obj.variables.skills = array_union(new_obj.variables.skills, array_subtract(global.char_to_show.reff.variables.skills, global.char_to_show.reff.variables.legacy_skills))
                     //show_message(new_obj.variables.skills)
                 }
                 else if nam[j] == "focus_tree"{
@@ -279,6 +279,7 @@ function evaluate_requirements(conditions) {
     return false;
 }
 function check_single_condition(cond) {
+    if room = char_list{
     if (string_char_at(cond, 1) == "!") {
         if (string_char_at(cond, 2) == "f"){
         var focus_id = string_copy(cond, 3, string_length(cond)-1);
@@ -324,7 +325,57 @@ function check_single_condition(cond) {
                 else {return false}
             }
         }
-}}
+}
+    }
+    else{
+        if (string_char_at(cond, 1) == "!") {
+        if (string_char_at(cond, 2) == "f"){
+        var focus_id = string_copy(cond, 3, string_length(cond)-1);
+        return !is_focus_unlocked(focus_id);}
+    }
+    else{
+        if (string_char_at(cond, 1) == "f"){
+            var focus_id = string_copy(cond, 2, string_length(cond)-1);
+            return is_focus_unlocked(focus_id);
+    }
+        if (string_char_at(cond, 1) == "s"){
+            var a = string_split(string_copy(cond, 2, string_length(cond)-1), ":")
+            switch (a[2]) {
+                case ">":if starter_tree.host.variables.statistics[$ a[0]][$ a[1]] > real(a[3]){return true}
+                else {return false}
+                case "<": if starter_tree.host.variables.statistics[$ a[0]][$ a[1]] < real(a[3]){return true}
+                else {return false}
+                case ">=":if starter_tree.host.variables.statistics[$ a[0]][$ a[1]] >= real(a[3]){return true}
+                else {return false}
+                case "<=":if starter_tree.host.variables.statistics[$ a[0]][$ a[1]] <= real(a[3]){return true}
+                else {return false}
+                case "==":if starter_tree.host.variables.statistics[$ a[0]][$ a[1]] == real(a[3]){return true}
+                else {return false}
+                case "!=":if starter_tree.host.variables.statistics[$ a[0]][$ a[1]]!= real(a[3]){return true}
+                else {return false}
+            }
+        }
+        if (string_char_at(cond, 1) == "k"){
+            var a = string_split(string_copy(cond, 2, string_length(cond)-1), ":")
+            var ss = starter_tree.host.variables.skills[find_skill(a[0])]
+            switch (a[3]) {
+                case ">":if ss.statistics[$ a[1]][$ a[2]] > real(a[4]){return true}
+                else {return false}
+                case "<": if ss.statistics[$ a[1]][$ a[2]] < real(a[4]){return true}
+                else {return false}
+                case ">=":if ss.variables.statistics[$ a[1]][$ a[2]] >= real(a[4]){return true}
+                else {return false}
+                case "<=":if ss.variables.statistics[$ a[1]][$ a[2]] <= real(a[4]){return true}
+                else {return false}
+                case "==":if ss.reff.variables.statistics[$ a[1]][$ a[2]] == real(a[4]){return true}
+                else {return false}
+                case "!=":if ss.reff.variables.statistics[$ a[1]][$ a[2]]!= real(a[4]){return true}
+                else {return false}
+            }
+        }
+}
+    }
+}
 
 function is_focus_unlocked(f){
     with (obj_focus_block){
@@ -436,12 +487,12 @@ function draw_requirement_node(x, y, node, indent, name_cache) {
             unlocked = false       
             //show_message(a)    
             switch (a[3]) {
-                case ">": if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] > real(a[4]){unlocked = true}break
-                case "<": if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] < real(a[4]){unlocked = true}break
-                case ">=":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] >= real(a[4]){unlocked = true}break
-                case "<=":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] <= real(a[4]){unlocked = true}break
-                case "==":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]] == real(a[4]){unlocked = true}break
-                case "!=":if global.char_to_show.reff.variables.statistics[$ a[1]][$ a[2]]!= real(a[4]){unlocked = true}break
+                case ">": if global.char_to_show.reff.variables.skills[find_skill(a[0])].variables.statistics[$ a[1]][$ a[2]] > real(a[4]){unlocked = true}break
+                case "<": if global.char_to_show.reff.variables.skills[find_skill(a[0])].variables.statistics[$ a[1]][$ a[2]] < real(a[4]){unlocked = true}break
+                case ">=":if global.char_to_show.reff.variables.skills[find_skill(a[0])].variables.statistics[$ a[1]][$ a[2]] >= real(a[4]){unlocked = true}break
+                case "<=":if global.char_to_show.reff.variables.skills[find_skill(a[0])].variables.statistics[$ a[1]][$ a[2]] <= real(a[4]){unlocked = true}break
+                case "==":if global.char_to_show.reff.variables.skills[find_skill(a[0])].variables.statistics[$ a[1]][$ a[2]] == real(a[4]){unlocked = true}break
+                case "!=":if global.char_to_show.reff.variables.skills[find_skill(a[0])].variables.statistics[$ a[1]][$ a[2]]!= real(a[4]){unlocked = true}break
             }
             text = txt    
             color = unlocked ? c_green : c_red; 
@@ -538,5 +589,10 @@ function find_skill(name){
     nme = name
     //show_message(nme)
     //show_message(object_get_name(global.char_to_show.reff.variables.skills[0].object_index))
-    return array_find_index(global.char_to_show.reff.variables.skills, function(el) {return object_get_name(el.object_index) == nme; })
+    if room = char_list{
+         return array_find_index(global.char_to_show.reff.variables.skills, function(el) {return object_get_name(el.object_index) == nme; })
+    }
+   else{
+     return array_find_index(starter_tree.host.variables.skills, function(el) {return object_get_name(el.object_index) == nme; })
+}
 }

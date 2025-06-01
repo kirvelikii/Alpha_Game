@@ -12,6 +12,28 @@ global.items_db = {
         obj: hero,
         owner: noone
     },
+    warrior: {
+        name: "Воин!",
+        texture: sp_warrior,
+        chance: 0.1,
+        rarity: "epic",
+        pools: ["basic", "chars"],
+        affinity: "all",
+        type: "hero",
+        obj: warrior,
+        owner: noone
+    },
+    archer: {
+        name: "Лучник!",
+        texture: sp_archer,
+        chance: 0.095,
+        rarity: "mythic",
+        pools: ["basic", "chars"],
+        affinity: "all",
+        type: "hero",
+        obj: archer,
+        owner: noone
+    },
     damage_up: {
         name: "Damage UP!",
         texture: damage_up,

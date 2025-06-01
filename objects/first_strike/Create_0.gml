@@ -4,6 +4,7 @@
 // Inherit the parent event
 event_inherited();
 if temp{
+    type = first_strike
 name = "Первый удар"
 description = "Важно правильно начинать, продолжить сможет каждый"
 skill_power = 40

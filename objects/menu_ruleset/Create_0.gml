@@ -6,9 +6,6 @@ sprite1 = sprite_list[irandom(array_length(sprite_list) - 1)]
 sprite2 = sprite_list[irandom(array_length(sprite_list) - 1)]
 //show_message([char1, sprite1, char2, sprite2])*/
 time = 0
-// В Create-событии инициализируем цвета
-// В Create-событии инициализируем цвета
-// В Create-событии:
 colors = [
     make_color_rgb(128, 0, 0),
     make_color_rgb(128, 128, 0),  
@@ -43,15 +40,12 @@ function draw_gradient_rotated(angle) {
     var center_x = w/2;
     var center_y = h/2;
     var max_dist = point_distance(0, 0, center_x, center_y);
-    
     // Оптимизация: рисуем через surface для плавности
     if (!surface_exists(gradient_surface)) {
         gradient_surface = surface_create(w, h);
     }
-    
     surface_set_target(gradient_surface);
     draw_clear_alpha(c_black, 0);
-    
     // Рисуем градиентные круги
     var steps = 36;
     var step_angle = 360 / steps;
@@ -76,7 +70,6 @@ function draw_gradient_rotated(angle) {
         draw_vertex_color(x2, y2, col2, 1);
         draw_primitive_end();
     }
-    
     surface_reset_target();
     draw_surface(gradient_surface, 0, 0);
 }

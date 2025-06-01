@@ -1,4 +1,10 @@
 //show_message(global.loot)
+//global.mode = "assync_mp"
+global.mode = "duel"
+if !variable_global_exists("round"){
+    global.round = 0
+}
+global.round += 1
 if !variable_global_exists("winner"){
     global.winner = noone
 }

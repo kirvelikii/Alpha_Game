@@ -33,6 +33,11 @@ if room != fight{
     }
 }
 if temp{
+    reactions = {
+        kill: {def: [1, ["Пока", "ББ", "До встречи в некст раунде"]], "Template": [2, ["Прощай, другой я", "Мог бы и побольше постараться"]]},
+        ally_death: {def: [1, ["Неет, еще -1", "Несем потери", "Ребят, соберитесь"]], "Template": [3, ["Ты был достойным союзником", "Столько пройти, и так пропасть..."]]},
+        death: {def: [4, ["Дальше без меня", "Я слабое звено...", "Але тима дно, вы че"]], "Template": [5, ["А как, не понял", "В следующий раз я уделаю тебя"]]},
+    }
     nickname = global.nicknames[irandom(array_length(global.nicknames)-1)]
     array_delete(global.nicknames, array_get_index(global.nicknames, nickname), 1)
     uid = id
@@ -341,13 +346,13 @@ function get_damage(n, type, dealer, miss=false, crit=false, skill=noone, delay=
     if crit{
         var _dmg = instance_create_layer(x + 64 * image_xscale, y + 64, "effects", damage_text);
         _dmg.text = string(round(total * atk_modifer)); // Число урона
-        _dmg.color = c_red;                // Красный = урон
+        _dmg.color = c_yellow;                // Красный = урон
         _dmg.scale_max = 2.5;              // Эффект "увеличения"
     }
     else{
         var _crit = instance_create_layer(x + 64 * image_xscale, y + 64, "effects", damage_text);
         _crit.text = string(round(total * atk_modifer));
-        _crit.color = c_yellow;            // Желтый = крит
+        _crit.color = c_red;            // Желтый = крит
         _crit.scale_max = 3.0;             // Больше масштаб
         _crit.drift_speed = 2.0;  
     }
@@ -737,3 +742,5 @@ taking_damage_timer = 0
 statistics.damage.last = 0
 statistics.damage_taken.last = 0
 statistics.kda_last = {kills: 0, deaths:0, assists: 0}
+killstr_cd = 0
+killstreak = 0

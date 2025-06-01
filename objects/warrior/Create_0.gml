@@ -103,11 +103,47 @@ if temp{
         focus_description: "Одного взмаха достаточно",
         focus_cost: 300,
         focus_prerequisites: ["Заточить Клинок"],
-        focus_restrictions: ["fЗаточить Клинок" , "kswordslash:damage:record:>=:175"],
+        focus_restrictions: ["fЗаточить Клинок" , "kswordslash:damage:record:>=:150"],
         focus_unlocked: false,
-        focus_icon: quick_sword,
+        focus_icon: stronger_slash,
         stat_changes: [],
-        gives: [["skill_buff", swordslash, {skill_power: 5, atk_perc: 10}]]
+        gives: [["skill_buff", swordslash, {skill_power: 10, atk_perc: 10}]]
+    },
+    {
+        focus_id: "На крыльях силы",
+        focus_name: "На крыльях силы",
+        focus_description: "Они не успеют опомнится, как их уже поразит мой клинок",
+        focus_cost: 150,
+        focus_prerequisites: ["Разящее лезвие", "Сильный взмах"],
+        focus_restrictions: ["fРазящее лезвие","fСильный взмах", "skda_record:kills:>=:3","skda_total:assists:>=:10", "!fБыстрота и мощь", "!fCила решит все проблемы"],
+        focus_unlocked: false,
+        focus_icon: quick_power,
+        stat_changes: [["mov_speed_perc", +0.3], ["attack_interval", -0.1], ["basic_attack_perc", -0.1]],
+        gives: [["skill_buff", swordslash, {skill_power: 15, atk_perc: -5, cooldown: -60}]]
+    },
+    {
+        focus_id: "Быстрота и мощь",
+        focus_name: "Быстрота и мощь",
+        focus_description: "Важно сохранить баланас иежду маневренностью и силой",
+        focus_cost: 250,
+        focus_prerequisites: ["Разящее лезвие", "Сильный взмах"],
+        focus_restrictions: ["fРазящее лезвие","fСильный взмах", "skda_record:kills:>=:4", "sdamage:total:>=:600", "!fНа крыльях силы", "!fCила решит все проблемы"],
+        focus_unlocked: false,
+        focus_icon: quick_and_might,
+        stat_changes: [["max_hp", 30], ["mov_speed_perc", +0.2]],
+        gives: []
+    },
+    {
+        focus_id: "Cила решит все проблемы",
+        focus_name: "Cила решит все проблемы",
+        focus_description: "С такой мощью они могут прятаться сколько угодно",
+        focus_cost: 350,
+        focus_prerequisites: ["Разящее лезвие", "Сильный взмах"],
+        focus_restrictions: ["fРазящее лезвие","fСильный взмах", "skda_total:kills:>=:6","sdamage_taken:total:>=:700", "!fБыстрота и мощь", "!fНа крыльях силы"],
+        focus_unlocked: false,
+        focus_icon: just_might,
+        stat_changes: [["mov_speed_perc", -0.1], ["attack_interval", +0.1], ["basic_attack_perc", 0.1], ["basic_attack", 5], ["max_hp", 30], ["max_sanity", 50]],
+        gives: [["skill_buff", swordslash, {atk_perc: 5, cooldown: +60}]]
     },
     ]
 }
