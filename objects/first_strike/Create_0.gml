@@ -7,7 +7,7 @@ if temp{
     type = first_strike
 name = "Первый удар"
 description = "Важно правильно начинать, продолжить сможет каждый"
-skill_power = 40
+skill_power = 400
 skill_power_shown = "40, X1.5 при ударе по уникальному врагу, +0.25 если макс здоровье у себя и цели"
 range = 1
 target_type = "Враг"

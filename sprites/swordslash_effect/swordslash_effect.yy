@@ -32,8 +32,8 @@
   "nineSlice":null,
   "origin":9,
   "parent":{
-    "name":"warrior",
-    "path":"folders/Objects/chars/warrior.yy",
+    "name":"skills",
+    "path":"folders/Objects/chars/warrior/skills.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

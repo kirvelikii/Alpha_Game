@@ -9,12 +9,12 @@ if temp{
     name = "Дождь из стрел"
 description = "Смерть падает с небес"
 type = arrow_rain
-skill_power = 3
+skill_power = 20
     dur = 180
     sh_dur = 3
     del = 15
     d = del
-skill_power_shown_formula = ["Массив стрел, урон каждую 1/4 секунду ", "2 + 5% от атаки", ", длительность, ", "/sh_dur", " секунд"]
+skill_power_shown_formula = ["Массив стрел, урон каждую 1/4 секунду ", "20 + 5% от атаки", ", длительность, ", "/sh_dur", " секунд"]
     active_skills = []
 range = 3
     stat = {duration: 180}
@@ -45,7 +45,7 @@ function use_skill(_target, main_target=true, modifers = undefined){
     if crit <= crit_chance{
         attack_power *= crit_damage
     }
-    skill_power = 2 + host.basic_attack/20
+    skill_power = 20 + host.basic_attack/20
     show_debug_message(host.name + " (" + string(host.team) + ")" + " использует " + name + " урон - "+ string(attack_power) + ", врага "+ _target.name + " ("+ string(_target.team) + "), оставшееся хп - " + string(_target.hp - attack_power) + " " + string(_target.pos - host.pos) + " дальность")
     if aoe{
         var index = array_get_index(ruleset.battlefield[_target.pos], _target)

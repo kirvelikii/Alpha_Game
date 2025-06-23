@@ -49,3 +49,11 @@ tops[0].damage[0].reff.variables.expp += 100
 tops[1].damage[0].reff.variables.expp += 100
 tops[0].damage_taken[0].reff.variables.expp += 100
 tops[1].damage_taken[0].reff.variables.expp += 100
+if global.winner == 1{
+    global.map[global.mappos+5][0] = "red"
+    global.mappos += 1
+}
+else{
+    global.map[global.mappos+5][0] = "blue"
+    global.mappos -= 1
+}

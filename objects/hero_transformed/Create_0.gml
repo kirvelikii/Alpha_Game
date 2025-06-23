@@ -6,8 +6,8 @@ event_inherited();
 
 if temp{
     type = hero_transformed
-    max_hp = 200
-    basic_attack = 20
+    max_hp = 2000
+    basic_attack = 200
     attack_interval = 60 * 1.0
     attack_delay = 10
     basic_range = 1

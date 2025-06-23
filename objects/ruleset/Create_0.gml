@@ -3,6 +3,23 @@ global.blink_time = 0
 randomize()
 sdvg = 0
 display_reset(0, true);
+for (var i = 0; i<array_length(global.map[global.mappos+5][1]); i++){
+    if global.map[global.mappos+5][1][i].type == "army"{
+        if global.map[global.mappos+5][1][i].side == "red"{
+            for (var j = 0; j < array_length(global.map[global.mappos+5][1][i].contains); j++){
+                var ins = {reff: object_get_safe_stats_shown(global.map[global.mappos+5][1][i].contains[j], 1), affinity: global.map[global.mappos+5][1][i].sprite, col: global.map[global.mappos+5][1][i].color}
+                var a = create_from_template(ins, room_width / 2 - 256 - 128 - 256 * (0), 100 + j * 138, "Instances", 1, 0)
+                array_push(battlefield[0], a)
+            }
+        }
+        else if global.map[global.mappos+5][1][i].side == "blue"{
+            for (var j = 0; j < array_length(global.map[global.mappos+5][1][i].contains); j++){
+                var ins = {reff: object_get_safe_stats_shown(global.map[global.mappos+5][1][i].contains[j], 2), affinity: global.map[global.mappos+5][1][i].sprite, col: global.map[global.mappos+5][1][i].color}
+                var b = create_from_template(ins, room_width / 2 + 256 + 128 + 256 * (2), 100 + j * 138, "Instances", 2 , 6)
+                array_push(battlefield[6], b)}
+        }
+    }
+}
 for (var i = 0; i < array_length(global.layout[0]); i++){
     for(var j = 0; j < array_length(global.layout[0][i]); j++){
         var a = create_from_template(global.layout[0][i][j], room_width / 2 - 256 - 128 - 256 * (2-i), 100 + j * 138, "Instances", 1, i)
@@ -80,7 +97,21 @@ function check_win(){
 }
 function create_from_template(template, x, y, layer, team=0, pos=0) {
 // Создаем экземпляр с начальными параметрами
-    var inst = instance_create_layer(x, y, layer, template.reff.object_index, { team: team, temp: true, pos: pos});
+    if struct_exists(template, "affinity"){
+        var aff = template.affinity
+        var col = template.col
+    }
+    else{
+        if team == 1{
+            var aff = Sprite87
+            var col = c_red
+        }
+        else{
+            var aff = Sprite87
+            var col = c_blue
+        }
+    }
+    var inst = instance_create_layer(x, y, layer, template.reff.object_index, {team: team, temp: true, pos: pos, aff: aff, afc: col});
     //instance_deactivate_object(inst)
     if (!instance_exists(inst)) return noone;
     //instance_deactivate_object(inst)
@@ -179,6 +210,68 @@ else{
     reff.variables.max_hp += irandom_range(1, 10)
     reff.variables.hp = reff.variables.max_hp
 }*/
+function object_get_safe_stats_shown(obj, team=0) {
+    if typeof(obj) == "struct"{
+        return obj.reff
+    }
+    // Проверяем тип входных данных
+    if (instance_exists(obj)) {
+        // Работаем с экземпляром
+        return get_instance_stats_shown(obj);
+    }
+    else if (object_exists(obj)) {
+        // Работаем с шаблоном объекта
+        return get_object_template_stats_shown(obj, team);
+    }
+    else {
+        show_debug_message("Invalid object reference:", obj);
+        return undefined;
+    }
+}
 
+function get_instance_stats_shown(inst) {
+    var stats_shown = {
+        object_index: inst.object_index,
+        variables: {}
+    };
+    
+    // Получаем только изменяемые переменные
+    var vars = variable_instance_get_names(inst);
+    for (var i = 0; i < array_length(vars); i++) {
+        var var_name = vars[i];
+        
+        // Пропускаем системные и служебные переменные
+        if (!string_starts_with(var_name, "__") && var_name != "object_index") {
+            try {
+                stats_shown.variables[$ var_name] = inst[$ var_name];
+            } catch(e) {
+                show_debug_message("Failed to copy variable", var_name, ":", e);
+            }
+        }
+    }
+    var meths = (inst);
+    for (var i = 0; i < array_length(meths); i++) {
+        var var_name = meths[i];
+        
+        // Пропускаем системные и служебные переменные
+        if (!string_starts_with(var_name, "__") && var_name != "object_index") {
+            try {
+                stats_shown.variables[$ var_name] = inst[$ var_name];
+            } catch(e) {
+                show_debug_message("Failed to copy variable", var_name, ":", e);
+            }
+        }
+    }
+    return stats_shown;
+}
+
+function get_object_template_stats_shown(obj_index, team=0) {
+    // Создаем временный экземпляр для получения данных по умолчанию
+    var temp_inst = instance_create_depth(0, 0, -10000, obj_index, {temp:true, team: team});
+    var stats_shown = get_instance_stats_shown(temp_inst);
+    instance_destroy(temp_inst);
+    
+    return stats_shown;
+}
 check_spaces()
 check_win()

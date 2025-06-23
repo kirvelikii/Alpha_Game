@@ -6,7 +6,7 @@ event_inherited();
 if temp{
     name = "Vibe Template Skill"
 description = "Данный текст показывает, что вы крутой ВАЙБМЕН"
-skill_power = 30
+skill_power = 300
 skill_power_shown = "30"
 skill_power_shown_formula = []
 range = 2

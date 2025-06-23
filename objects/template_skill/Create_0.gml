@@ -3,7 +3,7 @@ if temp{
 name = "Template Skill"
 type = template_skill
 description = "Данный текст показывает, что вы либо наткнулись на баг, либо тестировщик, либо господин разработчик, иначе.. вы ГРЯЗНЫЙ ХАКЕР"
-skill_power = 10
+skill_power = 100
 skill_power_shown = "10"    
     skill_power_shown_formula = []
 range = 1

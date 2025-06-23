@@ -1,7 +1,17 @@
 draw_set_font(fnt_result)
 draw_set_halign(fa_center)
-draw_rectangle_color(0, 0, 1366, 768, c_blue, c_red, c_red, c_blue, 0)
-if global.winner != "draw" {draw_text(room_width/2, 25, "Победа " + string(global.winner) + " игрока!")} 
+if global.winner == 1 {var w = c_red} else {var w = c_blue}
+if abs(global.mappos) > 5{
+    var c = make_color_rgb(255, 215, 0)
+    draw_rectangle_color(0, 0, 1366, 768, c, c_black, w, c_black, 0)
+}
+else{
+    draw_rectangle_color(0, 0, 1366, 768, w, c_black, w, c_black, 0)
+}
+if abs(global.mappos) > 5{
+    draw_text(room_width/2, 25, "Абсолютная Победа " + string(global.winner) + " игрока! Враг окончательно повержен! Великий день для всех нас")
+}
+else if global.winner != "draw" {draw_text(room_width/2, 25, "Победа " + string(global.winner) + " игрока!")} 
     else{
         draw_text(room_width/2, 25, "Ничья?")
     }

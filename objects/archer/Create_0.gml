@@ -7,8 +7,8 @@ event_inherited();
 if temp{
     type = archer
     sprite_index = sp_archer
-    max_hp = 100
-    basic_attack = 6
+    max_hp = 1000
+    basic_attack = 60
     attack_interval = 60 * 1.2
     attack_delay = 60
     basic_range = 3
@@ -35,7 +35,7 @@ if temp{
     eff_type = "projectile"
     stats_proj = {sspeed: 45, source: id, land_eff: archer_effect_landed, land_dl: 60}
     hp = max_hp 
-    max_sanity = 150
+    max_sanity = 800
     low_sanity_effect = {s50: "retreat", s25: "panic", s0: "crazy"}
     damage_to_sanity = {damage: {hp75: 0.55, hp50:0.75, hp25:1.6, hp10: 4}, ally_death:{row: 20, glob: 6}}
     heal_sanity = {kill: 20, enemy_death:{row: 5, glob: 0}, succesful_retreat: 0.4, sanity_on_panic: 0.4}

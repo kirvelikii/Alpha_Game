@@ -1,8 +1,8 @@
 draw_set_font(fnt_result)
 draw_set_halign(fa_center)
-draw_text_color(room_width / 2, 50, ":", c_white, c_white, c_white, c_white, 1)
-draw_text_color(room_width / 2 - 25, 50, schet[0], c_red, c_red, c_red, c_red, 1)
-draw_text_color(room_width / 2 + 25, 50, schet[1], c_blue, c_blue, c_blue, c_blue, 1)
+draw_text_color(room_width / 2, 90, ":", c_white, c_white, c_white, c_white, 1)
+draw_text_color(room_width / 2 - 25, 90, schet[0], c_red, c_red, c_red, c_red, 1)
+draw_text_color(room_width / 2 + 25, 90, schet[1], c_blue, c_blue, c_blue, c_blue, 1)
 if opened{
 draw_rectangle_color(0, 800, 2049, 1152, c_black, c_black, c_black, c_black, 0) 
 draw_set_font(fnt_focus)
@@ -22,10 +22,12 @@ if global.chosen_pers == noone{
         draw_set_valign(fa_top)
         if instance_exists(tops1[i][0]){
             draw_sprite_ext((tops1[i][0].sprite_index), 1, 50, 832 + 64 * i, 0.5, 0.5, 0, c_white, 1)
+            draw_sprite_ext(tops1[i][0].aff, 1, 50 + 48, 832 + 64 * i, 0.25, 0.25, 0, tops1[i][0].afc, 1)
             tops1[i][0].draw_my_healthbar(50, 50-10, 832 + 64 * (i), 832 + 64 * (i + 1), 64)
         }
         else{
             draw_sprite_ext((tops1[i][0].sprite_index), 1, 50, 832 + 64 * i, 0.5, 0.5, 0, c_red, 1)
+            draw_sprite_ext(tops1[i][0].aff, 1, 50 + 48, 832 + 64 * i, 0.25, 0.25, 0, tops1[i][0].afc, 1)
         }
         draw_text(150, 832 + 16 + 64 * i, string(tops1[i][1]) + " " + tops1[i][0].nickname)
         draw_set_halign(fa_center)
@@ -45,10 +47,12 @@ if global.chosen_pers == noone{
         draw_set_valign(fa_top)
         if instance_exists(tops2[i][0]){
             draw_sprite_ext((tops2[i][0].sprite_index), 1, 1999, 832 + 64 * i, -0.5, 0.5, 0, c_white, 1)
+            draw_sprite_ext(tops2[i][0].aff, 1, 1999 - 64, 832 + 64 * i, 0.25, 0.25, 0, tops2[i][0].afc, 1)
             tops2[i][0].draw_my_healthbar(1999, 1999+10, 832 + 64 * (i), 832 + 64 * (i + 1), 64)
         }
         else{
-            draw_sprite_ext((tops2[i][0].sprite_index), 1, 1999, 832 + 64 * i, -0.5, 0.5, 0, c_red, 1)
+            draw_sprite_ext((tops2[i][0].sprite_index), 1, 1999 - 64, 832 + 64 * i, -0.5, 0.5, 0, c_red, 1)
+            draw_sprite_ext(tops2[i][0].aff, 1, 1999, 832 + 64 * i, 0.25, 0.25, 0, tops2[i][0].afc, 1)
         }
         draw_text(1899, 832 + 16 + 64 * i, tops2[i][0].nickname + " " + string(tops2[i][1]))
         draw_set_halign(fa_center)
@@ -66,6 +70,7 @@ if global.chosen_pers == noone{
 } else{
     if instance_exists(global.chosen_pers){
         (draw_sprite(global.chosen_pers.sprite_index, 1, 100, 850))
+        draw_sprite_ext(global.chosen_pers.aff, 1, 100 + 96, 850, 0.5, 0.5, 0, global.chosen_pers.afc, 1)
         draw_horizontal_healthbar(300, 1200, 900, 925, 900)
         draw_horizontal_sanitybar(300, 1200, 935, 960, 900)
         var xx = 750 - 32

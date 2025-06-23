@@ -6,8 +6,8 @@ event_inherited();
 
 if temp{
     type = warrior
-    max_hp = 175
-    basic_attack = 7.5
+    max_hp = 1750
+    basic_attack = 75
     attack_interval = 60 * 1.6
     attack_delay = 15
     basic_range = 1
@@ -58,7 +58,7 @@ if temp{
         focus_restrictions: [],
         focus_unlocked: false,
         focus_icon: strong_will,
-        stat_changes: [["max_hp_perc", 0.1], ["max_hp", 50]],
+        stat_changes: [["max_hp_perc", 0.1], ["max_hp", 500]],
         gives: []
     },
     {
@@ -82,7 +82,7 @@ if temp{
         focus_restrictions: [],
         focus_unlocked: false,
         focus_icon: clean_sword,
-        stat_changes: [["basic_attack_perc", 0.05], ["basic_attack", 10], ["basic_accuracy", 5], ["attack_interval_perc", -0.05]],
+        stat_changes: [["basic_attack_perc", 0.05], ["basic_attack", 100], ["basic_accuracy", 5], ["attack_interval_perc", -0.05]],
         gives: []
     },
     {
@@ -94,7 +94,7 @@ if temp{
         focus_restrictions: ["fЗаточить Клинок", "skda_total:kills:>=:4", "sdamage:record:>=:200"],
         focus_unlocked: false,
         focus_icon: quick_sword,
-        stat_changes: [["basic_attack", 5], ["attack_interval", -0.1]],
+        stat_changes: [["basic_attack", 50], ["attack_interval", -0.1]],
         gives: []
     },
     {
@@ -130,7 +130,7 @@ if temp{
         focus_restrictions: ["fРазящее лезвие","fСильный взмах", "skda_record:kills:>=:4", "sdamage:total:>=:600", "!fНа крыльях силы", "!fCила решит все проблемы"],
         focus_unlocked: false,
         focus_icon: quick_and_might,
-        stat_changes: [["max_hp", 30], ["mov_speed_perc", +0.2]],
+        stat_changes: [["max_hp", 300], ["mov_speed_perc", +0.2]],
         gives: []
     },
     {
@@ -142,7 +142,7 @@ if temp{
         focus_restrictions: ["fРазящее лезвие","fСильный взмах", "skda_total:kills:>=:6","sdamage_taken:total:>=:700", "!fБыстрота и мощь", "!fНа крыльях силы"],
         focus_unlocked: false,
         focus_icon: just_might,
-        stat_changes: [["mov_speed_perc", -0.1], ["attack_interval", +0.1], ["basic_attack_perc", 0.1], ["basic_attack", 5], ["max_hp", 30], ["max_sanity", 50]],
+        stat_changes: [["mov_speed_perc", -0.1], ["attack_interval", +0.1], ["basic_attack_perc", 0.1], ["basic_attack", 50], ["max_hp", 300], ["max_sanity", 500]],
         gives: [["skill_buff", swordslash, {atk_perc: 5, cooldown: +60}]]
     },
     ]

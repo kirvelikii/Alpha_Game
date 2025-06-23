@@ -42,7 +42,7 @@ global.items_db = {
         pools: ["basic", "stats_up"],
         affinity: "all",
         type: "stat_up",
-        effect: [["basic_attack_perc", 0.2], ["basic_attack", 10]],
+        effect: [["basic_attack_perc", 0.2], ["basic_attack", 100]],
         gives: [],
         obj: damage_up, 
         owner: noone
@@ -67,7 +67,7 @@ global.items_db = {
         pools: ["basic", "weapons"],
         affinity: "all",
         type: "item",
-        effect : [["basic_attack_perc", 0.1], ["basic_attack", 20], ["basic_crit_chance", 20]],
+        effect : [["basic_attack_perc", 0.1], ["basic_attack", 200], ["basic_crit_chance", 20]],
         gives: [["buff", [armor_crush, {potency: 5, status_duration: 120}, {}]]],
         owner: noone
     }
@@ -76,7 +76,7 @@ room = pre_fight
 global.chests_db = {
     basic: {
         name: "basic",
-        items: ["hero", "damage_up", "first_strike_ult", "armor_crusher"]
+        items: ["hero", "damage_up", "first_strike_ult", "armor_crusher", "warrior", "archer"]
     }
 };
 rolling = 0

@@ -43,8 +43,8 @@ if temp{
     uid = id
     expp = 10000
     type = hero
-    max_hp = 100
-    basic_attack = 5
+    max_hp = 1000
+    basic_attack = 50
     attack_interval = 60 * 1.5
     attack_delay = 10
     animation_delay = 5
@@ -74,7 +74,7 @@ if temp{
     crit_eff = basic_crit_attack_effect
     eff = basic_attack_effect
     hp = max_hp 
-    max_sanity = 100
+    max_sanity = 1000
     low_sanity_effect = {s50: "retreat", s25: "panic", s0: "crazy"}
     damage_to_sanity = {damage: {hp75: 0.45, hp50:0.65, hp25:1.5, hp10: 3}, ally_death:{row: 15, glob: 8}}
     heal_sanity = {kill: 20, enemy_death:{row: 5, glob: 0}, succesful_retreat: 20, sanity_on_panic: 0.4}
@@ -120,7 +120,7 @@ if temp{
         focus_restrictions: {"and":["fстарт", "!f2"]},
         focus_unlocked: false,
         focus_icon: eueueuee,
-        stat_changes: [["max_hp", 65]],
+        stat_changes: [["max_hp", 650]],
         gives: []
     },
     {
@@ -156,7 +156,7 @@ if temp{
         focus_restrictions: {"and":["!fe", {"or":["f1", "f2"]}]},
         focus_unlocked: false,
         focus_icon: antivibe,
-        stat_changes: [["max_hp_perc", 0.2], ["max_hp", 50], ["basic_attack", 20]],
+        stat_changes: [["max_hp_perc", 0.2], ["max_hp", 500], ["basic_attack", 200]],
         gives: []
     },
     {
@@ -491,7 +491,7 @@ function find_anything_target(state_ex=["crazy", "panic", "retreat"]){
     
     with (hero) {
         //show_message([id!=other.id, array_contains(state_ex, state), team != other.team, (floor(abs(distance_to_target(other))) < other.basic_range)])
-        if hp > 0 and id != other.id and (!array_contains(state_ex, state) or team != other.team) and (floor(abs(distance_to_target(other))) < other.basic_range){
+        if hp > 0 and id != other.id and (!array_contains(state_ex, state) or team != other.team) and (floor(abs(distance_to_target(other))) < other.basic_range) and ((pos != 0 and other.team == 1) or (pos != 6 and other.team == 2)){
             array_push(potential_targets, id);
         }
     }
