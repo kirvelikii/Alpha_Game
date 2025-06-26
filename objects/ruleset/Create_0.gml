@@ -106,9 +106,13 @@ function create_from_template(template, x, y, layer, team=0, pos=0) {
             var aff = Sprite87
             var col = c_red
         }
-        else{
+        else if team == 2{
             var aff = Sprite87
             var col = c_blue
+        }
+        else{
+            var aff = Sprite87
+            var col = c_gray
         }
     }
     var inst = instance_create_layer(x, y, layer, template.reff.object_index, {team: team, temp: true, pos: pos, aff: aff, afc: col});
@@ -187,7 +191,7 @@ function column_get_teams(arr){
     t2 = []
     for (var t = 0; t < array_length(arr); t++){
         if instance_exists(arr[t]){
-        if arr[t].team == 1{
+        if arr[t].team == 1 or (arr[t].team != 2 and image_xscale = 1){
             array_push(t1, arr[t])
         }
         else{

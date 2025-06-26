@@ -304,3 +304,12 @@ if healing_sanity and sanity < max_sanity{
     sanity = min(sanity, max_sanity)
     healing_sanity = false
 }
+
+if image_xscale != 1 and (directionn > 0 or (!is_moving and instance_exists(target) and target.pos - pos + 1 - team > 0)){
+    x -= 128
+    image_xscale = 1
+}
+else if image_xscale != -1 and (directionn < 0 or (!is_moving and instance_exists(target) and target.pos - pos + 1 - team < 0)){
+    x += 128
+    image_xscale = -1
+}

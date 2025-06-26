@@ -51,8 +51,8 @@ if global.chosen_pers == noone{
             tops2[i][0].draw_my_healthbar(1999, 1999+10, 832 + 64 * (i), 832 + 64 * (i + 1), 64)
         }
         else{
-            draw_sprite_ext((tops2[i][0].sprite_index), 1, 1999 - 64, 832 + 64 * i, -0.5, 0.5, 0, c_red, 1)
-            draw_sprite_ext(tops2[i][0].aff, 1, 1999, 832 + 64 * i, 0.25, 0.25, 0, tops2[i][0].afc, 1)
+            draw_sprite_ext((tops2[i][0].sprite_index), 1, 1999, 832 + 64 * i, -0.5, 0.5, 0, c_red, 1)
+            draw_sprite_ext(tops2[i][0].aff, 1, 1999 - 64, 832 + 64 * i, 0.25, 0.25, 0, tops2[i][0].afc, 1)
         }
         draw_text(1899, 832 + 16 + 64 * i, tops2[i][0].nickname + " " + string(tops2[i][1]))
         draw_set_halign(fa_center)

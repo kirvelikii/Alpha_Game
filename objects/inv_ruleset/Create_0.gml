@@ -3,7 +3,7 @@
 global.mode = "duel"
 if !variable_global_exists("mappos"){
     global.mappos = 0
-    global.map = [["red", []], ["red", []], ["red", []], ["red", []], ["red", [{side: "neutral", name: "Нейтралитет", color: c_gray, sprite: Sprite87, type: "nope"}]], ["nobody", [{side: "neutral", name: "Нейтралитет", color: c_gray, sprite: Sprite87, type: "nope"}, {side: "blue", name: "Debug", color: c_white, sprite: Sprite24, type: "army", contains: [hero, hero, hero]}]], ["blue", []], ["blue", []], ["blue", []], ["blue", []], ["blue", []]]
+    global.map = [["red", []], ["red", []], ["red", []], ["red", []], ["red", [{side: "neutral", name: "Нейтралитет", color: c_gray, sprite: Sprite87, type: "nope"}]], ["nobody", [{side: "blue", name: "Debug", color: c_white, sprite: Sprite24, type: "army", contains: [hero, hero, hero]}]], ["blue", []], ["blue", []], ["blue", []], ["blue", []], ["blue", []]]
 }
 if !variable_global_exists("round"){
     global.round = 0
@@ -126,3 +126,6 @@ for (var i = 0; i<array_length(global.map[global.mappos+5][1]); i++){
     }
 }
 chosen_map = global.mappos + 5
+if (global.round == 1){
+    instance_create_depth(0, 0, 0, neutral_faction)
+}
